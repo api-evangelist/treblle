@@ -29,6 +29,8 @@ access: 3rd-Party
 created: '2025-01-08'
 modified: '2025-01-08'
 position: Consuming
+segments:
+  - Documentation
 description: >-
   Treblle helps engineering and product teams build, ship and understand their
   REST APIs in one single place. Empowering API producers by showing actionable
