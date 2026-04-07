@@ -4,8 +4,7 @@ url: >-
 apis:
   - aid: treblle:treblle
     name: Treblle
-    tags:
-      - API
+    tags: []
     humanURL: https://treblle.com/
     properties:
       - url: https://treblle.com/
@@ -26,8 +25,8 @@ apis:
     name: Treblle API Intelligence
     tags:
       - API Intelligence
-      - Observability
       - Monitoring
+      - Observability
     humanURL: https://treblle.com/product/api-intelligence
     properties:
       - url: https://treblle.com/product/api-intelligence
@@ -42,9 +41,9 @@ apis:
   - aid: treblle:api-documentation
     name: Treblle API Documentation
     tags:
+      - Developer Experience
       - Documentation
       - OpenAPI
-      - Developer Experience
     humanURL: https://treblle.com/product/api-documentation
     properties:
       - url: https://treblle.com/product/api-documentation
@@ -60,8 +59,8 @@ apis:
   - aid: treblle:api-governance
     name: Treblle API Governance
     tags:
-      - Governance
       - Compliance
+      - Governance
       - Standards
     humanURL: https://treblle.com/product/api-governance
     properties:
@@ -79,8 +78,8 @@ apis:
     name: Treblle API Analytics
     tags:
       - Analytics
-      - Metrics
       - Dashboards
+      - Metrics
     humanURL: https://treblle.com/product/api-analytics
     properties:
       - url: https://treblle.com/product/api-analytics
@@ -93,9 +92,9 @@ apis:
   - aid: treblle:api-security
     name: Treblle API Security
     tags:
+      - Compliance
       - Security
       - Threat Detection
-      - Compliance
     humanURL: https://treblle.com/product/api-security
     properties:
       - url: https://treblle.com/product/api-security
@@ -130,8 +129,8 @@ apis:
     name: Treblle Alfred AI
     tags:
       - Artificial Intelligence
-      - Developer Experience
       - Assistant
+      - Developer Experience
     humanURL: https://treblle.com/product/alfred
     properties:
       - url: https://treblle.com/product/alfred
@@ -147,9 +146,9 @@ apis:
   - aid: treblle:aspen
     name: Treblle Aspen API Testing
     tags:
-      - Testing
-      - macOS
       - Developer Tools
+      - macOS
+      - Testing
     humanURL: https://treblle.com/product/aspen
     properties:
       - url: https://treblle.com/product/aspen
@@ -162,16 +161,16 @@ apis:
       external servers.
 name: Treblle
 tags:
-  - Observability
+  - Analytics
+  - Artificial Intelligence
+  - Developer Experience
   - Documentation
   - Governance
-  - Analytics
-  - Security
   - Insights
+  - Observability
   - Platform
-  - Artificial Intelligence
+  - Security
   - Testing
-  - Developer Experience
 type: Contract
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 access: 3rd-Party
