@@ -1,0 +1,59 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "https://app.treblle.com/api/v1/projects/proj-uuid-abc123/governance",
+    "headers": {
+      "Treblle-Api-Key": "{your_api_key}",
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "openapi_spec": {
+        "openapi": "3.1.0",
+        "info": {
+          "title": "My API",
+          "version": "1.0.0"
+        },
+        "paths": {
+          "/users": {
+            "get": {
+              "operationId": "listUsers",
+              "summary": "List Users",
+              "responses": {
+                "200": {
+                  "description": "Users returned"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "overall_score": 72,
+      "overall_grade": "B",
+      "design_score": 80,
+      "design_grade": "B",
+      "security_score": 65,
+      "security_grade": "C",
+      "performance_score": 75,
+      "performance_grade": "B",
+      "issues": [
+        {
+          "rule": "security-schemes-defined",
+          "severity": "error",
+          "message": "No security schemes are defined in the API specification",
+          "path": "$.components.securitySchemes"
+        },
+        {
+          "rule": "operation-description",
+          "severity": "warning",
+          "message": "Operation 'listUsers' is missing a description",
+          "path": "$.paths./users.get.description"
+        }
+      ]
+    }
+  }
+}

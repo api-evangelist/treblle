@@ -1,0 +1,123 @@
+title: Treblle Vocabulary
+description: >-
+  Domain vocabulary for the Treblle API Intelligence Platform covering
+  API observability, governance, monitoring, and developer experience concepts.
+created: "2026-05-03"
+modified: "2026-05-03"
+
+terms:
+  - term: Project
+    definition: >-
+      A Treblle workspace entity representing a monitored API. Each project
+      has a unique API ID and SDK token for instrumenting the target API.
+      Projects capture all requests and provide analytics dashboards.
+    tags:
+      - Core Concept
+      - Platform
+
+  - term: API ID
+    definition: >-
+      A unique identifier assigned to each Treblle project, used when
+      configuring SDK instrumentation in the monitored application. Combined
+      with the SDK token to authenticate the Treblle SDK.
+    tags:
+      - Configuration
+      - SDK
+
+  - term: SDK Token
+    definition: >-
+      An authentication token paired with the API ID for identifying a
+      Treblle project in SDK-instrumented applications. Enables the Treblle
+      SDK to submit request data to the correct project.
+    tags:
+      - Authentication
+      - SDK
+
+  - term: Request
+    definition: >-
+      A captured API transaction in Treblle, including request headers,
+      body, response headers, response body, timing data, IP address,
+      and Treblle's analysis of 40+ data points.
+    tags:
+      - Core Concept
+      - Monitoring
+
+  - term: Endpoint
+    definition: >-
+      An auto-discovered API route detected by Treblle from live traffic
+      patterns. Treblle automatically identifies and catalogs endpoints
+      without requiring manual documentation.
+    tags:
+      - Auto Discovery
+      - Documentation
+
+  - term: Governance
+    definition: >-
+      Treblle's automated API quality checking system that runs 30+ tests
+      against OpenAPI specifications, scoring APIs 1-100 and grading A-F
+      across design, security, and performance categories.
+    tags:
+      - Quality
+      - Standards
+
+  - term: Governance Score
+    definition: >-
+      A numeric score from 1-100 assigned by Treblle's governance engine
+      to an API specification. Broken into three dimensions: design score,
+      security score, and performance score.
+    tags:
+      - Quality
+      - Metrics
+
+  - term: Alfred AI
+    definition: >-
+      Treblle's AI-powered assistant integrated into developer portals,
+      enabling natural language queries about APIs, automated code generation,
+      and intelligent documentation support.
+    tags:
+      - Artificial Intelligence
+      - Developer Experience
+
+  - term: Aspen
+    definition: >-
+      Treblle's native macOS API testing application featuring AI-powered
+      capabilities, Collections management, automatic code generation, and
+      privacy-first local operation.
+    tags:
+      - Developer Tools
+      - Testing
+
+  - term: API Intelligence
+    definition: >-
+      Treblle's core platform capability that analyzes 40+ data points per
+      API request, providing real-time insights into API behavior, errors,
+      performance, geographic distribution, and consumer patterns.
+    tags:
+      - Analytics
+      - Observability
+
+  - term: SDK Instrumentation
+    definition: >-
+      The process of adding a Treblle SDK to a REST API application to
+      automatically capture request and response data. Treblle provides SDKs
+      for Node.js, PHP, Python, Java, Go, .NET, Ruby, and API gateways.
+    tags:
+      - Integration
+      - SDK
+
+  - term: API Catalog
+    definition: >-
+      Treblle's workspace feature for publishing and organizing API documentation
+      to improve discoverability across an organization's API landscape.
+    tags:
+      - Documentation
+      - Discovery
+
+  - term: Developer Portal
+    definition: >-
+      A Treblle-hosted or embedded interface powered by Alfred AI that provides
+      developers with searchable API documentation, code generation, and
+      integration support.
+    tags:
+      - Developer Experience
+      - Documentation

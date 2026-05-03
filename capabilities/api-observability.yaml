@@ -1,0 +1,249 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "Treblle API Observability"
+  description: >-
+    Workflow capability for Treblle API Intelligence Platform covering project
+    management, request log analysis, performance analytics, endpoint discovery,
+    and automated governance checking. Designed for API teams, DevOps engineers,
+    and platform architects who need real-time API observability and governance.
+  tags:
+    - Analytics
+    - API Intelligence
+    - Developer Experience
+    - Governance
+    - Monitoring
+    - Observability
+    - Platform
+    - Security
+  created: "2026-05-03"
+  modified: "2026-05-03"
+
+binds:
+  - namespace: env
+    keys:
+      TREBLLE_API_KEY: TREBLLE_API_KEY
+
+capability:
+  consumes:
+    - import: treblle
+      location: ./shared/treblle-api.yaml
+
+  exposes:
+    - type: rest
+      port: 8080
+      namespace: treblle-observability-api
+      description: "Unified REST API for Treblle API observability and governance workflows."
+      resources:
+        - path: /v1/projects
+          name: projects
+          description: "Manage API monitoring projects"
+          operations:
+            - method: GET
+              name: list-projects
+              description: "List all API monitoring projects"
+              call: "treblle.list-projects"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: POST
+              name: create-project
+              description: "Create a new API monitoring project"
+              call: "treblle.create-project"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/projects/{projectId}
+          name: project
+          description: "Get or delete a specific project"
+          operations:
+            - method: GET
+              name: get-project
+              description: "Get project details"
+              call: "treblle.get-project"
+              with:
+                projectId: "rest.projectId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/projects/{projectId}/requests
+          name: requests
+          description: "Browse API request logs"
+          operations:
+            - method: GET
+              name: list-requests
+              description: "List API request logs with filtering"
+              call: "treblle.list-requests"
+              with:
+                projectId: "rest.projectId"
+                page: "rest.page"
+                per_page: "rest.per_page"
+                status_code: "rest.status_code"
+                search: "rest.search"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/projects/{projectId}/requests/{requestId}
+          name: request
+          description: "Get a specific API request detail"
+          operations:
+            - method: GET
+              name: get-request
+              description: "Get full request/response details"
+              call: "treblle.get-request"
+              with:
+                projectId: "rest.projectId"
+                requestId: "rest.requestId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/projects/{projectId}/analytics
+          name: analytics
+          description: "API performance analytics"
+          operations:
+            - method: GET
+              name: get-analytics
+              description: "Get project analytics and metrics"
+              call: "treblle.get-analytics"
+              with:
+                projectId: "rest.projectId"
+                start_date: "rest.start_date"
+                end_date: "rest.end_date"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/projects/{projectId}/endpoints
+          name: endpoints
+          description: "Auto-discovered API endpoints"
+          operations:
+            - method: GET
+              name: list-endpoints
+              description: "List auto-discovered endpoints from live traffic"
+              call: "treblle.list-endpoints"
+              with:
+                projectId: "rest.projectId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/projects/{projectId}/governance
+          name: governance
+          description: "API governance checks"
+          operations:
+            - method: POST
+              name: run-governance-check
+              description: "Run automated governance tests against an OpenAPI spec"
+              call: "treblle.run-governance-check"
+              with:
+                projectId: "rest.projectId"
+                openapi_spec: "rest.openapi_spec"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9090
+      namespace: treblle-observability-mcp
+      transport: http
+      description: "MCP server for AI-assisted API observability and governance with Treblle."
+      tools:
+        # Project management
+        - name: list-projects
+          description: "List all Treblle API monitoring projects in the workspace"
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "treblle.list-projects"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: create-project
+          description: "Create a new Treblle API monitoring project"
+          hints:
+            readOnly: false
+            openWorld: false
+          call: "treblle.create-project"
+          with:
+            name: "tools.name"
+            description: "tools.description"
+            environment: "tools.environment"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-project
+          description: "Get details of a specific Treblle monitoring project"
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "treblle.get-project"
+          with:
+            projectId: "tools.projectId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        # Request log analysis
+        - name: list-requests
+          description: "Get API request logs with filtering by status code, date range, or search term"
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "treblle.list-requests"
+          with:
+            projectId: "tools.projectId"
+            page: "tools.page"
+            per_page: "tools.per_page"
+            status_code: "tools.status_code"
+            search: "tools.search"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-request-detail
+          description: "Get full details of a specific API request including headers, body, and errors"
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "treblle.get-request"
+          with:
+            projectId: "tools.projectId"
+            requestId: "tools.requestId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        # Analytics
+        - name: get-api-analytics
+          description: "Get API performance analytics including request counts, error rates, and response times"
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "treblle.get-analytics"
+          with:
+            projectId: "tools.projectId"
+            start_date: "tools.start_date"
+            end_date: "tools.end_date"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        # Endpoint discovery
+        - name: list-discovered-endpoints
+          description: "Get auto-discovered API endpoints detected from live traffic"
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "treblle.list-endpoints"
+          with:
+            projectId: "tools.projectId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        # Governance
+        - name: run-governance-check
+          description: "Run 30+ automated governance tests against an OpenAPI specification, scoring design, security, and performance"
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "treblle.run-governance-check"
+          with:
+            projectId: "tools.projectId"
+            openapi_spec: "tools.openapi_spec"
+          outputParameters:
+            - type: object
+              mapping: "$."

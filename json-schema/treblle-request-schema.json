@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/treblle/refs/heads/main/json-schema/treblle-request-schema.json",
+  "title": "Treblle API Request",
+  "description": "A captured API request record in Treblle with request/response data and analysis.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique request identifier"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"],
+      "description": "HTTP method"
+    },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Full URL of the API request"
+    },
+    "status_code": {
+      "type": "integer",
+      "description": "HTTP response status code"
+    },
+    "response_time": {
+      "type": "number",
+      "description": "Response time in milliseconds"
+    },
+    "ip_address": {
+      "type": "string",
+      "description": "Client IP address"
+    },
+    "request_headers": {
+      "type": "object",
+      "description": "Request headers (sensitive headers are masked)"
+    },
+    "request_body": {
+      "type": "object",
+      "description": "Request body (sensitive fields are masked)"
+    },
+    "response_headers": {
+      "type": "object",
+      "description": "Response headers"
+    },
+    "response_body": {
+      "type": "object",
+      "description": "Response body"
+    },
+    "errors": {
+      "type": "array",
+      "description": "Errors detected in this request",
+      "items": {
+        "type": "object",
+        "properties": {
+          "message": { "type": "string" },
+          "type": { "type": "string" },
+          "source": { "type": "string" }
+        }
+      }
+    },
+    "has_errors": {
+      "type": "boolean",
+      "description": "Whether errors were detected in this request"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the request was captured"
+    }
+  },
+  "required": ["id", "method", "url", "status_code"]
+}

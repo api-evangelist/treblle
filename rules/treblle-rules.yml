@@ -1,0 +1,80 @@
+extends: spectral:oas
+rules:
+  treblle-operation-id-required:
+    description: >-
+      All Treblle API operations should have an operationId for consistent
+      SDK generation and documentation.
+    message: "Operation should have an operationId"
+    severity: error
+    given: "$.paths[*][get,post,put,patch,delete]"
+    then:
+      field: operationId
+      function: truthy
+
+  treblle-api-key-auth:
+    description: >-
+      Treblle API uses API key authentication via the Treblle-Api-Key header.
+      All operations should declare security requirements.
+    message: "Operation should declare security requirements"
+    severity: warn
+    given: "$.paths[*][*]"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          oneOf:
+            - required: ["security"]
+            - not:
+                required: ["security"]
+
+  treblle-response-200-defined:
+    description: All Treblle API GET operations should define a 200 response.
+    message: "GET operation should define a 200 response"
+    severity: warn
+    given: "$.paths[*].get.responses"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          required: ["200"]
+
+  treblle-response-401-defined:
+    description: >-
+      All Treblle API operations requiring authentication should document
+      the 401 Unauthorized response.
+    message: "Operation should define a 401 Unauthorized response"
+    severity: warn
+    given: "$.paths[*][get,post,put,patch,delete].responses"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          required: ["401"]
+
+  treblle-tags-required:
+    description: All operations should be tagged for catalog navigation.
+    message: "Operation should have at least one tag"
+    severity: warn
+    given: "$.paths[*][*].tags"
+    then:
+      function: length
+      functionOptions:
+        min: 1
+
+  treblle-description-required:
+    description: All operations should have a clear description.
+    message: "Operation should have a description"
+    severity: warn
+    given: "$.paths[*][*]"
+    then:
+      field: description
+      function: truthy
+
+  treblle-summary-required:
+    description: All operations should have a summary for quick identification.
+    message: "Operation should have a summary"
+    severity: error
+    given: "$.paths[*][*]"
+    then:
+      field: summary
+      function: truthy

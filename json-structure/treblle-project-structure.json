@@ -1,0 +1,44 @@
+{
+  "title": "Treblle Project Structure",
+  "description": "Structural documentation for Treblle Project and API monitoring objects",
+  "type": "object",
+  "structure": {
+    "Project": {
+      "id": { "type": "string", "description": "Unique project identifier" },
+      "name": { "type": "string", "description": "Project name" },
+      "description": { "type": "string" },
+      "api_id": { "type": "string", "description": "API ID for SDK instrumentation" },
+      "sdk_token": { "type": "string", "description": "SDK token for authentication" },
+      "environment": { "type": "string", "enum": ["development", "staging", "production"] },
+      "total_requests": { "type": "integer" },
+      "created_at": { "type": "string", "format": "date-time" },
+      "updated_at": { "type": "string", "format": "date-time" }
+    },
+    "ApiRequest": {
+      "id": { "type": "string" },
+      "method": { "type": "string" },
+      "url": { "type": "string", "format": "uri" },
+      "status_code": { "type": "integer" },
+      "response_time": { "type": "number", "description": "Milliseconds" },
+      "ip_address": { "type": "string" },
+      "has_errors": { "type": "boolean" },
+      "created_at": { "type": "string", "format": "date-time" }
+    },
+    "GovernanceResult": {
+      "overall_score": { "type": "integer", "range": "1-100" },
+      "overall_grade": { "type": "string", "enum": ["A", "B", "C", "D", "F"] },
+      "design_score": { "type": "integer" },
+      "security_score": { "type": "integer" },
+      "performance_score": { "type": "integer" },
+      "issues": {
+        "type": "array",
+        "items": {
+          "rule": { "type": "string" },
+          "severity": { "type": "string" },
+          "message": { "type": "string" },
+          "path": { "type": "string" }
+        }
+      }
+    }
+  }
+}

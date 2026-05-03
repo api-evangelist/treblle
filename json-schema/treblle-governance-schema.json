@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/treblle/refs/heads/main/json-schema/treblle-governance-schema.json",
+  "title": "Treblle Governance Result",
+  "description": "The result of a Treblle API governance check against an OpenAPI specification.",
+  "type": "object",
+  "properties": {
+    "overall_score": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Overall governance score from 1-100"
+    },
+    "overall_grade": {
+      "type": "string",
+      "enum": ["A", "B", "C", "D", "F"],
+      "description": "Overall letter grade A-F"
+    },
+    "design_score": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "API design quality score"
+    },
+    "design_grade": {
+      "type": "string",
+      "description": "API design letter grade"
+    },
+    "security_score": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "API security compliance score"
+    },
+    "security_grade": {
+      "type": "string",
+      "description": "API security letter grade"
+    },
+    "performance_score": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "API performance design score"
+    },
+    "performance_grade": {
+      "type": "string",
+      "description": "API performance letter grade"
+    },
+    "issues": {
+      "type": "array",
+      "description": "List of governance issues found",
+      "items": {
+        "type": "object",
+        "properties": {
+          "rule": { "type": "string", "description": "Governance rule identifier" },
+          "severity": { "type": "string", "enum": ["error", "warning", "info"] },
+          "message": { "type": "string", "description": "Human-readable issue description" },
+          "path": { "type": "string", "description": "JSON path to the issue in the spec" }
+        }
+      }
+    }
+  },
+  "required": ["overall_score", "overall_grade"]
+}

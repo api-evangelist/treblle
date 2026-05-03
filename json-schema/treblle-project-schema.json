@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/treblle/refs/heads/main/json-schema/treblle-project-schema.json",
+  "title": "Treblle Project",
+  "description": "A Treblle API monitoring project that corresponds to a monitored API instance.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique project identifier"
+    },
+    "name": {
+      "type": "string",
+      "description": "Project display name"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the API being monitored"
+    },
+    "api_id": {
+      "type": "string",
+      "description": "Unique API ID used for SDK instrumentation"
+    },
+    "sdk_token": {
+      "type": "string",
+      "description": "SDK token for authenticating Treblle SDKs in the monitored application"
+    },
+    "environment": {
+      "type": "string",
+      "enum": ["development", "staging", "production"],
+      "description": "The deployment environment this project monitors"
+    },
+    "total_requests": {
+      "type": "integer",
+      "description": "Total number of API requests captured by Treblle"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the project was created"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the project was last updated"
+    }
+  },
+  "required": ["id", "name", "api_id", "sdk_token"]
+}

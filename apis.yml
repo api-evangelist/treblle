@@ -1,10 +1,41 @@
 aid: treblle
 url: >-
   https://raw.githubusercontent.com/api-evangelist/treblle/refs/heads/main/apis.yml
+name: Treblle
+description: >-
+  Treblle helps engineering and product teams build, ship and understand their
+  REST APIs in one single place. Empowering API producers by showing actionable
+  data in real-time where it matters. Gain a deeper understanding of your API
+  consumers and elevate developer experience (DX). Treblle analyzes 40+ API-specific
+  data points for every API request across the entire API landscape.
+type: Contract
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+tags:
+  - Analytics
+  - Artificial Intelligence
+  - Developer Experience
+  - Documentation
+  - Governance
+  - Insights
+  - Observability
+  - Platform
+  - Security
+  - Testing
+access: 3rd-Party
+created: '2025-01-08'
+modified: '2026-05-03'
+position: Consuming
+segments:
+  - Documentation
+specificationVersion: '0.19'
 apis:
   - aid: treblle:treblle
     name: Treblle
-    tags: []
+    tags:
+      - API Intelligence
+      - Monitoring
+      - Observability
+      - Platform
     humanURL: https://treblle.com/
     properties:
       - url: https://treblle.com/
@@ -20,7 +51,44 @@ apis:
     description: >-
       Treblle analyzes 40 API-specific data points for every API request. All
       data is consolidated and easily accessible in one centralized location.
-      The only ...
+      The only platform you need to build, ship and understand your REST APIs.
+  - aid: treblle:treblle-api
+    name: Treblle Platform API
+    tags:
+      - Analytics
+      - API Intelligence
+      - Governance
+      - Monitoring
+    humanURL: https://docs.treblle.com/
+    baseURL: https://app.treblle.com/api/v1
+    properties:
+      - url: https://docs.treblle.com/
+        type: Documentation
+      - url: openapi/treblle-api-openapi.yml
+        type: OpenAPI
+      - url: json-schema/treblle-project-schema.json
+        type: JSONSchema
+      - url: json-schema/treblle-request-schema.json
+        type: JSONSchema
+      - url: json-schema/treblle-governance-schema.json
+        type: JSONSchema
+      - url: json-ld/treblle-context.jsonld
+        type: JSONLD
+      - url: json-structure/treblle-project-structure.json
+        type: JSONStructure
+      - url: examples/treblle-list-projects-example.json
+        type: Example
+      - url: examples/treblle-run-governance-example.json
+        type: Example
+      - url: rules/treblle-rules.yml
+        type: SpectralRuleset
+      - url: capabilities/shared/treblle-api.yaml
+        type: NaftikoCapability
+    description: >-
+      The Treblle Platform API provides programmatic access to API project
+      management, request logs, analytics, governance checks, endpoint discovery,
+      and team management. Enables CI/CD integration and automation of API
+      observability workflows.
   - aid: treblle:api-intelligence
     name: Treblle API Intelligence
     tags:
@@ -159,53 +227,20 @@ apis:
       requests through Collections, automatic code generation, and team sharing.
       It operates entirely locally with privacy by default and no data saved to
       external servers.
-name: Treblle
-tags:
-  - Analytics
-  - Artificial Intelligence
-  - Developer Experience
-  - Documentation
-  - Governance
-  - Insights
-  - Observability
-  - Platform
-  - Security
-  - Testing
-type: Contract
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
-access: 3rd-Party
-created: '2025-01-08'
-modified: '2026-03-16'
-position: Consuming
-segments:
-  - Documentation
-description: >-
-  Treblle helps engineering and product teams build, ship and understand their
-  REST APIs in one single place. Empowering API producers by showing actionable
-  data in real-time where it matters. Gain a deeper understanding of your API
-  consumers and elevate developer experience (DX).
-maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
-specificationVersion: '0.19'
 common:
   - name: Pricing - Treblle
     description: 'null'
     url: https://treblle.com/pricing
     type: Pricing
-  - name: Getting Started with Treblle | Treblle
+  - name: Getting Started with Treblle
     description: 'null'
     url: https://docs.treblle.com/guides/getting-started/
     type: Documentation
-  - name: Integrations | Treblle
+  - name: Integrations - Treblle
     description: 'null'
     url: https://docs.treblle.com/integrations/
     type: Integrations
-  - name: WSO2 | Treblle
-    description: 'null'
-    url: https://docs.treblle.com/integrations/gateways/wso2/
-    type: Gateway
-  - name: Getting Started with Treblle | Treblle
+  - name: Getting Started with Treblle
     description: 'null'
     url: https://docs.treblle.com/guides/getting-started/
     type: GettingStarted
@@ -217,7 +252,7 @@ common:
     description: 'null'
     url: https://status.treblle.com/
     type: Status
-  - name: Treblle Blog | API Intelligence Platform | Tech Blog
+  - name: Treblle Blog
     description: 'null'
     url: https://blog.treblle.com/
     type: Blog
@@ -241,42 +276,6 @@ common:
     description: 'null'
     url: https://treblle.com/enterprise
     type: Enterprise
-  - name: Treblle Careers
-    description: 'null'
-    url: https://treblle.com/careers
-    type: Careers
-  - name: Treblle Knowledge Base
-    description: 'null'
-    url: https://treblle.com/knowledgebase
-    type: KnowledgeBase
-  - name: Treblle FAQs
-    description: 'null'
-    url: https://docs.treblle.com/resources/faqs
-    type: FAQ
-  - name: Treblle Events
-    description: 'null'
-    url: https://treblle.com/events
-    type: Events
-  - name: Treblle eBooks
-    description: 'null'
-    url: https://treblle.com/ebooks
-    type: eBooks
-  - name: Treblle News
-    description: 'null'
-    url: https://treblle.com/news
-    type: News
-  - name: Treblle Trust Center
-    description: 'null'
-    url: https://trust.treblle.com
-    type: TrustCenter
-  - name: Treblle Developer Portal Documentation
-    description: 'null'
-    url: https://docs.treblle.com/explore-treblle/workspace/developer-portal
-    type: DeveloperPortal
-  - name: Treblle API Catalog
-    description: 'null'
-    url: https://docs.treblle.com/explore-treblle/workspace/catalog
-    type: APICatalog
   - name: Treblle GitHub Organization
     description: 'null'
     url: https://github.com/treblle
@@ -297,3 +296,12 @@ common:
     description: 'null'
     url: https://identity.treblle.com/login
     type: Login
+  - name: Treblle API Observability Capability
+    url: capabilities/api-observability.yaml
+    type: NaftikoCapability
+  - name: Treblle Vocabulary
+    url: vocabulary/treblle-vocabulary.yml
+    type: Vocabulary
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
