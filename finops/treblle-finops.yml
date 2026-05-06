@@ -1,211 +1,87 @@
 specification: FinOps Framework
 specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: Treblle
+providerId: treblle
+created: '2026-05-04'
+modified: '2026-05-05'
+reconciled: true
+tags:
+  - API Observability
+  - API Intelligence
+  - Developer Tools
+  - FinOps
+  - FOCUS
+description: 'FOCUS-aligned FinOps for Treblle: tiered subscription with hard monthly request caps
+  on the self-serve Core plan and contract-negotiated request, retention, and workspace ceilings on
+  Growth and Enterprise.'
+sources:
+  - https://www.treblle.com/pricing
 alignedWith:
   framework: FinOps Foundation Framework
   frameworkUrl: https://www.finops.org/framework/
   dataSpec: FOCUS
   dataSpecVersion: '1.3'
   dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
-provider: Treblle
-providerId: treblle
-publisherName: Treblle
-serviceCategory: API
-created: '2026-05-04'
-modified: '2026-05-04'
-tags:
-  - Analytics
-  - Artificial Intelligence
-  - Developer Experience
-  - Documentation
-  - Governance
-  - Insights
-  - Observability
-  - Platform
-  - Security
-  - Testing
-  - FinOps
-  - Cost Management
-  - FOCUS
-description: FinOps framework definition for the Treblle API surface. Provides a FOCUS-aligned mapping
-  for cost allocation, usage measurement, and unit-economics reporting across the provider's APIs.
-principles:
-  - name: Visibility
-    description: Make API consumption costs visible to engineering, product, and finance teams in near
-      real-time.
-  - name: Allocation
-    description: Tag every chargeable API call with the consuming team, environment, application, and
-      feature so cost can be allocated.
-  - name: Optimization
-    description: Continuously evaluate request patterns, caching, batching, and tier selection to reduce
-      cost per useful unit of work.
-  - name: Accountability
-    description: Establish budget owners and chargeback or showback flows for each consuming team.
-domains:
-  - name: Understand Usage and Cost
-    capabilities:
-      - Data Ingestion
-      - Allocation
-      - Reporting and Analytics
-      - Anomaly Management
-  - name: Quantify Business Value
-    capabilities:
-      - Planning and Estimating
-      - Forecasting
-      - Budgeting
-      - Benchmarking
-      - Unit Economics
-  - name: Optimize Usage and Cost
-    capabilities:
-      - Architecting for Cloud
-      - Rate Optimization
-      - Workload Optimization
-      - Cloud Sustainability
-      - Licensing and SaaS
-  - name: Manage the FinOps Practice
-    capabilities:
-      - FinOps Practice Operations
-      - FinOps Education and Enablement
-      - Invoicing and Chargeback
-      - Onboarding Workloads
-      - Intersecting Disciplines
+publisherName: Treblle Limited
+serviceCategory: Developer Tools / API Observability
 billingModel:
-  pricingCategory: Usage-Based
-  billingFrequency: Monthly
+  pricingCategory: Tiered Subscription
+  billingFrequency: Annual
   billingCurrency: USD
   chargeCategories:
-    - Usage
     - Purchase
-    - Tax
-    - Credit
-    - Adjustment
-  chargeFrequency: Recurring
+    - Usage
 focusColumns:
   ServiceName: Treblle
-  ServiceCategory: Developer Tools / API
+  ServiceCategory: Developer Tools / API Observability
   ProviderName: Treblle
-  PublisherName: Treblle
-  InvoiceIssuerName: Treblle
-  PricingCategory: Usage-Based
-  PricingUnit: request
+  PublisherName: Treblle Limited
+  InvoiceIssuerName: Treblle Limited
   BillingCurrency: USD
-  ChargeCategory: Usage
+  ChargeCategory: Purchase
 meters:
+  - name: subscription_month
+    unit: month
+    aggregation: sum
+    dimensions:
+      - plan
   - name: api_requests
-    description: Count of billable API requests
     unit: request
     aggregation: sum
     dimensions:
+      - workspace
       - api
-      - endpoint
-      - tier
-      - region
-      - consumer
-  - name: data_egress
-    description: Bytes returned over the network in API responses
-    unit: GB
-    aggregation: sum
+  - name: tracked_apis
+    unit: api
+    aggregation: max
     dimensions:
-      - api
-      - region
-      - consumer
-  - name: compute_seconds
-    description: Server-side compute consumed by the request, where applicable
-    unit: second
-    aggregation: sum
+      - workspace
+  - name: workspaces
+    unit: workspace
+    aggregation: max
     dimensions:
-      - api
-      - endpoint
-      - tier
-apis:
-  - name: Treblle
-    baseURL: ''
-    tags:
-      - API Intelligence
-      - Monitoring
-      - Observability
-      - Platform
-    serviceName: Treblle
-    serviceCategory: API
-  - name: Treblle Platform API
-    baseURL: https://app.treblle.com/api/v1
-    tags:
-      - Analytics
-      - API Intelligence
-      - Governance
-      - Monitoring
-    serviceName: Treblle Platform API
-    serviceCategory: API
-  - name: Treblle API Intelligence
-    baseURL: ''
-    tags:
-      - API Intelligence
-      - Monitoring
-      - Observability
-    serviceName: Treblle API Intelligence
-    serviceCategory: API
-  - name: Treblle API Documentation
-    baseURL: ''
-    tags:
-      - Developer Experience
-      - Documentation
-      - OpenAPI
-    serviceName: Treblle API Documentation
-    serviceCategory: API
-  - name: Treblle API Governance
-    baseURL: ''
-    tags:
-      - Compliance
-      - Governance
-      - Standards
-    serviceName: Treblle API Governance
-    serviceCategory: API
-  - name: Treblle API Analytics
-    baseURL: ''
-    tags:
-      - Analytics
-      - Dashboards
-      - Metrics
-    serviceName: Treblle API Analytics
-    serviceCategory: API
-  - name: Treblle API Security
-    baseURL: ''
-    tags:
-      - Compliance
-      - Security
-      - Threat Detection
-    serviceName: Treblle API Security
-    serviceCategory: API
-  - name: Treblle API Insights
-    baseURL: ''
-    tags:
-      - Governance
-      - OpenAPI
-      - Scoring
-    serviceName: Treblle API Insights
-    serviceCategory: API
-  - name: Treblle Alfred AI
-    baseURL: ''
-    tags:
-      - Artificial Intelligence
-      - Assistant
-      - Developer Experience
-    serviceName: Treblle Alfred AI
-    serviceCategory: API
-  - name: Treblle Aspen API Testing
-    baseURL: ''
-    tags:
-      - Developer Tools
-      - macOS
-      - Testing
-    serviceName: Treblle Aspen API Testing
-    serviceCategory: API
-unitEconomics:
-  - name: Cost per 1K Requests
-    metric: billed_cost / (api_requests / 1000)
-    target: TBD
-  - name: Cost per Active Consumer
-    metric: billed_cost / active_consumers
-    target: TBD
+      - account
+  - name: data_retention_days
+    unit: day
+    aggregation: max
+    dimensions:
+      - workspace
+principles:
+  - name: Visibility
+    description: Workspace usage (APIs tracked, monthly request counts, retention) is exposed in the
+      Treblle dashboard against the contracted plan caps; finance teams reconcile against the annual
+      Core invoice or the negotiated Growth/Enterprise contract.
+  - name: Allocation
+    description: Allocate cost using Treblle workspaces and the per-API tag set already collected by
+      Treblle's API Intelligence; one workspace per Core plan, multiple on Enterprise.
+  - name: Optimization
+    description: On Core, optimize by consolidating low-volume APIs into the 10-API / 50M-request cap
+      before triggering an upgrade; on Growth and Enterprise, right-size the contracted requests-per-minute
+      and retention window to the SLO actually required by API Security and Governance use cases.
+  - name: Accountability
+    description: API platform / DevEx team owns the Treblle subscription; per-API owners are responsible
+      for keeping ingested request volume inside the workspace cap.
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
