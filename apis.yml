@@ -8,7 +8,7 @@ description: >-
   data in real-time where it matters. Gain a deeper understanding of your API
   consumers and elevate developer experience (DX). Treblle analyzes 40+ API-specific
   data points for every API request across the entire API landscape.
-type: Contract
+kind: contract
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 tags:
   - Analytics
@@ -251,7 +251,7 @@ common:
   - name: Treblle Status Page
     description: 'null'
     url: https://status.treblle.com/
-    type: Status
+    type: StatusPage
   - name: Treblle Blog
     description: 'null'
     url: https://blog.treblle.com/
