@@ -1,0 +1,81 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Treblle API — Endpoints
+  description: 'Treblle API — Endpoints. 1 operations. Lead operation: List Endpoints. Self-contained Naftiko capability covering
+    one Treblle business surface.'
+  tags:
+  - Treblle
+  - Endpoints
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    TREBLLE_API_KEY: TREBLLE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: treblle-endpoints
+    baseUri: https://app.treblle.com/api/v1
+    description: Treblle API — Endpoints business capability. Self-contained, no shared references.
+    resources:
+    - name: projects-projectId-endpoints
+      path: /projects/{projectId}/endpoints
+      operations:
+      - name: listendpoints
+        method: GET
+        description: List Endpoints
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+    authentication:
+      type: apikey
+      key: Treblle-Api-Key
+      value: '{{env.TREBLLE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: treblle-endpoints-rest
+    port: 8080
+    description: REST adapter for Treblle API — Endpoints. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/projects/{projectid}/endpoints
+      name: projects-projectid-endpoints
+      description: REST surface for projects-projectId-endpoints.
+      operations:
+      - method: GET
+        name: listendpoints
+        description: List Endpoints
+        call: treblle-endpoints.listendpoints
+        with:
+          projectId: rest.projectId
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: treblle-endpoints-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Treblle API — Endpoints. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: list-endpoints
+      description: List Endpoints
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: treblle-endpoints.listendpoints
+      with:
+        projectId: tools.projectId
+      outputParameters:
+      - type: object
+        mapping: $.

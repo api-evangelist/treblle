@@ -1,0 +1,93 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Treblle API — Analytics
+  description: 'Treblle API — Analytics. 1 operations. Lead operation: Get Project Analytics. Self-contained Naftiko capability
+    covering one Treblle business surface.'
+  tags:
+  - Treblle
+  - Analytics
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    TREBLLE_API_KEY: TREBLLE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: treblle-analytics
+    baseUri: https://app.treblle.com/api/v1
+    description: Treblle API — Analytics business capability. Self-contained, no shared references.
+    resources:
+    - name: projects-projectId-analytics
+      path: /projects/{projectId}/analytics
+      operations:
+      - name: getprojectanalytics
+        method: GET
+        description: Get Project Analytics
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: start_date
+          in: query
+          type: string
+          description: Analytics start date (YYYY-MM-DD)
+        - name: end_date
+          in: query
+          type: string
+          description: Analytics end date (YYYY-MM-DD)
+    authentication:
+      type: apikey
+      key: Treblle-Api-Key
+      value: '{{env.TREBLLE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: treblle-analytics-rest
+    port: 8080
+    description: REST adapter for Treblle API — Analytics. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/projects/{projectid}/analytics
+      name: projects-projectid-analytics
+      description: REST surface for projects-projectId-analytics.
+      operations:
+      - method: GET
+        name: getprojectanalytics
+        description: Get Project Analytics
+        call: treblle-analytics.getprojectanalytics
+        with:
+          projectId: rest.projectId
+          start_date: rest.start_date
+          end_date: rest.end_date
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: treblle-analytics-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Treblle API — Analytics. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: get-project-analytics
+      description: Get Project Analytics
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: treblle-analytics.getprojectanalytics
+      with:
+        projectId: tools.projectId
+        start_date: tools.start_date
+        end_date: tools.end_date
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,164 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Treblle API — Requests
+  description: 'Treblle API — Requests. 2 operations. Lead operation: List API Requests. Self-contained Naftiko capability
+    covering one Treblle business surface.'
+  tags:
+  - Treblle
+  - Requests
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    TREBLLE_API_KEY: TREBLLE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: treblle-requests
+    baseUri: https://app.treblle.com/api/v1
+    description: Treblle API — Requests business capability. Self-contained, no shared references.
+    resources:
+    - name: projects-projectId-requests
+      path: /projects/{projectId}/requests
+      operations:
+      - name: listrequests
+        method: GET
+        description: List API Requests
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: page
+          in: query
+          type: integer
+          description: Page number for pagination
+        - name: per_page
+          in: query
+          type: integer
+          description: Number of requests per page
+        - name: status_code
+          in: query
+          type: integer
+          description: Filter by HTTP status code
+        - name: search
+          in: query
+          type: string
+          description: Search across URL, IP, and payload data
+        - name: start_date
+          in: query
+          type: string
+          description: Filter requests from this date (YYYY-MM-DD)
+        - name: end_date
+          in: query
+          type: string
+          description: Filter requests until this date (YYYY-MM-DD)
+    - name: projects-projectId-requests-requestId
+      path: /projects/{projectId}/requests/{requestId}
+      operations:
+      - name: getrequest
+        method: GET
+        description: Get API Request
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: requestId
+          in: path
+          type: string
+          required: true
+    authentication:
+      type: apikey
+      key: Treblle-Api-Key
+      value: '{{env.TREBLLE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: treblle-requests-rest
+    port: 8080
+    description: REST adapter for Treblle API — Requests. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/projects/{projectid}/requests
+      name: projects-projectid-requests
+      description: REST surface for projects-projectId-requests.
+      operations:
+      - method: GET
+        name: listrequests
+        description: List API Requests
+        call: treblle-requests.listrequests
+        with:
+          projectId: rest.projectId
+          page: rest.page
+          per_page: rest.per_page
+          status_code: rest.status_code
+          search: rest.search
+          start_date: rest.start_date
+          end_date: rest.end_date
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/projects/{projectid}/requests/{requestid}
+      name: projects-projectid-requests-requestid
+      description: REST surface for projects-projectId-requests-requestId.
+      operations:
+      - method: GET
+        name: getrequest
+        description: Get API Request
+        call: treblle-requests.getrequest
+        with:
+          projectId: rest.projectId
+          requestId: rest.requestId
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: treblle-requests-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Treblle API — Requests. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: list-api-requests
+      description: List API Requests
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: treblle-requests.listrequests
+      with:
+        projectId: tools.projectId
+        page: tools.page
+        per_page: tools.per_page
+        status_code: tools.status_code
+        search: tools.search
+        start_date: tools.start_date
+        end_date: tools.end_date
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-api-request
+      description: Get API Request
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: treblle-requests.getrequest
+      with:
+        projectId: tools.projectId
+        requestId: tools.requestId
+      outputParameters:
+      - type: object
+        mapping: $.

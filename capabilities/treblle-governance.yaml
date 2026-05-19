@@ -1,0 +1,88 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Treblle API — Governance
+  description: 'Treblle API — Governance. 1 operations. Lead operation: Run Governance Check. Self-contained Naftiko capability
+    covering one Treblle business surface.'
+  tags:
+  - Treblle
+  - Governance
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    TREBLLE_API_KEY: TREBLLE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: treblle-governance
+    baseUri: https://app.treblle.com/api/v1
+    description: Treblle API — Governance business capability. Self-contained, no shared references.
+    resources:
+    - name: projects-projectId-governance
+      path: /projects/{projectId}/governance
+      operations:
+      - name: rungovernancecheck
+        method: POST
+        description: Run Governance Check
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: apikey
+      key: Treblle-Api-Key
+      value: '{{env.TREBLLE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: treblle-governance-rest
+    port: 8080
+    description: REST adapter for Treblle API — Governance. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/projects/{projectid}/governance
+      name: projects-projectid-governance
+      description: REST surface for projects-projectId-governance.
+      operations:
+      - method: POST
+        name: rungovernancecheck
+        description: Run Governance Check
+        call: treblle-governance.rungovernancecheck
+        with:
+          projectId: rest.projectId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: treblle-governance-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Treblle API — Governance. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: run-governance-check
+      description: Run Governance Check
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: treblle-governance.rungovernancecheck
+      with:
+        projectId: tools.projectId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
