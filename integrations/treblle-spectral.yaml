@@ -1,0 +1,122 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Run Spectral lint on every Treblle-tracked endpoint
+  description: For each Treblle-tracked endpoint, derive the inferred OpenAPI fragment and lint it with Spectral rulesets — feeding violations back into the Treblle governance report.
+  tags:
+  - Treblle
+  - Integration
+  - Governance
+  - spectral
+  created: '2026-05-20'
+  modified: '2026-05-20'
+binds:
+- namespace: env
+  keys:
+    TREBLLE_API_KEY: TREBLLE_API_KEY
+    SPECTRAL_API_KEY: SPECTRAL_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: treblle
+    baseUri: https://api.treblle.com
+    description: Treblle API operations consumed by this integration.
+    resources:
+    - name: projects-projectid-endpoints
+      path: /projects/{projectId}/endpoints
+      operations:
+      - name: listendpoints
+        method: GET
+        description: List Treblle endpoints (and their inferred OpenAPI shapes) to lint.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          description: Path parameter projectId.
+          required: true
+    - name: projects-projectid-governance
+      path: /projects/{projectId}/governance
+      operations:
+      - name: rungovernancecheck
+        method: POST
+        description: Record Spectral findings back into the Treblle governance report.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          description: Path parameter projectId.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  - type: http
+    namespace: spectral
+    baseUri: https://api.stoplight.io
+    description: Stoplight Spectral Hosted API operations consumed by this integration.
+    resources:
+    - name: v1-projects-projectid-lint
+      path: /v1/projects/{projectId}/lint
+      operations:
+      - name: lintspec
+        method: POST
+        description: 'Stoplight Spectral Hosted API: lintSpec'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          description: Path parameter projectId.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  exposes:
+  - type: mcp
+    namespace: treblle-spectral-mcp
+    description: MCP adapter for the treblle-spectral integration.
+    tools:
+    - name: treblle_spectral
+      description: Execute the treblle spectral integration end-to-end.
+      inputSchema:
+        type: object
+        properties:
+          trigger_event:
+            type: object
+            description: Triggering event payload.
+        required:
+        - trigger_event
+  - type: rest
+    namespace: treblle-spectral-rest
+    port: 8080
+    description: REST adapter for the treblle-spectral integration.
+    resources:
+    - path: /treblle-spectral
+      name: treblle-spectral
+      description: REST surface for the treblle-spectral integration.
+      operations:
+      - method: POST
+        name: trigger
+        description: Trigger the treblle-spectral integration.
+        call: treblle_spectral
+        with:
+          trigger_event: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.

@@ -1,0 +1,100 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Post Treblle API alerts to Microsoft Teams channels
+  description: Mirror Treblle anomaly + governance events into a Microsoft Teams channel via Incoming Webhook for Microsoft 365 shops that don't run Slack.
+  tags:
+  - Treblle
+  - Integration
+  - Notifications
+  - microsoft-teams
+  created: '2026-05-20'
+  modified: '2026-05-20'
+binds:
+- namespace: env
+  keys:
+    TREBLLE_API_KEY: TREBLLE_API_KEY
+    MICROSOFT_TEAMS_API_KEY: MICROSOFT_TEAMS_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: treblle
+    baseUri: https://api.treblle.com
+    description: Treblle API operations consumed by this integration.
+    resources:
+    - name: projects-projectid-analytics
+      path: /projects/{projectId}/analytics
+      operations:
+      - name: getprojectanalytics
+        method: GET
+        description: Pull Treblle analytics to format as Teams adaptive cards.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          description: Path parameter projectId.
+          required: true
+  - type: http
+    namespace: microsoft-teams
+    baseUri: https://outlook.office.com
+    description: Microsoft Teams Incoming Webhook operations consumed by this integration.
+    resources:
+    - name: webhook-webhook-id
+      path: /webhook/{webhook_id}
+      operations:
+      - name: postcard
+        method: POST
+        description: 'Microsoft Teams Incoming Webhook: postCard'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: webhook_id
+          in: path
+          type: string
+          description: Path parameter webhook_id.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  exposes:
+  - type: mcp
+    namespace: treblle-microsoft-teams-mcp
+    description: MCP adapter for the treblle-microsoft-teams integration.
+    tools:
+    - name: treblle_microsoft_teams
+      description: Execute the treblle microsoft teams integration end-to-end.
+      inputSchema:
+        type: object
+        properties:
+          trigger_event:
+            type: object
+            description: Triggering event payload.
+        required:
+        - trigger_event
+  - type: rest
+    namespace: treblle-microsoft-teams-rest
+    port: 8080
+    description: REST adapter for the treblle-microsoft-teams integration.
+    resources:
+    - path: /treblle-microsoft-teams
+      name: treblle-microsoft-teams
+      description: REST surface for the treblle-microsoft-teams integration.
+      operations:
+      - method: POST
+        name: trigger
+        description: Trigger the treblle-microsoft-teams integration.
+        call: treblle_microsoft_teams
+        with:
+          trigger_event: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.

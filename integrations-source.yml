@@ -1,0 +1,251 @@
+# Curated Treblle integrations across observability, governance, security,
+# AI for APIs, alerting, and dev workflow. Each entry becomes one Naftiko
+# capability YAML in integrations/.
+
+# Observability (2)
+- partner: datadog
+  name: Stream Treblle request analytics into Datadog
+  category: Observability
+  use_case: Forward Treblle per-request latency, response codes, and error rates into Datadog as custom metrics and events so API observability lives next to the rest of your infra dashboards.
+  partner_baseUri: https://api.datadoghq.com
+  partner_api: Datadog Metrics API
+  provider_ops:
+    - method: GET
+      path: /projects/{projectId}/requests
+      name: listRequests
+      description: List Treblle API requests to materialize as Datadog metric series.
+    - method: GET
+      path: /projects/{projectId}/analytics
+      name: getProjectAnalytics
+      description: Pull aggregate Treblle analytics to emit as Datadog rollup metrics.
+  partner_ops:
+    - method: POST
+      path: /api/v2/series
+      name: submitMetrics
+    - method: POST
+      path: /api/v1/events
+      name: postEvent
+
+- partner: sentry
+  name: Forward Treblle API errors into Sentry issues
+  category: Observability
+  use_case: When Treblle records a 5xx or unhandled exception on a tracked endpoint, create or update the matching Sentry issue with the request payload, headers, and stack context for triage.
+  partner_baseUri: https://sentry.io
+  partner_api: Sentry API
+  provider_ops:
+    - method: GET
+      path: /projects/{projectId}/requests/{requestId}
+      name: getRequest
+      description: Fetch the full Treblle request envelope (headers, body, response) for the failing call.
+    - method: GET
+      path: /projects/{projectId}/requests
+      name: listRequests
+      description: Poll recent failing requests to materialize as Sentry issues.
+  partner_ops:
+    - method: POST
+      path: /api/0/projects/{organization_slug}/{project_slug}/events/
+      name: captureEvent
+
+# Alerting / on-call (2)
+- partner: pagerduty
+  name: Page on-call from Treblle SLA breaches
+  category: Alerting
+  use_case: When Treblle detects an endpoint breaching its latency or error-rate SLO, open a PagerDuty incident routed to the owning service so on-call gets paged with the offending request inline.
+  partner_baseUri: https://events.pagerduty.com
+  partner_api: PagerDuty Events API v2
+  provider_ops:
+    - method: GET
+      path: /projects/{projectId}/analytics
+      name: getProjectAnalytics
+      description: Read Treblle SLO / error-rate analytics that drive incident triggers.
+    - method: GET
+      path: /projects/{projectId}/endpoints
+      name: listEndpoints
+      description: List Treblle endpoints to map SLO breaches to the right service owner.
+  partner_ops:
+    - method: POST
+      path: /v2/enqueue
+      name: triggerIncident
+
+- partner: slack
+  name: Post Treblle API alerts to Slack channels
+  category: Notifications
+  use_case: Forward Treblle anomaly / governance / error-spike events to a designated Slack channel via Incoming Webhook so the platform team sees API issues in real time.
+  partner_baseUri: https://hooks.slack.com
+  partner_api: Slack Incoming Webhooks
+  provider_ops:
+    - method: GET
+      path: /projects/{projectId}/analytics
+      name: getProjectAnalytics
+      description: Pull Treblle anomaly + error-rate signals to format as Slack messages.
+    - method: POST
+      path: /projects/{projectId}/governance
+      name: runGovernanceCheck
+      description: Run a Treblle governance check and post failures to Slack.
+  partner_ops:
+    - method: POST
+      path: /services/{T}/{B}/{X}
+      name: postMessage
+
+- partner: microsoft-teams
+  name: Post Treblle API alerts to Microsoft Teams channels
+  category: Notifications
+  use_case: Mirror Treblle anomaly + governance events into a Microsoft Teams channel via Incoming Webhook for Microsoft 365 shops that don't run Slack.
+  partner_baseUri: https://outlook.office.com
+  partner_api: Microsoft Teams Incoming Webhook
+  provider_ops:
+    - method: GET
+      path: /projects/{projectId}/analytics
+      name: getProjectAnalytics
+      description: Pull Treblle analytics to format as Teams adaptive cards.
+  partner_ops:
+    - method: POST
+      path: /webhook/{webhook_id}
+      name: postCard
+
+# API governance / quality (2)
+- partner: spectral
+  name: Run Spectral lint on every Treblle-tracked endpoint
+  category: Governance
+  use_case: For each Treblle-tracked endpoint, derive the inferred OpenAPI fragment and lint it with Spectral rulesets — feeding violations back into the Treblle governance report.
+  partner_baseUri: https://api.stoplight.io
+  partner_api: Stoplight Spectral Hosted API
+  provider_ops:
+    - method: GET
+      path: /projects/{projectId}/endpoints
+      name: listEndpoints
+      description: List Treblle endpoints (and their inferred OpenAPI shapes) to lint.
+    - method: POST
+      path: /projects/{projectId}/governance
+      name: runGovernanceCheck
+      description: Record Spectral findings back into the Treblle governance report.
+  partner_ops:
+    - method: POST
+      path: /v1/projects/{projectId}/lint
+      name: lintSpec
+
+- partner: stoplight
+  name: Publish Treblle-inferred APIs to Stoplight workspaces
+  category: API documentation
+  use_case: Take the inferred OpenAPI definition Treblle generates from live traffic and push it into a Stoplight workspace so docs stay in sync with what is actually being served.
+  partner_baseUri: https://stoplight.io
+  partner_api: Stoplight Platform API
+  provider_ops:
+    - method: GET
+      path: /projects/{projectId}/endpoints
+      name: listEndpoints
+      description: Pull Treblle-inferred endpoint definitions for the project.
+    - method: GET
+      path: /projects/{projectId}
+      name: getProject
+      description: Read Treblle project metadata to map to the Stoplight workspace.
+  partner_ops:
+    - method: PUT
+      path: /api/v1/projects/{projectId}/spec
+      name: updateSpec
+
+# Dev workflow (3)
+- partner: postman
+  name: Sync Treblle-inferred APIs into a Postman collection
+  category: Dev workflow
+  use_case: Materialize Treblle's live-traffic-derived API definitions as a Postman Collection so developers always have an up-to-date set of requests for the production surface.
+  partner_baseUri: https://api.getpostman.com
+  partner_api: Postman API
+  provider_ops:
+    - method: GET
+      path: /projects/{projectId}/endpoints
+      name: listEndpoints
+      description: List Treblle-inferred endpoints for collection generation.
+    - method: GET
+      path: /projects/{projectId}/requests
+      name: listRequests
+      description: Pull representative Treblle requests to seed collection examples.
+  partner_ops:
+    - method: PUT
+      path: /collections/{collection_uid}
+      name: updateCollection
+
+- partner: github
+  name: Comment Treblle governance findings on GitHub pull requests
+  category: Dev workflow
+  use_case: When a PR touches a Treblle-tracked API, run a governance check and post the diff (new violations, breaking changes) back as a PR comment so reviewers see API-level impact inline.
+  partner_baseUri: https://api.github.com
+  partner_api: GitHub REST API
+  provider_ops:
+    - method: POST
+      path: /projects/{projectId}/governance
+      name: runGovernanceCheck
+      description: Run Treblle governance against the PR-modified spec.
+    - method: GET
+      path: /projects/{projectId}/endpoints
+      name: listEndpoints
+      description: Resolve which Treblle endpoints are touched by the PR.
+  partner_ops:
+    - method: POST
+      path: /repos/{owner}/{repo}/issues/{issue_number}/comments
+      name: createIssueComment
+
+- partner: linear
+  name: Open Linear issues from Treblle governance violations
+  category: Dev workflow
+  use_case: For each new Treblle governance violation that crosses a severity threshold, open (or update) a Linear issue assigned to the owning team with the failing request envelope attached.
+  partner_baseUri: https://api.linear.app
+  partner_api: Linear GraphQL API
+  provider_ops:
+    - method: POST
+      path: /projects/{projectId}/governance
+      name: runGovernanceCheck
+      description: Pull the latest Treblle governance findings to materialize as Linear issues.
+    - method: GET
+      path: /projects/{projectId}/endpoints
+      name: listEndpoints
+      description: Map violations to owning endpoints / teams.
+  partner_ops:
+    - method: POST
+      path: /graphql
+      name: createIssue
+
+- partner: jira
+  name: Open Jira tickets from Treblle anomalies
+  category: Dev workflow
+  use_case: Forward Treblle anomaly + governance events into Jira as tickets in the right project + component so enterprise shops can route API issues through their existing ticketing process.
+  partner_baseUri: https://yourorg.atlassian.net
+  partner_api: Jira Cloud REST API
+  provider_ops:
+    - method: GET
+      path: /projects/{projectId}/analytics
+      name: getProjectAnalytics
+      description: Pull Treblle anomaly + SLA data to create Jira tickets from.
+    - method: POST
+      path: /projects/{projectId}/governance
+      name: runGovernanceCheck
+      description: Run a governance check and open tickets for new violations.
+  partner_ops:
+    - method: POST
+      path: /rest/api/3/issue
+      name: createIssue
+
+# AI for APIs (1)
+- partner: openai
+  name: AI-review Treblle API designs with OpenAI
+  category: AI for APIs
+  use_case: Feed Treblle's inferred API definitions and recent request samples into OpenAI for an LLM-driven design review — naming consistency, REST hygiene, missing error semantics — and post the findings back to the Treblle governance report.
+  partner_baseUri: https://api.openai.com
+  partner_api: OpenAI Chat Completions
+  provider_ops:
+    - method: GET
+      path: /projects/{projectId}/endpoints
+      name: listEndpoints
+      description: Pull Treblle-inferred endpoints for the LLM to review.
+    - method: GET
+      path: /projects/{projectId}/requests
+      name: listRequests
+      description: Sample real Treblle requests so the LLM grounds review in actual traffic.
+    - method: POST
+      path: /projects/{projectId}/governance
+      name: runGovernanceCheck
+      description: Record AI-generated findings into the Treblle governance report.
+  partner_ops:
+    - method: POST
+      path: /v1/chat/completions
+      name: createChatCompletion

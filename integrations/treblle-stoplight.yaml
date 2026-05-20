@@ -1,0 +1,117 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Publish Treblle-inferred APIs to Stoplight workspaces
+  description: Take the inferred OpenAPI definition Treblle generates from live traffic and push it into a Stoplight workspace so docs stay in sync with what is actually being served.
+  tags:
+  - Treblle
+  - Integration
+  - API documentation
+  - stoplight
+  created: '2026-05-20'
+  modified: '2026-05-20'
+binds:
+- namespace: env
+  keys:
+    TREBLLE_API_KEY: TREBLLE_API_KEY
+    STOPLIGHT_API_KEY: STOPLIGHT_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: treblle
+    baseUri: https://api.treblle.com
+    description: Treblle API operations consumed by this integration.
+    resources:
+    - name: projects-projectid-endpoints
+      path: /projects/{projectId}/endpoints
+      operations:
+      - name: listendpoints
+        method: GET
+        description: Pull Treblle-inferred endpoint definitions for the project.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          description: Path parameter projectId.
+          required: true
+    - name: projects-projectid
+      path: /projects/{projectId}
+      operations:
+      - name: getproject
+        method: GET
+        description: Read Treblle project metadata to map to the Stoplight workspace.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          description: Path parameter projectId.
+          required: true
+  - type: http
+    namespace: stoplight
+    baseUri: https://stoplight.io
+    description: Stoplight Platform API operations consumed by this integration.
+    resources:
+    - name: api-v1-projects-projectid-spec
+      path: /api/v1/projects/{projectId}/spec
+      operations:
+      - name: updatespec
+        method: PUT
+        description: 'Stoplight Platform API: updateSpec'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          description: Path parameter projectId.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  exposes:
+  - type: mcp
+    namespace: treblle-stoplight-mcp
+    description: MCP adapter for the treblle-stoplight integration.
+    tools:
+    - name: treblle_stoplight
+      description: Execute the treblle stoplight integration end-to-end.
+      inputSchema:
+        type: object
+        properties:
+          trigger_event:
+            type: object
+            description: Triggering event payload.
+        required:
+        - trigger_event
+  - type: rest
+    namespace: treblle-stoplight-rest
+    port: 8080
+    description: REST adapter for the treblle-stoplight integration.
+    resources:
+    - path: /treblle-stoplight
+      name: treblle-stoplight
+      description: REST surface for the treblle-stoplight integration.
+      operations:
+      - method: POST
+        name: trigger
+        description: Trigger the treblle-stoplight integration.
+        call: treblle_stoplight
+        with:
+          trigger_event: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.

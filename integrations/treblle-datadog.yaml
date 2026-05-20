@@ -1,0 +1,129 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Stream Treblle request analytics into Datadog
+  description: Forward Treblle per-request latency, response codes, and error rates into Datadog as custom metrics and events so API observability lives next to the rest of your infra dashboards.
+  tags:
+  - Treblle
+  - Integration
+  - Observability
+  - datadog
+  created: '2026-05-20'
+  modified: '2026-05-20'
+binds:
+- namespace: env
+  keys:
+    TREBLLE_API_KEY: TREBLLE_API_KEY
+    DATADOG_API_KEY: DATADOG_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: treblle
+    baseUri: https://api.treblle.com
+    description: Treblle API operations consumed by this integration.
+    resources:
+    - name: projects-projectid-requests
+      path: /projects/{projectId}/requests
+      operations:
+      - name: listrequests
+        method: GET
+        description: List Treblle API requests to materialize as Datadog metric series.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          description: Path parameter projectId.
+          required: true
+    - name: projects-projectid-analytics
+      path: /projects/{projectId}/analytics
+      operations:
+      - name: getprojectanalytics
+        method: GET
+        description: Pull aggregate Treblle analytics to emit as Datadog rollup metrics.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          description: Path parameter projectId.
+          required: true
+  - type: http
+    namespace: datadog
+    baseUri: https://api.datadoghq.com
+    description: Datadog Metrics API operations consumed by this integration.
+    resources:
+    - name: api-v2-series
+      path: /api/v2/series
+      operations:
+      - name: submitmetrics
+        method: POST
+        description: 'Datadog Metrics API: submitMetrics'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-v1-events
+      path: /api/v1/events
+      operations:
+      - name: postevent
+        method: POST
+        description: 'Datadog Metrics API: postEvent'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  exposes:
+  - type: mcp
+    namespace: treblle-datadog-mcp
+    description: MCP adapter for the treblle-datadog integration.
+    tools:
+    - name: treblle_datadog
+      description: Execute the treblle datadog integration end-to-end.
+      inputSchema:
+        type: object
+        properties:
+          trigger_event:
+            type: object
+            description: Triggering event payload.
+        required:
+        - trigger_event
+  - type: rest
+    namespace: treblle-datadog-rest
+    port: 8080
+    description: REST adapter for the treblle-datadog integration.
+    resources:
+    - path: /treblle-datadog
+      name: treblle-datadog
+      description: REST surface for the treblle-datadog integration.
+      operations:
+      - method: POST
+        name: trigger
+        description: Trigger the treblle-datadog integration.
+        call: treblle_datadog
+        with:
+          trigger_event: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.

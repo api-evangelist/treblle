@@ -1,0 +1,117 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Open Jira tickets from Treblle anomalies
+  description: Forward Treblle anomaly + governance events into Jira as tickets in the right project + component so enterprise shops can route API issues through their existing ticketing process.
+  tags:
+  - Treblle
+  - Integration
+  - Dev workflow
+  - jira
+  created: '2026-05-20'
+  modified: '2026-05-20'
+binds:
+- namespace: env
+  keys:
+    TREBLLE_API_KEY: TREBLLE_API_KEY
+    JIRA_API_KEY: JIRA_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: treblle
+    baseUri: https://api.treblle.com
+    description: Treblle API operations consumed by this integration.
+    resources:
+    - name: projects-projectid-analytics
+      path: /projects/{projectId}/analytics
+      operations:
+      - name: getprojectanalytics
+        method: GET
+        description: Pull Treblle anomaly + SLA data to create Jira tickets from.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          description: Path parameter projectId.
+          required: true
+    - name: projects-projectid-governance
+      path: /projects/{projectId}/governance
+      operations:
+      - name: rungovernancecheck
+        method: POST
+        description: Run a governance check and open tickets for new violations.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          description: Path parameter projectId.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  - type: http
+    namespace: jira
+    baseUri: https://yourorg.atlassian.net
+    description: Jira Cloud REST API operations consumed by this integration.
+    resources:
+    - name: rest-api-3-issue
+      path: /rest/api/3/issue
+      operations:
+      - name: createissue
+        method: POST
+        description: 'Jira Cloud REST API: createIssue'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  exposes:
+  - type: mcp
+    namespace: treblle-jira-mcp
+    description: MCP adapter for the treblle-jira integration.
+    tools:
+    - name: treblle_jira
+      description: Execute the treblle jira integration end-to-end.
+      inputSchema:
+        type: object
+        properties:
+          trigger_event:
+            type: object
+            description: Triggering event payload.
+        required:
+        - trigger_event
+  - type: rest
+    namespace: treblle-jira-rest
+    port: 8080
+    description: REST adapter for the treblle-jira integration.
+    resources:
+    - path: /treblle-jira
+      name: treblle-jira
+      description: REST surface for the treblle-jira integration.
+      operations:
+      - method: POST
+        name: trigger
+        description: Trigger the treblle-jira integration.
+        call: treblle_jira
+        with:
+          trigger_event: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.

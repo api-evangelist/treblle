@@ -1,0 +1,132 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Comment Treblle governance findings on GitHub pull requests
+  description: When a PR touches a Treblle-tracked API, run a governance check and post the diff (new violations, breaking changes) back as a PR comment so reviewers see API-level impact inline.
+  tags:
+  - Treblle
+  - Integration
+  - Dev workflow
+  - github
+  created: '2026-05-20'
+  modified: '2026-05-20'
+binds:
+- namespace: env
+  keys:
+    TREBLLE_API_KEY: TREBLLE_API_KEY
+    GITHUB_API_KEY: GITHUB_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: treblle
+    baseUri: https://api.treblle.com
+    description: Treblle API operations consumed by this integration.
+    resources:
+    - name: projects-projectid-governance
+      path: /projects/{projectId}/governance
+      operations:
+      - name: rungovernancecheck
+        method: POST
+        description: Run Treblle governance against the PR-modified spec.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          description: Path parameter projectId.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: projects-projectid-endpoints
+      path: /projects/{projectId}/endpoints
+      operations:
+      - name: listendpoints
+        method: GET
+        description: Resolve which Treblle endpoints are touched by the PR.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          description: Path parameter projectId.
+          required: true
+  - type: http
+    namespace: github
+    baseUri: https://api.github.com
+    description: GitHub REST API operations consumed by this integration.
+    resources:
+    - name: repos-owner-repo-issues-issue-number-comments
+      path: /repos/{owner}/{repo}/issues/{issue_number}/comments
+      operations:
+      - name: createissuecomment
+        method: POST
+        description: 'GitHub REST API: createIssueComment'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: owner
+          in: path
+          type: string
+          description: Path parameter owner.
+          required: true
+        - name: repo
+          in: path
+          type: string
+          description: Path parameter repo.
+          required: true
+        - name: issue_number
+          in: path
+          type: string
+          description: Path parameter issue_number.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  exposes:
+  - type: mcp
+    namespace: treblle-github-mcp
+    description: MCP adapter for the treblle-github integration.
+    tools:
+    - name: treblle_github
+      description: Execute the treblle github integration end-to-end.
+      inputSchema:
+        type: object
+        properties:
+          trigger_event:
+            type: object
+            description: Triggering event payload.
+        required:
+        - trigger_event
+  - type: rest
+    namespace: treblle-github-rest
+    port: 8080
+    description: REST adapter for the treblle-github integration.
+    resources:
+    - path: /treblle-github
+      name: treblle-github
+      description: REST surface for the treblle-github integration.
+      operations:
+      - method: POST
+        name: trigger
+        description: Trigger the treblle-github integration.
+        call: treblle_github
+        with:
+          trigger_event: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.

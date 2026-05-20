@@ -1,0 +1,117 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Open Linear issues from Treblle governance violations
+  description: For each new Treblle governance violation that crosses a severity threshold, open (or update) a Linear issue assigned to the owning team with the failing request envelope attached.
+  tags:
+  - Treblle
+  - Integration
+  - Dev workflow
+  - linear
+  created: '2026-05-20'
+  modified: '2026-05-20'
+binds:
+- namespace: env
+  keys:
+    TREBLLE_API_KEY: TREBLLE_API_KEY
+    LINEAR_API_KEY: LINEAR_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: treblle
+    baseUri: https://api.treblle.com
+    description: Treblle API operations consumed by this integration.
+    resources:
+    - name: projects-projectid-governance
+      path: /projects/{projectId}/governance
+      operations:
+      - name: rungovernancecheck
+        method: POST
+        description: Pull the latest Treblle governance findings to materialize as Linear issues.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          description: Path parameter projectId.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: projects-projectid-endpoints
+      path: /projects/{projectId}/endpoints
+      operations:
+      - name: listendpoints
+        method: GET
+        description: Map violations to owning endpoints / teams.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          description: Path parameter projectId.
+          required: true
+  - type: http
+    namespace: linear
+    baseUri: https://api.linear.app
+    description: Linear GraphQL API operations consumed by this integration.
+    resources:
+    - name: graphql
+      path: /graphql
+      operations:
+      - name: createissue
+        method: POST
+        description: 'Linear GraphQL API: createIssue'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  exposes:
+  - type: mcp
+    namespace: treblle-linear-mcp
+    description: MCP adapter for the treblle-linear integration.
+    tools:
+    - name: treblle_linear
+      description: Execute the treblle linear integration end-to-end.
+      inputSchema:
+        type: object
+        properties:
+          trigger_event:
+            type: object
+            description: Triggering event payload.
+        required:
+        - trigger_event
+  - type: rest
+    namespace: treblle-linear-rest
+    port: 8080
+    description: REST adapter for the treblle-linear integration.
+    resources:
+    - path: /treblle-linear
+      name: treblle-linear
+      description: REST surface for the treblle-linear integration.
+      operations:
+      - method: POST
+        name: trigger
+        description: Trigger the treblle-linear integration.
+        call: treblle_linear
+        with:
+          trigger_event: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.

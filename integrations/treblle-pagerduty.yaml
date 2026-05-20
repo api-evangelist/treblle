@@ -1,0 +1,112 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Page on-call from Treblle SLA breaches
+  description: When Treblle detects an endpoint breaching its latency or error-rate SLO, open a PagerDuty incident routed to the owning service so on-call gets paged with the offending request inline.
+  tags:
+  - Treblle
+  - Integration
+  - Alerting
+  - pagerduty
+  created: '2026-05-20'
+  modified: '2026-05-20'
+binds:
+- namespace: env
+  keys:
+    TREBLLE_API_KEY: TREBLLE_API_KEY
+    PAGERDUTY_API_KEY: PAGERDUTY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: treblle
+    baseUri: https://api.treblle.com
+    description: Treblle API operations consumed by this integration.
+    resources:
+    - name: projects-projectid-analytics
+      path: /projects/{projectId}/analytics
+      operations:
+      - name: getprojectanalytics
+        method: GET
+        description: Read Treblle SLO / error-rate analytics that drive incident triggers.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          description: Path parameter projectId.
+          required: true
+    - name: projects-projectid-endpoints
+      path: /projects/{projectId}/endpoints
+      operations:
+      - name: listendpoints
+        method: GET
+        description: List Treblle endpoints to map SLO breaches to the right service owner.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          description: Path parameter projectId.
+          required: true
+  - type: http
+    namespace: pagerduty
+    baseUri: https://events.pagerduty.com
+    description: PagerDuty Events API v2 operations consumed by this integration.
+    resources:
+    - name: v2-enqueue
+      path: /v2/enqueue
+      operations:
+      - name: triggerincident
+        method: POST
+        description: 'PagerDuty Events API v2: triggerIncident'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  exposes:
+  - type: mcp
+    namespace: treblle-pagerduty-mcp
+    description: MCP adapter for the treblle-pagerduty integration.
+    tools:
+    - name: treblle_pagerduty
+      description: Execute the treblle pagerduty integration end-to-end.
+      inputSchema:
+        type: object
+        properties:
+          trigger_event:
+            type: object
+            description: Triggering event payload.
+        required:
+        - trigger_event
+  - type: rest
+    namespace: treblle-pagerduty-rest
+    port: 8080
+    description: REST adapter for the treblle-pagerduty integration.
+    resources:
+    - path: /treblle-pagerduty
+      name: treblle-pagerduty
+      description: REST surface for the treblle-pagerduty integration.
+      operations:
+      - method: POST
+        name: trigger
+        description: Trigger the treblle-pagerduty integration.
+        call: treblle_pagerduty
+        with:
+          trigger_event: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.

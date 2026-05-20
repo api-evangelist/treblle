@@ -1,0 +1,132 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Post Treblle API alerts to Slack channels
+  description: Forward Treblle anomaly / governance / error-spike events to a designated Slack channel via Incoming Webhook so the platform team sees API issues in real time.
+  tags:
+  - Treblle
+  - Integration
+  - Notifications
+  - slack
+  created: '2026-05-20'
+  modified: '2026-05-20'
+binds:
+- namespace: env
+  keys:
+    TREBLLE_API_KEY: TREBLLE_API_KEY
+    SLACK_API_KEY: SLACK_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: treblle
+    baseUri: https://api.treblle.com
+    description: Treblle API operations consumed by this integration.
+    resources:
+    - name: projects-projectid-analytics
+      path: /projects/{projectId}/analytics
+      operations:
+      - name: getprojectanalytics
+        method: GET
+        description: Pull Treblle anomaly + error-rate signals to format as Slack messages.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          description: Path parameter projectId.
+          required: true
+    - name: projects-projectid-governance
+      path: /projects/{projectId}/governance
+      operations:
+      - name: rungovernancecheck
+        method: POST
+        description: Run a Treblle governance check and post failures to Slack.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          description: Path parameter projectId.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  - type: http
+    namespace: slack
+    baseUri: https://hooks.slack.com
+    description: Slack Incoming Webhooks operations consumed by this integration.
+    resources:
+    - name: services-t-b-x
+      path: /services/{T}/{B}/{X}
+      operations:
+      - name: postmessage
+        method: POST
+        description: 'Slack Incoming Webhooks: postMessage'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: T
+          in: path
+          type: string
+          description: Path parameter T.
+          required: true
+        - name: B
+          in: path
+          type: string
+          description: Path parameter B.
+          required: true
+        - name: X
+          in: path
+          type: string
+          description: Path parameter X.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  exposes:
+  - type: mcp
+    namespace: treblle-slack-mcp
+    description: MCP adapter for the treblle-slack integration.
+    tools:
+    - name: treblle_slack
+      description: Execute the treblle slack integration end-to-end.
+      inputSchema:
+        type: object
+        properties:
+          trigger_event:
+            type: object
+            description: Triggering event payload.
+        required:
+        - trigger_event
+  - type: rest
+    namespace: treblle-slack-rest
+    port: 8080
+    description: REST adapter for the treblle-slack integration.
+    resources:
+    - path: /treblle-slack
+      name: treblle-slack
+      description: REST surface for the treblle-slack integration.
+      operations:
+      - method: POST
+        name: trigger
+        description: Trigger the treblle-slack integration.
+        call: treblle_slack
+        with:
+          trigger_event: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.

@@ -1,0 +1,134 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: AI-review Treblle API designs with OpenAI
+  description: Feed Treblle's inferred API definitions and recent request samples into OpenAI for an LLM-driven design review — naming consistency, REST hygiene, missing error semantics — and post the findings back to the Treblle governance report.
+  tags:
+  - Treblle
+  - Integration
+  - AI for APIs
+  - openai
+  created: '2026-05-20'
+  modified: '2026-05-20'
+binds:
+- namespace: env
+  keys:
+    TREBLLE_API_KEY: TREBLLE_API_KEY
+    OPENAI_API_KEY: OPENAI_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: treblle
+    baseUri: https://api.treblle.com
+    description: Treblle API operations consumed by this integration.
+    resources:
+    - name: projects-projectid-endpoints
+      path: /projects/{projectId}/endpoints
+      operations:
+      - name: listendpoints
+        method: GET
+        description: Pull Treblle-inferred endpoints for the LLM to review.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          description: Path parameter projectId.
+          required: true
+    - name: projects-projectid-requests
+      path: /projects/{projectId}/requests
+      operations:
+      - name: listrequests
+        method: GET
+        description: Sample real Treblle requests so the LLM grounds review in actual traffic.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          description: Path parameter projectId.
+          required: true
+    - name: projects-projectid-governance
+      path: /projects/{projectId}/governance
+      operations:
+      - name: rungovernancecheck
+        method: POST
+        description: Record AI-generated findings into the Treblle governance report.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          description: Path parameter projectId.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  - type: http
+    namespace: openai
+    baseUri: https://api.openai.com
+    description: OpenAI Chat Completions operations consumed by this integration.
+    resources:
+    - name: v1-chat-completions
+      path: /v1/chat/completions
+      operations:
+      - name: createchatcompletion
+        method: POST
+        description: 'OpenAI Chat Completions: createChatCompletion'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  exposes:
+  - type: mcp
+    namespace: treblle-openai-mcp
+    description: MCP adapter for the treblle-openai integration.
+    tools:
+    - name: treblle_openai
+      description: Execute the treblle openai integration end-to-end.
+      inputSchema:
+        type: object
+        properties:
+          trigger_event:
+            type: object
+            description: Triggering event payload.
+        required:
+        - trigger_event
+  - type: rest
+    namespace: treblle-openai-rest
+    port: 8080
+    description: REST adapter for the treblle-openai integration.
+    resources:
+    - path: /treblle-openai
+      name: treblle-openai
+      description: REST surface for the treblle-openai integration.
+      operations:
+      - method: POST
+        name: trigger
+        description: Trigger the treblle-openai integration.
+        call: treblle_openai
+        with:
+          trigger_event: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.

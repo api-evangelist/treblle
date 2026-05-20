@@ -1,0 +1,60 @@
+- slug: treblle-datadog
+  label: Stream Treblle request analytics into Datadog
+  partner: datadog
+  category: Observability
+  use_case: Forward Treblle per-request latency, response codes, and error rates into Datadog as custom metrics and events so API observability lives next to the rest of your infra dashboards.
+- slug: treblle-sentry
+  label: Forward Treblle API errors into Sentry issues
+  partner: sentry
+  category: Observability
+  use_case: When Treblle records a 5xx or unhandled exception on a tracked endpoint, create or update the matching Sentry issue with the request payload, headers, and stack context for triage.
+- slug: treblle-pagerduty
+  label: Page on-call from Treblle SLA breaches
+  partner: pagerduty
+  category: Alerting
+  use_case: When Treblle detects an endpoint breaching its latency or error-rate SLO, open a PagerDuty incident routed to the owning service so on-call gets paged with the offending request inline.
+- slug: treblle-slack
+  label: Post Treblle API alerts to Slack channels
+  partner: slack
+  category: Notifications
+  use_case: Forward Treblle anomaly / governance / error-spike events to a designated Slack channel via Incoming Webhook so the platform team sees API issues in real time.
+- slug: treblle-microsoft-teams
+  label: Post Treblle API alerts to Microsoft Teams channels
+  partner: microsoft-teams
+  category: Notifications
+  use_case: Mirror Treblle anomaly + governance events into a Microsoft Teams channel via Incoming Webhook for Microsoft 365 shops that don't run Slack.
+- slug: treblle-spectral
+  label: Run Spectral lint on every Treblle-tracked endpoint
+  partner: spectral
+  category: Governance
+  use_case: For each Treblle-tracked endpoint, derive the inferred OpenAPI fragment and lint it with Spectral rulesets — feeding violations back into the Treblle governance report.
+- slug: treblle-stoplight
+  label: Publish Treblle-inferred APIs to Stoplight workspaces
+  partner: stoplight
+  category: API documentation
+  use_case: Take the inferred OpenAPI definition Treblle generates from live traffic and push it into a Stoplight workspace so docs stay in sync with what is actually being served.
+- slug: treblle-postman
+  label: Sync Treblle-inferred APIs into a Postman collection
+  partner: postman
+  category: Dev workflow
+  use_case: Materialize Treblle's live-traffic-derived API definitions as a Postman Collection so developers always have an up-to-date set of requests for the production surface.
+- slug: treblle-github
+  label: Comment Treblle governance findings on GitHub pull requests
+  partner: github
+  category: Dev workflow
+  use_case: When a PR touches a Treblle-tracked API, run a governance check and post the diff (new violations, breaking changes) back as a PR comment so reviewers see API-level impact inline.
+- slug: treblle-linear
+  label: Open Linear issues from Treblle governance violations
+  partner: linear
+  category: Dev workflow
+  use_case: For each new Treblle governance violation that crosses a severity threshold, open (or update) a Linear issue assigned to the owning team with the failing request envelope attached.
+- slug: treblle-jira
+  label: Open Jira tickets from Treblle anomalies
+  partner: jira
+  category: Dev workflow
+  use_case: Forward Treblle anomaly + governance events into Jira as tickets in the right project + component so enterprise shops can route API issues through their existing ticketing process.
+- slug: treblle-openai
+  label: AI-review Treblle API designs with OpenAI
+  partner: openai
+  category: AI for APIs
+  use_case: Feed Treblle's inferred API definitions and recent request samples into OpenAI for an LLM-driven design review — naming consistency, REST hygiene, missing error semantics — and post the findings back to the Treblle governance report.

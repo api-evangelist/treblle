@@ -1,0 +1,127 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Forward Treblle API errors into Sentry issues
+  description: When Treblle records a 5xx or unhandled exception on a tracked endpoint, create or update the matching Sentry issue with the request payload, headers, and stack context for triage.
+  tags:
+  - Treblle
+  - Integration
+  - Observability
+  - sentry
+  created: '2026-05-20'
+  modified: '2026-05-20'
+binds:
+- namespace: env
+  keys:
+    TREBLLE_API_KEY: TREBLLE_API_KEY
+    SENTRY_API_KEY: SENTRY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: treblle
+    baseUri: https://api.treblle.com
+    description: Treblle API operations consumed by this integration.
+    resources:
+    - name: projects-projectid-requests-requestid
+      path: /projects/{projectId}/requests/{requestId}
+      operations:
+      - name: getrequest
+        method: GET
+        description: Fetch the full Treblle request envelope (headers, body, response) for the failing call.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          description: Path parameter projectId.
+          required: true
+        - name: requestId
+          in: path
+          type: string
+          description: Path parameter requestId.
+          required: true
+    - name: projects-projectid-requests
+      path: /projects/{projectId}/requests
+      operations:
+      - name: listrequests
+        method: GET
+        description: Poll recent failing requests to materialize as Sentry issues.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          description: Path parameter projectId.
+          required: true
+  - type: http
+    namespace: sentry
+    baseUri: https://sentry.io
+    description: Sentry API operations consumed by this integration.
+    resources:
+    - name: api-0-projects-organization-slug-project-slug-events
+      path: /api/0/projects/{organization_slug}/{project_slug}/events/
+      operations:
+      - name: captureevent
+        method: POST
+        description: 'Sentry API: captureEvent'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: organization_slug
+          in: path
+          type: string
+          description: Path parameter organization_slug.
+          required: true
+        - name: project_slug
+          in: path
+          type: string
+          description: Path parameter project_slug.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  exposes:
+  - type: mcp
+    namespace: treblle-sentry-mcp
+    description: MCP adapter for the treblle-sentry integration.
+    tools:
+    - name: treblle_sentry
+      description: Execute the treblle sentry integration end-to-end.
+      inputSchema:
+        type: object
+        properties:
+          trigger_event:
+            type: object
+            description: Triggering event payload.
+        required:
+        - trigger_event
+  - type: rest
+    namespace: treblle-sentry-rest
+    port: 8080
+    description: REST adapter for the treblle-sentry integration.
+    resources:
+    - path: /treblle-sentry
+      name: treblle-sentry
+      description: REST surface for the treblle-sentry integration.
+      operations:
+      - method: POST
+        name: trigger
+        description: Trigger the treblle-sentry integration.
+        call: treblle_sentry
+        with:
+          trigger_event: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
