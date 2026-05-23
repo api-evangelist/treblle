@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/GovernanceCheckRequest",
+  "title": "GovernanceCheckRequest",
+  "type": "object",
+  "required": [
+    "openapi_spec"
+  ],
+  "properties": {
+    "openapi_spec": {
+      "type": "object",
+      "description": "The OpenAPI specification object to evaluate"
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Endpoint",
+  "title": "Endpoint",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "path": {
+      "type": "string"
+    },
+    "method": {
+      "type": "string"
+    },
+    "total_calls": {
+      "type": "integer"
+    },
+    "avg_response_time": {
+      "type": "number"
+    },
+    "last_seen": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "has_documentation": {
+      "type": "boolean"
+    }
+  }
+}

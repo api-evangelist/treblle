@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/InviteMemberRequest",
+  "title": "InviteMemberRequest",
+  "type": "object",
+  "required": [
+    "email"
+  ],
+  "properties": {
+    "email": {
+      "type": "string",
+      "format": "email"
+    },
+    "role": {
+      "type": "string",
+      "enum": [
+        "admin",
+        "developer",
+        "viewer"
+      ],
+      "default": "developer"
+    }
+  }
+}

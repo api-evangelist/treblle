@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ProjectAnalytics",
+  "title": "ProjectAnalytics",
+  "type": "object",
+  "properties": {
+    "total_requests": {
+      "type": "integer"
+    },
+    "error_rate": {
+      "type": "number",
+      "description": "Error rate as a percentage"
+    },
+    "avg_response_time": {
+      "type": "number",
+      "description": "Average response time in milliseconds"
+    },
+    "top_endpoints": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "method": {
+            "type": "string"
+          },
+          "count": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "status_code_distribution": {
+      "type": "object",
+      "description": "Count of requests by HTTP status code range"
+    },
+    "geographic_distribution": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "country": {
+            "type": "string"
+          },
+          "count": {
+            "type": "integer"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,198 @@
+{
+  "provider": "Treblle",
+  "providerId": "treblle",
+  "kind": "json-structure",
+  "description": "Structural overview of the Treblle API surface; extracted from openapi/.",
+  "schemaCount": 12,
+  "operationCount": 12,
+  "schemas": [
+    {
+      "name": "Project",
+      "type": "object",
+      "propertyCount": 9,
+      "required": []
+    },
+    {
+      "name": "CreateProjectRequest",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "name"
+      ]
+    },
+    {
+      "name": "UpdateProjectRequest",
+      "type": "object",
+      "propertyCount": 3,
+      "required": []
+    },
+    {
+      "name": "ApiRequest",
+      "type": "object",
+      "propertyCount": 8,
+      "required": []
+    },
+    {
+      "name": "ApiRequestDetail",
+      "type": "object",
+      "propertyCount": 12,
+      "required": []
+    },
+    {
+      "name": "ProjectAnalytics",
+      "type": "object",
+      "propertyCount": 6,
+      "required": []
+    },
+    {
+      "name": "Endpoint",
+      "type": "object",
+      "propertyCount": 7,
+      "required": []
+    },
+    {
+      "name": "GovernanceCheckRequest",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "openapi_spec"
+      ]
+    },
+    {
+      "name": "GovernanceResult",
+      "type": "object",
+      "propertyCount": 9,
+      "required": []
+    },
+    {
+      "name": "Member",
+      "type": "object",
+      "propertyCount": 5,
+      "required": []
+    },
+    {
+      "name": "InviteMemberRequest",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "email"
+      ]
+    },
+    {
+      "name": "PaginationMeta",
+      "type": "object",
+      "propertyCount": 4,
+      "required": []
+    }
+  ],
+  "operations": [
+    {
+      "method": "GET",
+      "path": "/projects",
+      "operationId": "listProjects",
+      "summary": "List Projects",
+      "tags": [
+        "Projects"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/projects",
+      "operationId": "createProject",
+      "summary": "Create Project",
+      "tags": [
+        "Projects"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/projects/{projectId}",
+      "operationId": "getProject",
+      "summary": "Get Project",
+      "tags": [
+        "Projects"
+      ]
+    },
+    {
+      "method": "PUT",
+      "path": "/projects/{projectId}",
+      "operationId": "updateProject",
+      "summary": "Update Project",
+      "tags": [
+        "Projects"
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/projects/{projectId}",
+      "operationId": "deleteProject",
+      "summary": "Delete Project",
+      "tags": [
+        "Projects"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/projects/{projectId}/requests",
+      "operationId": "listRequests",
+      "summary": "List API Requests",
+      "tags": [
+        "Requests"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/projects/{projectId}/requests/{requestId}",
+      "operationId": "getRequest",
+      "summary": "Get API Request",
+      "tags": [
+        "Requests"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/projects/{projectId}/analytics",
+      "operationId": "getProjectAnalytics",
+      "summary": "Get Project Analytics",
+      "tags": [
+        "Analytics"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/projects/{projectId}/endpoints",
+      "operationId": "listEndpoints",
+      "summary": "List Endpoints",
+      "tags": [
+        "Endpoints"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/projects/{projectId}/governance",
+      "operationId": "runGovernanceCheck",
+      "summary": "Run Governance Check",
+      "tags": [
+        "Governance"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/projects/{projectId}/members",
+      "operationId": "listMembers",
+      "summary": "List Project Members",
+      "tags": [
+        "Members"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/projects/{projectId}/members",
+      "operationId": "inviteMember",
+      "summary": "Invite Member",
+      "tags": [
+        "Members"
+      ]
+    }
+  ]
+}

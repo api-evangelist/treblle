@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ApiRequest",
+  "title": "ApiRequest",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique request identifier"
+    },
+    "method": {
+      "type": "string",
+      "enum": [
+        "GET",
+        "POST",
+        "PUT",
+        "PATCH",
+        "DELETE",
+        "HEAD",
+        "OPTIONS"
+      ]
+    },
+    "url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "status_code": {
+      "type": "integer"
+    },
+    "response_time": {
+      "type": "number",
+      "description": "Response time in milliseconds"
+    },
+    "ip_address": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "has_errors": {
+      "type": "boolean"
+    }
+  }
+}
