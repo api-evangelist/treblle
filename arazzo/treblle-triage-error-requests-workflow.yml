@@ -1,0 +1,103 @@
+arazzo: 1.0.1
+info:
+  title: Treblle Triage Failing API Requests
+  summary: Find requests returning a given error status code for a project and open the most recent failure's detail.
+  description: >-
+    A problem-triage flow that adapts Treblle's request log filtering to surface
+    failures. The workflow lists requests filtered by an HTTP status code (for
+    example 500), branches on whether any matching failures were captured, and
+    when failures exist retrieves the full detail of the most recent one so the
+    error, source, and payload can be inspected. Every step spells out its
+    request inline so the flow can be read and executed without opening the
+    underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: treblleApi
+  url: ../openapi/treblle-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: triage-error-requests
+  summary: Filter a project's requests by error status code and inspect the latest failure.
+  description: >-
+    Lists requests matching a target status code, and when at least one is
+    found, fetches the full detail of the most recent failing request.
+  inputs:
+    type: object
+    required:
+    - apiKey
+    - projectId
+    - statusCode
+    properties:
+      apiKey:
+        type: string
+        description: Treblle API key passed in the Treblle-Api-Key header.
+      projectId:
+        type: string
+        description: The project to triage for failing requests.
+      statusCode:
+        type: integer
+        description: HTTP status code to filter requests by (e.g. 500).
+  steps:
+  - stepId: findErrors
+    description: >-
+      List requests for the project filtered by the target HTTP status code,
+      newest first.
+    operationId: listRequests
+    parameters:
+    - name: Treblle-Api-Key
+      in: header
+      value: $inputs.apiKey
+    - name: projectId
+      in: path
+      value: $inputs.projectId
+    - name: status_code
+      in: query
+      value: $inputs.statusCode
+    - name: page
+      in: query
+      value: 1
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      failingRequestId: $response.body#/data/0/id
+      total: $response.body#/meta/total
+    onSuccess:
+    - name: failuresFound
+      type: goto
+      stepId: inspectFailure
+      criteria:
+      - context: $response.body
+        condition: $.data.length > 0
+        type: jsonpath
+    - name: noFailures
+      type: end
+      criteria:
+      - context: $response.body
+        condition: $.data.length == 0
+        type: jsonpath
+  - stepId: inspectFailure
+    description: >-
+      Retrieve the full detail of the most recent failing request, including
+      its captured errors, source, and request/response bodies.
+    operationId: getRequest
+    parameters:
+    - name: Treblle-Api-Key
+      in: header
+      value: $inputs.apiKey
+    - name: projectId
+      in: path
+      value: $inputs.projectId
+    - name: requestId
+      in: path
+      value: $steps.findErrors.outputs.failingRequestId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      url: $response.body#/url
+      statusCode: $response.body#/status_code
+      errors: $response.body#/errors
+  outputs:
+    failingRequestId: $steps.findErrors.outputs.failingRequestId
+    failureCount: $steps.findErrors.outputs.total
+    failureUrl: $steps.inspectFailure.outputs.url
+    failureErrors: $steps.inspectFailure.outputs.errors

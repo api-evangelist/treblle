@@ -1,0 +1,86 @@
+arazzo: 1.0.1
+info:
+  title: Treblle Provision a Monitoring Project
+  summary: Create a Treblle project and confirm its API ID and SDK token are ready for instrumentation.
+  description: >-
+    The first step in onboarding an API onto Treblle. The workflow creates a
+    new monitoring project, then re-reads it by ID to confirm the generated
+    API ID and SDK token that an SDK needs for instrumentation are present and
+    the project is registered in the workspace. Every step spells out its
+    request inline so the flow can be read and executed without opening the
+    underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: treblleApi
+  url: ../openapi/treblle-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: provision-project
+  summary: Create a new Treblle project and verify its SDK credentials.
+  description: >-
+    Creates a monitoring project for an API, then fetches it back by the
+    returned project ID to confirm the API ID and SDK token are issued.
+  inputs:
+    type: object
+    required:
+    - apiKey
+    - name
+    properties:
+      apiKey:
+        type: string
+        description: Treblle API key passed in the Treblle-Api-Key header.
+      name:
+        type: string
+        description: Display name for the new project.
+      description:
+        type: string
+        description: Optional description of the API the project monitors.
+      environment:
+        type: string
+        description: Environment the project monitors (development, staging, production).
+        default: production
+  steps:
+  - stepId: createProject
+    description: >-
+      Create a new monitoring project, returning the API ID and SDK token used
+      for SDK instrumentation.
+    operationId: createProject
+    parameters:
+    - name: Treblle-Api-Key
+      in: header
+      value: $inputs.apiKey
+    requestBody:
+      contentType: application/json
+      payload:
+        name: $inputs.name
+        description: $inputs.description
+        environment: $inputs.environment
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      projectId: $response.body#/id
+      apiId: $response.body#/api_id
+      sdkToken: $response.body#/sdk_token
+  - stepId: confirmProject
+    description: >-
+      Read the newly created project back by ID to confirm it is registered
+      and its SDK credentials are available.
+    operationId: getProject
+    parameters:
+    - name: Treblle-Api-Key
+      in: header
+      value: $inputs.apiKey
+    - name: projectId
+      in: path
+      value: $steps.createProject.outputs.projectId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      projectName: $response.body#/name
+      environment: $response.body#/environment
+      apiId: $response.body#/api_id
+  outputs:
+    projectId: $steps.createProject.outputs.projectId
+    apiId: $steps.confirmProject.outputs.apiId
+    sdkToken: $steps.createProject.outputs.sdkToken
+    environment: $steps.confirmProject.outputs.environment

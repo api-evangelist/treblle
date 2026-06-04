@@ -1,0 +1,100 @@
+arazzo: 1.0.1
+info:
+  title: Treblle Promote a Project's Environment
+  summary: Read a project, update its environment and metadata, and confirm the change took effect.
+  description: >-
+    Promotes or reconfigures a monitored API. The workflow reads the project to
+    capture its current environment, applies an update changing the environment
+    and optional metadata, and then re-reads the project to confirm the new
+    environment is in place. Every step spells out its request inline so the
+    flow can be read and executed without opening the underlying OpenAPI
+    description.
+  version: 1.0.0
+sourceDescriptions:
+- name: treblleApi
+  url: ../openapi/treblle-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: promote-project-environment
+  summary: Update a project's environment and verify the change.
+  description: >-
+    Reads the current project environment, applies an update, then re-reads the
+    project to confirm the new environment.
+  inputs:
+    type: object
+    required:
+    - apiKey
+    - projectId
+    - environment
+    properties:
+      apiKey:
+        type: string
+        description: Treblle API key passed in the Treblle-Api-Key header.
+      projectId:
+        type: string
+        description: The project to update.
+      environment:
+        type: string
+        description: New environment for the project (development, staging, production).
+      name:
+        type: string
+        description: Optional new display name for the project.
+      description:
+        type: string
+        description: Optional new description for the project.
+  steps:
+  - stepId: readProject
+    description: Read the project to capture its current environment before updating.
+    operationId: getProject
+    parameters:
+    - name: Treblle-Api-Key
+      in: header
+      value: $inputs.apiKey
+    - name: projectId
+      in: path
+      value: $inputs.projectId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      previousEnvironment: $response.body#/environment
+  - stepId: updateProject
+    description: >-
+      Apply the update, changing the project environment and any supplied
+      metadata.
+    operationId: updateProject
+    parameters:
+    - name: Treblle-Api-Key
+      in: header
+      value: $inputs.apiKey
+    - name: projectId
+      in: path
+      value: $inputs.projectId
+    requestBody:
+      contentType: application/json
+      payload:
+        name: $inputs.name
+        description: $inputs.description
+        environment: $inputs.environment
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      updatedEnvironment: $response.body#/environment
+  - stepId: confirmUpdate
+    description: Re-read the project to confirm the new environment is in place.
+    operationId: getProject
+    parameters:
+    - name: Treblle-Api-Key
+      in: header
+      value: $inputs.apiKey
+    - name: projectId
+      in: path
+      value: $inputs.projectId
+    successCriteria:
+    - condition: $statusCode == 200
+    - condition: $response.body#/environment == $inputs.environment
+    outputs:
+      environment: $response.body#/environment
+  outputs:
+    projectId: $inputs.projectId
+    previousEnvironment: $steps.readProject.outputs.previousEnvironment
+    currentEnvironment: $steps.confirmUpdate.outputs.environment

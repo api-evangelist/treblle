@@ -1,0 +1,90 @@
+arazzo: 1.0.1
+info:
+  title: Treblle Find a Project and Pull Its Analytics
+  summary: List workspace projects, select the first one, and retrieve its analytics over a date range.
+  description: >-
+    A discovery-to-insight flow for callers who do not yet know a project ID.
+    The workflow lists all projects in the workspace, branches on whether any
+    exist, and when at least one is present pulls aggregated analytics for the
+    first project returned. Every step spells out its request inline so the flow
+    can be read and executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: treblleApi
+  url: ../openapi/treblle-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: find-project-and-analytics
+  summary: Discover the first workspace project and retrieve its analytics.
+  description: >-
+    Lists workspace projects and, when at least one exists, pulls analytics for
+    the first project over the supplied date range.
+  inputs:
+    type: object
+    required:
+    - apiKey
+    properties:
+      apiKey:
+        type: string
+        description: Treblle API key passed in the Treblle-Api-Key header.
+      startDate:
+        type: string
+        description: Analytics start date (YYYY-MM-DD).
+      endDate:
+        type: string
+        description: Analytics end date (YYYY-MM-DD).
+  steps:
+  - stepId: listProjects
+    description: List all projects in the workspace.
+    operationId: listProjects
+    parameters:
+    - name: Treblle-Api-Key
+      in: header
+      value: $inputs.apiKey
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      firstProjectId: $response.body#/data/0/id
+    onSuccess:
+    - name: projectsExist
+      type: goto
+      stepId: getAnalytics
+      criteria:
+      - context: $response.body
+        condition: $.data.length > 0
+        type: jsonpath
+    - name: noProjects
+      type: end
+      criteria:
+      - context: $response.body
+        condition: $.data.length == 0
+        type: jsonpath
+  - stepId: getAnalytics
+    description: >-
+      Retrieve aggregated analytics for the first project over the supplied
+      date range.
+    operationId: getProjectAnalytics
+    parameters:
+    - name: Treblle-Api-Key
+      in: header
+      value: $inputs.apiKey
+    - name: projectId
+      in: path
+      value: $steps.listProjects.outputs.firstProjectId
+    - name: start_date
+      in: query
+      value: $inputs.startDate
+    - name: end_date
+      in: query
+      value: $inputs.endDate
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      totalRequests: $response.body#/total_requests
+      errorRate: $response.body#/error_rate
+      avgResponseTime: $response.body#/avg_response_time
+  outputs:
+    projectId: $steps.listProjects.outputs.firstProjectId
+    totalRequests: $steps.getAnalytics.outputs.totalRequests
+    errorRate: $steps.getAnalytics.outputs.errorRate
+    avgResponseTime: $steps.getAnalytics.outputs.avgResponseTime

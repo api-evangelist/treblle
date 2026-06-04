@@ -1,0 +1,91 @@
+arazzo: 1.0.1
+info:
+  title: Treblle Onboard a Project and Its Team
+  summary: Create a project, invite a teammate to it, and list the resulting member roster.
+  description: >-
+    Stands up a new monitored API and its team in one pass. The workflow creates
+    a project, invites a teammate to that project by email and role, and then
+    lists the project's members to confirm the roster. Every step spells out its
+    request inline so the flow can be read and executed without opening the
+    underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: treblleApi
+  url: ../openapi/treblle-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: onboard-project-and-team
+  summary: Create a project, invite a member, and confirm the member roster.
+  description: >-
+    Creates a monitoring project, invites a teammate to it, then lists the
+    project members to confirm the invitation.
+  inputs:
+    type: object
+    required:
+    - apiKey
+    - name
+    - inviteEmail
+    properties:
+      apiKey:
+        type: string
+        description: Treblle API key passed in the Treblle-Api-Key header.
+      name:
+        type: string
+        description: Display name for the new project.
+      inviteEmail:
+        type: string
+        description: Email address of the teammate to invite.
+      inviteRole:
+        type: string
+        description: Role to grant the invited member (admin, developer, viewer).
+        default: developer
+  steps:
+  - stepId: createProject
+    description: Create the monitoring project the team will be invited to.
+    operationId: createProject
+    parameters:
+    - name: Treblle-Api-Key
+      in: header
+      value: $inputs.apiKey
+    requestBody:
+      contentType: application/json
+      payload:
+        name: $inputs.name
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      projectId: $response.body#/id
+  - stepId: inviteMember
+    description: Invite the teammate to the newly created project by email and role.
+    operationId: inviteMember
+    parameters:
+    - name: Treblle-Api-Key
+      in: header
+      value: $inputs.apiKey
+    - name: projectId
+      in: path
+      value: $steps.createProject.outputs.projectId
+    requestBody:
+      contentType: application/json
+      payload:
+        email: $inputs.inviteEmail
+        role: $inputs.inviteRole
+    successCriteria:
+    - condition: $statusCode == 201
+  - stepId: listMembers
+    description: List the project's members to confirm the invitation took effect.
+    operationId: listMembers
+    parameters:
+    - name: Treblle-Api-Key
+      in: header
+      value: $inputs.apiKey
+    - name: projectId
+      in: path
+      value: $steps.createProject.outputs.projectId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      members: $response.body#/data
+  outputs:
+    projectId: $steps.createProject.outputs.projectId
+    members: $steps.listMembers.outputs.members

@@ -1,0 +1,103 @@
+arazzo: 1.0.1
+info:
+  title: Treblle Project Health Snapshot
+  summary: Resolve a project then pull its analytics and auto-discovered endpoints for a single health view.
+  description: >-
+    Builds a combined health snapshot for a monitored API. The workflow
+    confirms the project, retrieves aggregated analytics (request volume, error
+    rate, average response time, top endpoints) over a date range, and then
+    lists the endpoints Treblle auto-discovered from live traffic so volume and
+    discovery can be reviewed together. Every step spells out its request inline
+    so the flow can be read and executed without opening the underlying OpenAPI
+    description.
+  version: 1.0.0
+sourceDescriptions:
+- name: treblleApi
+  url: ../openapi/treblle-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: project-health-snapshot
+  summary: Combine a project's analytics and discovered endpoints into one snapshot.
+  description: >-
+    Verifies the project, pulls its analytics for a date range, then lists its
+    auto-discovered endpoints.
+  inputs:
+    type: object
+    required:
+    - apiKey
+    - projectId
+    properties:
+      apiKey:
+        type: string
+        description: Treblle API key passed in the Treblle-Api-Key header.
+      projectId:
+        type: string
+        description: The project to build a health snapshot for.
+      startDate:
+        type: string
+        description: Analytics start date (YYYY-MM-DD).
+      endDate:
+        type: string
+        description: Analytics end date (YYYY-MM-DD).
+  steps:
+  - stepId: resolveProject
+    description: Confirm the target project exists before pulling its analytics.
+    operationId: getProject
+    parameters:
+    - name: Treblle-Api-Key
+      in: header
+      value: $inputs.apiKey
+    - name: projectId
+      in: path
+      value: $inputs.projectId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      projectName: $response.body#/name
+  - stepId: getAnalytics
+    description: >-
+      Retrieve aggregated analytics for the project over the supplied date
+      range, including error rate, average response time, and top endpoints.
+    operationId: getProjectAnalytics
+    parameters:
+    - name: Treblle-Api-Key
+      in: header
+      value: $inputs.apiKey
+    - name: projectId
+      in: path
+      value: $inputs.projectId
+    - name: start_date
+      in: query
+      value: $inputs.startDate
+    - name: end_date
+      in: query
+      value: $inputs.endDate
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      totalRequests: $response.body#/total_requests
+      errorRate: $response.body#/error_rate
+      avgResponseTime: $response.body#/avg_response_time
+      topEndpoints: $response.body#/top_endpoints
+  - stepId: listEndpoints
+    description: >-
+      List the endpoints Treblle auto-discovered from live traffic for the
+      project, including per-endpoint performance metrics.
+    operationId: listEndpoints
+    parameters:
+    - name: Treblle-Api-Key
+      in: header
+      value: $inputs.apiKey
+    - name: projectId
+      in: path
+      value: $inputs.projectId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      endpoints: $response.body#/data
+  outputs:
+    projectName: $steps.resolveProject.outputs.projectName
+    totalRequests: $steps.getAnalytics.outputs.totalRequests
+    errorRate: $steps.getAnalytics.outputs.errorRate
+    avgResponseTime: $steps.getAnalytics.outputs.avgResponseTime
+    discoveredEndpoints: $steps.listEndpoints.outputs.endpoints

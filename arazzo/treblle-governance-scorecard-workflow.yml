@@ -1,0 +1,85 @@
+arazzo: 1.0.1
+info:
+  title: Treblle Governance Scorecard
+  summary: Resolve a project then run Treblle's governance check against an OpenAPI spec and capture the scorecard.
+  description: >-
+    Produces a governance scorecard for a monitored API. The workflow confirms
+    the project, runs Treblle's automated governance tests against a supplied
+    OpenAPI specification, and captures the overall, design, security, and
+    performance scores and grades along with the list of issues. This adapts
+    Treblle's governance scoring to a scorecard pattern. Every step spells out
+    its request inline so the flow can be read and executed without opening the
+    underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: treblleApi
+  url: ../openapi/treblle-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: governance-scorecard
+  summary: Run a governance check for a project and capture its scorecard.
+  description: >-
+    Verifies the project, then runs Treblle's governance tests on the supplied
+    OpenAPI spec and records the resulting scores, grades, and issues.
+  inputs:
+    type: object
+    required:
+    - apiKey
+    - projectId
+    - openapiSpec
+    properties:
+      apiKey:
+        type: string
+        description: Treblle API key passed in the Treblle-Api-Key header.
+      projectId:
+        type: string
+        description: The project to run the governance check for.
+      openapiSpec:
+        type: object
+        description: The OpenAPI specification object to evaluate.
+  steps:
+  - stepId: resolveProject
+    description: Confirm the target project exists before running the governance check.
+    operationId: getProject
+    parameters:
+    - name: Treblle-Api-Key
+      in: header
+      value: $inputs.apiKey
+    - name: projectId
+      in: path
+      value: $inputs.projectId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      projectName: $response.body#/name
+  - stepId: runGovernance
+    description: >-
+      Run Treblle's automated governance tests against the supplied OpenAPI
+      specification and capture the scorecard.
+    operationId: runGovernanceCheck
+    parameters:
+    - name: Treblle-Api-Key
+      in: header
+      value: $inputs.apiKey
+    - name: projectId
+      in: path
+      value: $inputs.projectId
+    requestBody:
+      contentType: application/json
+      payload:
+        openapi_spec: $inputs.openapiSpec
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      overallScore: $response.body#/overall_score
+      overallGrade: $response.body#/overall_grade
+      securityScore: $response.body#/security_score
+      designScore: $response.body#/design_score
+      performanceScore: $response.body#/performance_score
+      issues: $response.body#/issues
+  outputs:
+    projectName: $steps.resolveProject.outputs.projectName
+    overallScore: $steps.runGovernance.outputs.overallScore
+    overallGrade: $steps.runGovernance.outputs.overallGrade
+    securityScore: $steps.runGovernance.outputs.securityScore
+    issues: $steps.runGovernance.outputs.issues

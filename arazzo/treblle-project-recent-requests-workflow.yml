@@ -1,0 +1,102 @@
+arazzo: 1.0.1
+info:
+  title: Treblle Inspect a Project's Recent Requests
+  summary: Resolve a project, list its captured API requests, and pull the full detail of the most recent one.
+  description: >-
+    A core observability drill-down. The workflow confirms the target project
+    exists, lists the most recent captured API requests for it, and then
+    retrieves the complete request/response detail (headers, bodies, timing,
+    and Treblle's analysis) for the newest request returned. Every step spells
+    out its request inline so the flow can be read and executed without opening
+    the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: treblleApi
+  url: ../openapi/treblle-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: inspect-recent-requests
+  summary: List a project's captured requests and fetch the latest one's full detail.
+  description: >-
+    Verifies the project, lists its most recent captured requests, and
+    retrieves the full detail of the newest request returned.
+  inputs:
+    type: object
+    required:
+    - apiKey
+    - projectId
+    properties:
+      apiKey:
+        type: string
+        description: Treblle API key passed in the Treblle-Api-Key header.
+      projectId:
+        type: string
+        description: The project whose captured requests should be inspected.
+      perPage:
+        type: integer
+        description: Number of requests to retrieve on the first page.
+        default: 25
+  steps:
+  - stepId: resolveProject
+    description: Confirm the target project exists before reading its request logs.
+    operationId: getProject
+    parameters:
+    - name: Treblle-Api-Key
+      in: header
+      value: $inputs.apiKey
+    - name: projectId
+      in: path
+      value: $inputs.projectId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      projectName: $response.body#/name
+  - stepId: listRequests
+    description: >-
+      List the most recent captured API requests for the project, newest first
+      on the first page.
+    operationId: listRequests
+    parameters:
+    - name: Treblle-Api-Key
+      in: header
+      value: $inputs.apiKey
+    - name: projectId
+      in: path
+      value: $inputs.projectId
+    - name: page
+      in: query
+      value: 1
+    - name: per_page
+      in: query
+      value: $inputs.perPage
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      latestRequestId: $response.body#/data/0/id
+      total: $response.body#/meta/total
+  - stepId: getRequestDetail
+    description: >-
+      Retrieve the full detail of the newest captured request, including
+      headers, bodies, timing, and Treblle's analysis data points.
+    operationId: getRequest
+    parameters:
+    - name: Treblle-Api-Key
+      in: header
+      value: $inputs.apiKey
+    - name: projectId
+      in: path
+      value: $inputs.projectId
+    - name: requestId
+      in: path
+      value: $steps.listRequests.outputs.latestRequestId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      method: $response.body#/method
+      statusCode: $response.body#/status_code
+      responseTime: $response.body#/response_time
+  outputs:
+    projectName: $steps.resolveProject.outputs.projectName
+    latestRequestId: $steps.listRequests.outputs.latestRequestId
+    latestStatusCode: $steps.getRequestDetail.outputs.statusCode
+    latestResponseTime: $steps.getRequestDetail.outputs.responseTime
