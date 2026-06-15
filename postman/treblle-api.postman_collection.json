@@ -1,0 +1,2103 @@
+{
+  "info": {
+    "_postman_id": "06bfb11f-7459-49ef-9246-0ffc7c6f6720",
+    "name": "Treblle API",
+    "description": "The Treblle API provides programmatic access to the Treblle API Intelligence Platform, enabling teams to manage projects, retrieve API request logs, access analytics, run governance checks, and integrate Treblle into CI/CD pipelines. Treblle analyzes 40+ API-specific data points for every request, providing real-time observability, security scanning, and auto-generated documentation. Authentication uses API Key passed as a header.\n\nContact Support:\n Name: Treblle Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-06-05T13:20:22.000Z",
+    "updatedAt": "2026-06-05T13:20:22.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-06bfb11f-7459-49ef-9246-0ffc7c6f6720"
+  },
+  "item": [
+    {
+      "name": "projects",
+      "item": [
+        {
+          "name": "{projectId}",
+          "item": [
+            {
+              "name": "requests",
+              "item": [
+                {
+                  "name": "{requestId}",
+                  "item": [
+                    {
+                      "name": "Get API Request",
+                      "id": "7fb8bc98-d415-4c1b-acef-6426343e692b",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/projects/:projectId/requests/:requestId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "projects",
+                            ":projectId",
+                            "requests",
+                            ":requestId"
+                          ],
+                          "variable": [
+                            {
+                              "id": "538d9047-a496-41e0-b9ad-dc9a74e413ab",
+                              "key": "projectId",
+                              "value": "<string>",
+                              "description": "(Required) "
+                            },
+                            {
+                              "id": "bebeed53-e35c-484b-a3ef-bd8c1454016f",
+                              "key": "requestId",
+                              "value": "<string>",
+                              "description": "(Required) "
+                            }
+                          ]
+                        },
+                        "description": "Retrieves the full details of a specific API request including headers, body, response, timing, and Treblle's analysis data points."
+                      },
+                      "response": [
+                        {
+                          "id": "586c3db0-7af4-4d8d-918d-c8ebe14d0b3d",
+                          "name": "Request details returned successfully",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "Treblle-Api-Key",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/projects/:projectId/requests/:requestId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "projects",
+                                ":projectId",
+                                "requests",
+                                ":requestId"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "projectId"
+                                },
+                                {
+                                  "key": "requestId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"id\": \"<string>\",\n  \"method\": \"<string>\",\n  \"url\": \"<string>\",\n  \"status_code\": \"<integer>\",\n  \"response_time\": \"<number>\",\n  \"ip_address\": \"<string>\",\n  \"request_headers\": {},\n  \"request_body\": {},\n  \"response_headers\": {},\n  \"response_body\": {},\n  \"errors\": [\n    {\n      \"message\": \"<string>\",\n      \"type\": \"<string>\",\n      \"source\": \"<string>\"\n    },\n    {\n      \"message\": \"<string>\",\n      \"type\": \"<string>\",\n      \"source\": \"<string>\"\n    }\n  ],\n  \"created_at\": \"<dateTime>\"\n}",
+                          "createdAt": "2026-06-05T13:20:23.000Z",
+                          "updatedAt": "2026-06-05T13:20:23.000Z",
+                          "uid": "35240-586c3db0-7af4-4d8d-918d-c8ebe14d0b3d"
+                        },
+                        {
+                          "id": "fe79d844-6402-4624-be0a-fcc3c3011e44",
+                          "name": "Authentication failed. API key missing or invalid.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "Treblle-Api-Key",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/projects/:projectId/requests/:requestId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "projects",
+                                ":projectId",
+                                "requests",
+                                ":requestId"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "projectId"
+                                },
+                                {
+                                  "key": "requestId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"message\": \"<string>\",\n  \"code\": \"<string>\"\n}",
+                          "createdAt": "2026-06-05T13:20:23.000Z",
+                          "updatedAt": "2026-06-05T13:20:23.000Z",
+                          "uid": "35240-fe79d844-6402-4624-be0a-fcc3c3011e44"
+                        },
+                        {
+                          "id": "071732d2-838e-4e2e-87ec-1c8254a30e35",
+                          "name": "Request not found",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "Treblle-Api-Key",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/projects/:projectId/requests/:requestId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "projects",
+                                ":projectId",
+                                "requests",
+                                ":requestId"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "projectId"
+                                },
+                                {
+                                  "key": "requestId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-06-05T13:20:23.000Z",
+                          "updatedAt": "2026-06-05T13:20:23.000Z",
+                          "uid": "35240-071732d2-838e-4e2e-87ec-1c8254a30e35"
+                        }
+                      ],
+                      "createdAt": "2026-06-05T13:20:23.000Z",
+                      "updatedAt": "2026-06-05T13:20:23.000Z",
+                      "uid": "35240-7fb8bc98-d415-4c1b-acef-6426343e692b"
+                    }
+                  ],
+                  "id": "64e4491a-338f-4dad-ae20-c19d0f967bf8",
+                  "createdAt": "2026-06-05T13:20:23.000Z",
+                  "updatedAt": "2026-06-05T13:20:23.000Z",
+                  "uid": "35240-64e4491a-338f-4dad-ae20-c19d0f967bf8"
+                },
+                {
+                  "name": "List API Requests",
+                  "id": "b6b092e2-7587-465d-9014-e841beb6e448",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/projects/:projectId/requests?page=1&per_page=25&status_code=<integer>&search=<string>&start_date=<date>&end_date=<date>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "projects",
+                        ":projectId",
+                        "requests"
+                      ],
+                      "query": [
+                        {
+                          "description": "Page number for pagination",
+                          "key": "page",
+                          "value": "1"
+                        },
+                        {
+                          "description": "Number of requests per page",
+                          "key": "per_page",
+                          "value": "25"
+                        },
+                        {
+                          "description": "Filter by HTTP status code",
+                          "key": "status_code",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "Search across URL, IP, and payload data",
+                          "key": "search",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Filter requests from this date (YYYY-MM-DD)",
+                          "key": "start_date",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "Filter requests until this date (YYYY-MM-DD)",
+                          "key": "end_date",
+                          "value": "<date>"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "id": "187c5319-9b3f-426d-8e85-658ae85319cf",
+                          "key": "projectId",
+                          "value": "<string>",
+                          "description": "(Required) "
+                        }
+                      ]
+                    },
+                    "description": "Returns a paginated list of API requests captured for the project. Includes request/response data, timing, status codes, and error info. Supports filtering by date range, status code, endpoint, and search terms."
+                  },
+                  "response": [
+                    {
+                      "id": "d100a577-3adc-4bd5-90f8-00d5b562e76c",
+                      "name": "Requests returned successfully",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Treblle-Api-Key",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/projects/:projectId/requests?page=1&per_page=25&status_code=<integer>&search=<string>&start_date=<date>&end_date=<date>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "projects",
+                            ":projectId",
+                            "requests"
+                          ],
+                          "query": [
+                            {
+                              "description": "Page number for pagination",
+                              "key": "page",
+                              "value": "1"
+                            },
+                            {
+                              "description": "Number of requests per page",
+                              "key": "per_page",
+                              "value": "25"
+                            },
+                            {
+                              "description": "Filter by HTTP status code",
+                              "key": "status_code",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "Search across URL, IP, and payload data",
+                              "key": "search",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Filter requests from this date (YYYY-MM-DD)",
+                              "key": "start_date",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "Filter requests until this date (YYYY-MM-DD)",
+                              "key": "end_date",
+                              "value": "<date>"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "projectId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"data\": [\n    {\n      \"id\": \"<string>\",\n      \"method\": \"GET\",\n      \"url\": \"<uri>\",\n      \"status_code\": \"<integer>\",\n      \"response_time\": \"<number>\",\n      \"ip_address\": \"<string>\",\n      \"created_at\": \"<dateTime>\",\n      \"has_errors\": \"<boolean>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"method\": \"POST\",\n      \"url\": \"<uri>\",\n      \"status_code\": \"<integer>\",\n      \"response_time\": \"<number>\",\n      \"ip_address\": \"<string>\",\n      \"created_at\": \"<dateTime>\",\n      \"has_errors\": \"<boolean>\"\n    }\n  ],\n  \"meta\": {\n    \"total\": \"<integer>\",\n    \"per_page\": \"<integer>\",\n    \"current_page\": \"<integer>\",\n    \"last_page\": \"<integer>\"\n  }\n}",
+                      "createdAt": "2026-06-05T13:20:23.000Z",
+                      "updatedAt": "2026-06-05T13:20:23.000Z",
+                      "uid": "35240-d100a577-3adc-4bd5-90f8-00d5b562e76c"
+                    },
+                    {
+                      "id": "0080819d-6dda-4499-944a-a67a66de3f87",
+                      "name": "Authentication failed. API key missing or invalid.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Treblle-Api-Key",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/projects/:projectId/requests?page=1&per_page=25&status_code=<integer>&search=<string>&start_date=<date>&end_date=<date>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "projects",
+                            ":projectId",
+                            "requests"
+                          ],
+                          "query": [
+                            {
+                              "description": "Page number for pagination",
+                              "key": "page",
+                              "value": "1"
+                            },
+                            {
+                              "description": "Number of requests per page",
+                              "key": "per_page",
+                              "value": "25"
+                            },
+                            {
+                              "description": "Filter by HTTP status code",
+                              "key": "status_code",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "Search across URL, IP, and payload data",
+                              "key": "search",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Filter requests from this date (YYYY-MM-DD)",
+                              "key": "start_date",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "Filter requests until this date (YYYY-MM-DD)",
+                              "key": "end_date",
+                              "value": "<date>"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "projectId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"message\": \"<string>\",\n  \"code\": \"<string>\"\n}",
+                      "createdAt": "2026-06-05T13:20:23.000Z",
+                      "updatedAt": "2026-06-05T13:20:23.000Z",
+                      "uid": "35240-0080819d-6dda-4499-944a-a67a66de3f87"
+                    }
+                  ],
+                  "createdAt": "2026-06-05T13:20:23.000Z",
+                  "updatedAt": "2026-06-05T13:20:23.000Z",
+                  "uid": "35240-b6b092e2-7587-465d-9014-e841beb6e448"
+                }
+              ],
+              "id": "88bf9f6a-4e88-46ea-b808-8ecf6bcd0949",
+              "createdAt": "2026-06-05T13:20:23.000Z",
+              "updatedAt": "2026-06-05T13:20:23.000Z",
+              "uid": "35240-88bf9f6a-4e88-46ea-b808-8ecf6bcd0949"
+            },
+            {
+              "name": "analytics",
+              "item": [
+                {
+                  "name": "Get Project Analytics",
+                  "id": "caa10b08-5b95-41f7-9118-aad9999c9fd2",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/projects/:projectId/analytics?start_date=<date>&end_date=<date>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "projects",
+                        ":projectId",
+                        "analytics"
+                      ],
+                      "query": [
+                        {
+                          "description": "Analytics start date (YYYY-MM-DD)",
+                          "key": "start_date",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "Analytics end date (YYYY-MM-DD)",
+                          "key": "end_date",
+                          "value": "<date>"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "id": "020d3e7c-069c-4e01-863a-ba7db0a07eb4",
+                          "key": "projectId",
+                          "value": "<string>",
+                          "description": "(Required) "
+                        }
+                      ]
+                    },
+                    "description": "Returns aggregated analytics for a project including total requests, error rates, average response time, top endpoints, geographic distribution, and device breakdown."
+                  },
+                  "response": [
+                    {
+                      "id": "b1183309-701b-4c02-86e5-7809e1e3537e",
+                      "name": "Analytics data returned successfully",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Treblle-Api-Key",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/projects/:projectId/analytics?start_date=<date>&end_date=<date>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "projects",
+                            ":projectId",
+                            "analytics"
+                          ],
+                          "query": [
+                            {
+                              "description": "Analytics start date (YYYY-MM-DD)",
+                              "key": "start_date",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "Analytics end date (YYYY-MM-DD)",
+                              "key": "end_date",
+                              "value": "<date>"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "projectId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"total_requests\": \"<integer>\",\n  \"error_rate\": \"<number>\",\n  \"avg_response_time\": \"<number>\",\n  \"top_endpoints\": [\n    {\n      \"path\": \"<string>\",\n      \"method\": \"<string>\",\n      \"count\": \"<integer>\"\n    },\n    {\n      \"path\": \"<string>\",\n      \"method\": \"<string>\",\n      \"count\": \"<integer>\"\n    }\n  ],\n  \"status_code_distribution\": {},\n  \"geographic_distribution\": [\n    {\n      \"country\": \"<string>\",\n      \"count\": \"<integer>\"\n    },\n    {\n      \"country\": \"<string>\",\n      \"count\": \"<integer>\"\n    }\n  ]\n}",
+                      "createdAt": "2026-06-05T13:20:23.000Z",
+                      "updatedAt": "2026-06-05T13:20:23.000Z",
+                      "uid": "35240-b1183309-701b-4c02-86e5-7809e1e3537e"
+                    },
+                    {
+                      "id": "5c5c0285-0135-4228-a56b-454338d7d2db",
+                      "name": "Authentication failed. API key missing or invalid.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Treblle-Api-Key",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/projects/:projectId/analytics?start_date=<date>&end_date=<date>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "projects",
+                            ":projectId",
+                            "analytics"
+                          ],
+                          "query": [
+                            {
+                              "description": "Analytics start date (YYYY-MM-DD)",
+                              "key": "start_date",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "Analytics end date (YYYY-MM-DD)",
+                              "key": "end_date",
+                              "value": "<date>"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "projectId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"message\": \"<string>\",\n  \"code\": \"<string>\"\n}",
+                      "createdAt": "2026-06-05T13:20:23.000Z",
+                      "updatedAt": "2026-06-05T13:20:23.000Z",
+                      "uid": "35240-5c5c0285-0135-4228-a56b-454338d7d2db"
+                    }
+                  ],
+                  "createdAt": "2026-06-05T13:20:23.000Z",
+                  "updatedAt": "2026-06-05T13:20:23.000Z",
+                  "uid": "35240-caa10b08-5b95-41f7-9118-aad9999c9fd2"
+                }
+              ],
+              "id": "40517fc0-d5b1-4aa6-a0d5-b8e7eb525797",
+              "createdAt": "2026-06-05T13:20:23.000Z",
+              "updatedAt": "2026-06-05T13:20:23.000Z",
+              "uid": "35240-40517fc0-d5b1-4aa6-a0d5-b8e7eb525797"
+            },
+            {
+              "name": "endpoints",
+              "item": [
+                {
+                  "name": "List Endpoints",
+                  "id": "317859e2-72f2-452a-ab59-9a86cb023279",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/projects/:projectId/endpoints",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "projects",
+                        ":projectId",
+                        "endpoints"
+                      ],
+                      "variable": [
+                        {
+                          "id": "16ff3594-0013-4d24-b7cc-36da5c53b8db",
+                          "key": "projectId",
+                          "value": "<string>",
+                          "description": "(Required) "
+                        }
+                      ]
+                    },
+                    "description": "Returns auto-discovered endpoints detected from live API traffic for the project. Includes documentation data, request/response schemas, and endpoint performance metrics."
+                  },
+                  "response": [
+                    {
+                      "id": "cbf0230a-2ef5-438a-a7ec-3f46b3943751",
+                      "name": "Endpoints returned successfully",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Treblle-Api-Key",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/projects/:projectId/endpoints",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "projects",
+                            ":projectId",
+                            "endpoints"
+                          ],
+                          "variable": [
+                            {
+                              "key": "projectId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"data\": [\n    {\n      \"id\": \"<string>\",\n      \"path\": \"<string>\",\n      \"method\": \"<string>\",\n      \"total_calls\": \"<integer>\",\n      \"avg_response_time\": \"<number>\",\n      \"last_seen\": \"<dateTime>\",\n      \"has_documentation\": \"<boolean>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"path\": \"<string>\",\n      \"method\": \"<string>\",\n      \"total_calls\": \"<integer>\",\n      \"avg_response_time\": \"<number>\",\n      \"last_seen\": \"<dateTime>\",\n      \"has_documentation\": \"<boolean>\"\n    }\n  ]\n}",
+                      "createdAt": "2026-06-05T13:20:23.000Z",
+                      "updatedAt": "2026-06-05T13:20:23.000Z",
+                      "uid": "35240-cbf0230a-2ef5-438a-a7ec-3f46b3943751"
+                    },
+                    {
+                      "id": "5bb309e6-7b06-43f8-8028-b74cc57ad948",
+                      "name": "Authentication failed. API key missing or invalid.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Treblle-Api-Key",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/projects/:projectId/endpoints",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "projects",
+                            ":projectId",
+                            "endpoints"
+                          ],
+                          "variable": [
+                            {
+                              "key": "projectId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"message\": \"<string>\",\n  \"code\": \"<string>\"\n}",
+                      "createdAt": "2026-06-05T13:20:23.000Z",
+                      "updatedAt": "2026-06-05T13:20:23.000Z",
+                      "uid": "35240-5bb309e6-7b06-43f8-8028-b74cc57ad948"
+                    }
+                  ],
+                  "createdAt": "2026-06-05T13:20:23.000Z",
+                  "updatedAt": "2026-06-05T13:20:23.000Z",
+                  "uid": "35240-317859e2-72f2-452a-ab59-9a86cb023279"
+                }
+              ],
+              "id": "c1a46f90-8f9d-4c5b-9b24-5d413d0d39c5",
+              "createdAt": "2026-06-05T13:20:23.000Z",
+              "updatedAt": "2026-06-05T13:20:23.000Z",
+              "uid": "35240-c1a46f90-8f9d-4c5b-9b24-5d413d0d39c5"
+            },
+            {
+              "name": "governance",
+              "item": [
+                {
+                  "name": "Run Governance Check",
+                  "id": "44c3fbdb-d094-4cb7-b8f1-dd84a49c8aa2",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"openapi_spec\": {}\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/projects/:projectId/governance",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "projects",
+                        ":projectId",
+                        "governance"
+                      ],
+                      "variable": [
+                        {
+                          "id": "4c2c1158-7044-4178-97e0-f89b5376dfab",
+                          "key": "projectId",
+                          "value": "<string>",
+                          "description": "(Required) "
+                        }
+                      ]
+                    },
+                    "description": "Runs Treblle's 30+ automated governance tests against an OpenAPI specification. Returns scores (1-100) and grades (A-F) across design, security, and performance categories."
+                  },
+                  "response": [
+                    {
+                      "id": "8c9f675d-1d46-4051-828b-c79f33ac61db",
+                      "name": "Governance check results returned",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Treblle-Api-Key",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"openapi_spec\": {}\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/projects/:projectId/governance",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "projects",
+                            ":projectId",
+                            "governance"
+                          ],
+                          "variable": [
+                            {
+                              "key": "projectId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"overall_score\": \"<integer>\",\n  \"overall_grade\": \"A\",\n  \"design_score\": \"<integer>\",\n  \"design_grade\": \"<string>\",\n  \"security_score\": \"<integer>\",\n  \"security_grade\": \"<string>\",\n  \"performance_score\": \"<integer>\",\n  \"performance_grade\": \"<string>\",\n  \"issues\": [\n    {\n      \"rule\": \"<string>\",\n      \"severity\": \"info\",\n      \"message\": \"<string>\",\n      \"path\": \"<string>\"\n    },\n    {\n      \"rule\": \"<string>\",\n      \"severity\": \"warning\",\n      \"message\": \"<string>\",\n      \"path\": \"<string>\"\n    }\n  ]\n}",
+                      "createdAt": "2026-06-05T13:20:23.000Z",
+                      "updatedAt": "2026-06-05T13:20:23.000Z",
+                      "uid": "35240-8c9f675d-1d46-4051-828b-c79f33ac61db"
+                    },
+                    {
+                      "id": "a40b3dae-dd64-44ab-a02c-0dbb311d7c4c",
+                      "name": "Authentication failed. API key missing or invalid.",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Treblle-Api-Key",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"openapi_spec\": {}\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/projects/:projectId/governance",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "projects",
+                            ":projectId",
+                            "governance"
+                          ],
+                          "variable": [
+                            {
+                              "key": "projectId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"message\": \"<string>\",\n  \"code\": \"<string>\"\n}",
+                      "createdAt": "2026-06-05T13:20:23.000Z",
+                      "updatedAt": "2026-06-05T13:20:23.000Z",
+                      "uid": "35240-a40b3dae-dd64-44ab-a02c-0dbb311d7c4c"
+                    }
+                  ],
+                  "createdAt": "2026-06-05T13:20:23.000Z",
+                  "updatedAt": "2026-06-05T13:20:23.000Z",
+                  "uid": "35240-44c3fbdb-d094-4cb7-b8f1-dd84a49c8aa2"
+                }
+              ],
+              "id": "83a96bd5-1c0b-4152-abfa-126f3fd3c6e3",
+              "createdAt": "2026-06-05T13:20:23.000Z",
+              "updatedAt": "2026-06-05T13:20:23.000Z",
+              "uid": "35240-83a96bd5-1c0b-4152-abfa-126f3fd3c6e3"
+            },
+            {
+              "name": "members",
+              "item": [
+                {
+                  "name": "List Project Members",
+                  "id": "3f5698b1-f659-4ed6-b878-0ccac7678bd9",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/projects/:projectId/members",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "projects",
+                        ":projectId",
+                        "members"
+                      ],
+                      "variable": [
+                        {
+                          "id": "7dd8f539-625d-4129-b09c-2969433f44f3",
+                          "key": "projectId",
+                          "value": "<string>",
+                          "description": "(Required) "
+                        }
+                      ]
+                    },
+                    "description": "Returns a list of team members with access to the project."
+                  },
+                  "response": [
+                    {
+                      "id": "aab45022-e076-43f6-9e5d-80918536805d",
+                      "name": "Members returned successfully",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Treblle-Api-Key",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/projects/:projectId/members",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "projects",
+                            ":projectId",
+                            "members"
+                          ],
+                          "variable": [
+                            {
+                              "key": "projectId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"data\": [\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"email\": \"<email>\",\n      \"role\": \"developer\",\n      \"joined_at\": \"<dateTime>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"email\": \"<email>\",\n      \"role\": \"developer\",\n      \"joined_at\": \"<dateTime>\"\n    }\n  ]\n}",
+                      "createdAt": "2026-06-05T13:20:23.000Z",
+                      "updatedAt": "2026-06-05T13:20:23.000Z",
+                      "uid": "35240-aab45022-e076-43f6-9e5d-80918536805d"
+                    },
+                    {
+                      "id": "e63a9972-1cad-43f9-b105-a27d43c6dc74",
+                      "name": "Authentication failed. API key missing or invalid.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Treblle-Api-Key",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/projects/:projectId/members",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "projects",
+                            ":projectId",
+                            "members"
+                          ],
+                          "variable": [
+                            {
+                              "key": "projectId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"message\": \"<string>\",\n  \"code\": \"<string>\"\n}",
+                      "createdAt": "2026-06-05T13:20:23.000Z",
+                      "updatedAt": "2026-06-05T13:20:23.000Z",
+                      "uid": "35240-e63a9972-1cad-43f9-b105-a27d43c6dc74"
+                    }
+                  ],
+                  "createdAt": "2026-06-05T13:20:23.000Z",
+                  "updatedAt": "2026-06-05T13:20:23.000Z",
+                  "uid": "35240-3f5698b1-f659-4ed6-b878-0ccac7678bd9"
+                },
+                {
+                  "name": "Invite Member",
+                  "id": "1c9cfdb3-226e-4902-84cb-a9cf35af6655",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"email\": \"<email>\",\n  \"role\": \"developer\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/projects/:projectId/members",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "projects",
+                        ":projectId",
+                        "members"
+                      ],
+                      "variable": [
+                        {
+                          "id": "900602a6-1f74-4cab-94d6-6a7da43bfc45",
+                          "key": "projectId",
+                          "value": "<string>",
+                          "description": "(Required) "
+                        }
+                      ]
+                    },
+                    "description": "Invites a team member to the project by email."
+                  },
+                  "response": [
+                    {
+                      "id": "8964095a-4192-472b-9830-8e15037e032a",
+                      "name": "Member invited successfully",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Treblle-Api-Key",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"email\": \"<email>\",\n  \"role\": \"developer\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/projects/:projectId/members",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "projects",
+                            ":projectId",
+                            "members"
+                          ],
+                          "variable": [
+                            {
+                              "key": "projectId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Created",
+                      "code": 201,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-06-05T13:20:23.000Z",
+                      "updatedAt": "2026-06-05T13:20:23.000Z",
+                      "uid": "35240-8964095a-4192-472b-9830-8e15037e032a"
+                    },
+                    {
+                      "id": "e642a4e0-f479-4803-8faa-2fd87aa1d0d1",
+                      "name": "Authentication failed. API key missing or invalid.",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Treblle-Api-Key",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"email\": \"<email>\",\n  \"role\": \"developer\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/projects/:projectId/members",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "projects",
+                            ":projectId",
+                            "members"
+                          ],
+                          "variable": [
+                            {
+                              "key": "projectId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"message\": \"<string>\",\n  \"code\": \"<string>\"\n}",
+                      "createdAt": "2026-06-05T13:20:23.000Z",
+                      "updatedAt": "2026-06-05T13:20:23.000Z",
+                      "uid": "35240-e642a4e0-f479-4803-8faa-2fd87aa1d0d1"
+                    }
+                  ],
+                  "createdAt": "2026-06-05T13:20:23.000Z",
+                  "updatedAt": "2026-06-05T13:20:23.000Z",
+                  "uid": "35240-1c9cfdb3-226e-4902-84cb-a9cf35af6655"
+                }
+              ],
+              "id": "cac0920e-9238-4c1c-b3c3-6b24441e6198",
+              "createdAt": "2026-06-05T13:20:23.000Z",
+              "updatedAt": "2026-06-05T13:20:23.000Z",
+              "uid": "35240-cac0920e-9238-4c1c-b3c3-6b24441e6198"
+            },
+            {
+              "name": "Get Project",
+              "id": "31218b1a-ba2e-4e89-9dc9-07c538529aac",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/projects/:projectId",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "projects",
+                    ":projectId"
+                  ],
+                  "variable": [
+                    {
+                      "id": "e65b567e-fcc2-4087-95a2-c1dc11083656",
+                      "key": "projectId",
+                      "value": "<string>",
+                      "description": "(Required) The unique identifier for the project"
+                    }
+                  ]
+                },
+                "description": "Retrieves details of a specific Treblle project by its ID, including configuration, API ID, and current monitoring statistics."
+              },
+              "response": [
+                {
+                  "id": "2c8ae2b9-24f4-4d1c-bf37-49f279648998",
+                  "name": "Project returned successfully",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Treblle-Api-Key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/projects/:projectId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "projects",
+                        ":projectId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "projectId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"api_id\": \"<string>\",\n  \"sdk_token\": \"<string>\",\n  \"environment\": \"staging\",\n  \"total_requests\": \"<integer>\",\n  \"created_at\": \"<dateTime>\",\n  \"updated_at\": \"<dateTime>\"\n}",
+                  "createdAt": "2026-06-05T13:20:23.000Z",
+                  "updatedAt": "2026-06-05T13:20:23.000Z",
+                  "uid": "35240-2c8ae2b9-24f4-4d1c-bf37-49f279648998"
+                },
+                {
+                  "id": "27d603de-ecff-438c-a5bd-7b95e1415da8",
+                  "name": "Authentication failed. API key missing or invalid.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Treblle-Api-Key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/projects/:projectId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "projects",
+                        ":projectId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "projectId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"message\": \"<string>\",\n  \"code\": \"<string>\"\n}",
+                  "createdAt": "2026-06-05T13:20:23.000Z",
+                  "updatedAt": "2026-06-05T13:20:23.000Z",
+                  "uid": "35240-27d603de-ecff-438c-a5bd-7b95e1415da8"
+                },
+                {
+                  "id": "e0d27986-0cea-4254-a4b5-44ca187173e0",
+                  "name": "Project not found",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Treblle-Api-Key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/projects/:projectId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "projects",
+                        ":projectId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "projectId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-06-05T13:20:23.000Z",
+                  "updatedAt": "2026-06-05T13:20:23.000Z",
+                  "uid": "35240-e0d27986-0cea-4254-a4b5-44ca187173e0"
+                }
+              ],
+              "createdAt": "2026-06-05T13:20:23.000Z",
+              "updatedAt": "2026-06-05T13:20:23.000Z",
+              "uid": "35240-31218b1a-ba2e-4e89-9dc9-07c538529aac"
+            },
+            {
+              "name": "Update Project",
+              "id": "405af609-374f-4f0f-a470-b2d5c7e1fc1a",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"environment\": \"development\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/projects/:projectId",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "projects",
+                    ":projectId"
+                  ],
+                  "variable": [
+                    {
+                      "id": "39c094ba-c54d-4c38-84ed-966539c03a8c",
+                      "key": "projectId",
+                      "value": "<string>",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "description": "Updates a Treblle project's configuration including name, description, and environment settings."
+              },
+              "response": [
+                {
+                  "id": "f9d27e69-d65b-407d-ac07-9a7d70ae4ab3",
+                  "name": "Project updated successfully",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Treblle-Api-Key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"environment\": \"development\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/projects/:projectId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "projects",
+                        ":projectId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "projectId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"api_id\": \"<string>\",\n  \"sdk_token\": \"<string>\",\n  \"environment\": \"staging\",\n  \"total_requests\": \"<integer>\",\n  \"created_at\": \"<dateTime>\",\n  \"updated_at\": \"<dateTime>\"\n}",
+                  "createdAt": "2026-06-05T13:20:23.000Z",
+                  "updatedAt": "2026-06-05T13:20:23.000Z",
+                  "uid": "35240-f9d27e69-d65b-407d-ac07-9a7d70ae4ab3"
+                },
+                {
+                  "id": "88006a04-3cc7-4340-b291-fbfcdfcf49e0",
+                  "name": "Authentication failed. API key missing or invalid.",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Treblle-Api-Key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"environment\": \"development\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/projects/:projectId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "projects",
+                        ":projectId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "projectId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"message\": \"<string>\",\n  \"code\": \"<string>\"\n}",
+                  "createdAt": "2026-06-05T13:20:23.000Z",
+                  "updatedAt": "2026-06-05T13:20:23.000Z",
+                  "uid": "35240-88006a04-3cc7-4340-b291-fbfcdfcf49e0"
+                }
+              ],
+              "createdAt": "2026-06-05T13:20:23.000Z",
+              "updatedAt": "2026-06-05T13:20:23.000Z",
+              "uid": "35240-405af609-374f-4f0f-a470-b2d5c7e1fc1a"
+            },
+            {
+              "name": "Delete Project",
+              "id": "1429ff26-4846-4b81-ae8b-105bbf26e974",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/projects/:projectId",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "projects",
+                    ":projectId"
+                  ],
+                  "variable": [
+                    {
+                      "id": "e86525bf-130a-4cc3-bb8b-0ef1721e9e5a",
+                      "key": "projectId",
+                      "value": "<string>",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "description": "Deletes a Treblle project and all associated data."
+              },
+              "response": [
+                {
+                  "id": "7fad44a3-ac0a-49f7-9bcd-44b090539ea6",
+                  "name": "Project deleted successfully",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Treblle-Api-Key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/projects/:projectId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "projects",
+                        ":projectId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "projectId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "No Content",
+                  "code": 204,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-06-05T13:20:23.000Z",
+                  "updatedAt": "2026-06-05T13:20:23.000Z",
+                  "uid": "35240-7fad44a3-ac0a-49f7-9bcd-44b090539ea6"
+                },
+                {
+                  "id": "90bc1b76-1277-4b78-bd4a-adee98b46f00",
+                  "name": "Authentication failed. API key missing or invalid.",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Treblle-Api-Key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/projects/:projectId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "projects",
+                        ":projectId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "projectId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"message\": \"<string>\",\n  \"code\": \"<string>\"\n}",
+                  "createdAt": "2026-06-05T13:20:23.000Z",
+                  "updatedAt": "2026-06-05T13:20:23.000Z",
+                  "uid": "35240-90bc1b76-1277-4b78-bd4a-adee98b46f00"
+                }
+              ],
+              "createdAt": "2026-06-05T13:20:23.000Z",
+              "updatedAt": "2026-06-05T13:20:23.000Z",
+              "uid": "35240-1429ff26-4846-4b81-ae8b-105bbf26e974"
+            }
+          ],
+          "id": "1e27c1a9-edae-4908-869c-6daf8b6a509e",
+          "createdAt": "2026-06-05T13:20:23.000Z",
+          "updatedAt": "2026-06-05T13:20:23.000Z",
+          "uid": "35240-1e27c1a9-edae-4908-869c-6daf8b6a509e"
+        },
+        {
+          "name": "List Projects",
+          "id": "a8faa517-fb06-45de-8ca4-faabe49ee973",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/projects",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "projects"
+              ]
+            },
+            "description": "Returns a list of all API projects in the workspace. Each project corresponds to a monitored API with its own API ID and SDK token."
+          },
+          "response": [
+            {
+              "id": "bac24b7b-2476-4a80-aff7-9c9d2fe951fd",
+              "name": "Projects returned successfully",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Treblle-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/projects",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "projects"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"api_id\": \"<string>\",\n      \"sdk_token\": \"<string>\",\n      \"environment\": \"staging\",\n      \"total_requests\": \"<integer>\",\n      \"created_at\": \"<dateTime>\",\n      \"updated_at\": \"<dateTime>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"api_id\": \"<string>\",\n      \"sdk_token\": \"<string>\",\n      \"environment\": \"development\",\n      \"total_requests\": \"<integer>\",\n      \"created_at\": \"<dateTime>\",\n      \"updated_at\": \"<dateTime>\"\n    }\n  ]\n}",
+              "createdAt": "2026-06-05T13:20:23.000Z",
+              "updatedAt": "2026-06-05T13:20:23.000Z",
+              "uid": "35240-bac24b7b-2476-4a80-aff7-9c9d2fe951fd"
+            },
+            {
+              "id": "5f988a59-b4a4-4e73-8154-75b05d8b4ee0",
+              "name": "Authentication failed. API key missing or invalid.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Treblle-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/projects",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "projects"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"message\": \"<string>\",\n  \"code\": \"<string>\"\n}",
+              "createdAt": "2026-06-05T13:20:23.000Z",
+              "updatedAt": "2026-06-05T13:20:23.000Z",
+              "uid": "35240-5f988a59-b4a4-4e73-8154-75b05d8b4ee0"
+            }
+          ],
+          "createdAt": "2026-06-05T13:20:23.000Z",
+          "updatedAt": "2026-06-05T13:20:23.000Z",
+          "uid": "35240-a8faa517-fb06-45de-8ca4-faabe49ee973"
+        },
+        {
+          "name": "Create Project",
+          "id": "401b8a6a-5094-4ce4-831d-5e37aa68bf80",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"environment\": \"production\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/projects",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "projects"
+              ]
+            },
+            "description": "Creates a new API project in Treblle. Returns the project including the API ID and SDK token needed for SDK instrumentation."
+          },
+          "response": [
+            {
+              "id": "05359b0a-a827-445a-98b5-2bd3a2412f5d",
+              "name": "Project created successfully",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Treblle-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"environment\": \"production\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/projects",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "projects"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"api_id\": \"<string>\",\n  \"sdk_token\": \"<string>\",\n  \"environment\": \"staging\",\n  \"total_requests\": \"<integer>\",\n  \"created_at\": \"<dateTime>\",\n  \"updated_at\": \"<dateTime>\"\n}",
+              "createdAt": "2026-06-05T13:20:23.000Z",
+              "updatedAt": "2026-06-05T13:20:23.000Z",
+              "uid": "35240-05359b0a-a827-445a-98b5-2bd3a2412f5d"
+            },
+            {
+              "id": "e4b50e9d-dcdf-430f-b621-8c96a8109822",
+              "name": "Authentication failed. API key missing or invalid.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Treblle-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"environment\": \"production\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/projects",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "projects"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"message\": \"<string>\",\n  \"code\": \"<string>\"\n}",
+              "createdAt": "2026-06-05T13:20:23.000Z",
+              "updatedAt": "2026-06-05T13:20:23.000Z",
+              "uid": "35240-e4b50e9d-dcdf-430f-b621-8c96a8109822"
+            }
+          ],
+          "createdAt": "2026-06-05T13:20:23.000Z",
+          "updatedAt": "2026-06-05T13:20:23.000Z",
+          "uid": "35240-401b8a6a-5094-4ce4-831d-5e37aa68bf80"
+        }
+      ],
+      "id": "3bca8431-ff24-43d6-a949-1c4b99ab2a37",
+      "createdAt": "2026-06-05T13:20:23.000Z",
+      "updatedAt": "2026-06-05T13:20:23.000Z",
+      "uid": "35240-3bca8431-ff24-43d6-a949-1c4b99ab2a37"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Treblle-Api-Key",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://app.treblle.com/api/v1"
+    }
+  ]
+}

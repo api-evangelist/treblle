@@ -2,10 +2,14 @@
   "repo": "treblle",
   "feeds": [
     {
+      "source": "https://treblle.com/blog/",
+      "error": "HTTPError"
+    },
+    {
       "source": "https://blog.treblle.com/",
       "error": "HTTPError"
     }
   ],
-  "fetched": "2026-06-01T23:35:02Z",
-  "post_count": 0
+  "post_count": 2,
+  "fetched": "2026-06-14T20:42:17Z"
 }

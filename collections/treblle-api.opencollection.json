@@ -1,0 +1,338 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Treblle API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Treblle-Api-Key",
+      "value": "{{Treblle-Api-Key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Projects",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Projects",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.treblle.com/api/v1/projects"
+          },
+          "docs": "Returns a list of all API projects in the workspace. Each project corresponds to a monitored API with its own API ID and SDK token."
+        },
+        {
+          "info": {
+            "name": "Create Project",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.treblle.com/api/v1/projects",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new API project in Treblle. Returns the project including the API ID and SDK token needed for SDK instrumentation."
+        },
+        {
+          "info": {
+            "name": "Get Project",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.treblle.com/api/v1/projects/:projectId",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the project"
+              }
+            ]
+          },
+          "docs": "Retrieves details of a specific Treblle project by its ID, including configuration, API ID, and current monitoring statistics."
+        },
+        {
+          "info": {
+            "name": "Update Project",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.treblle.com/api/v1/projects/:projectId",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates a Treblle project's configuration including name, description, and environment settings."
+        },
+        {
+          "info": {
+            "name": "Delete Project",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.treblle.com/api/v1/projects/:projectId",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Deletes a Treblle project and all associated data."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Requests",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List API Requests",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.treblle.com/api/v1/projects/:projectId/requests",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for pagination"
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "Number of requests per page"
+              },
+              {
+                "name": "status_code",
+                "value": "",
+                "type": "query",
+                "description": "Filter by HTTP status code"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Search across URL, IP, and payload data"
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "Filter requests from this date (YYYY-MM-DD)"
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "Filter requests until this date (YYYY-MM-DD)"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of API requests captured for the project. Includes request/response data, timing, status codes, and error info. Supports filtering by date range, status code, endpoint, and search terms."
+        },
+        {
+          "info": {
+            "name": "Get API Request",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.treblle.com/api/v1/projects/:projectId/requests/:requestId",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "requestId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieves the full details of a specific API request including headers, body, response, timing, and Treblle's analysis data points."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Analytics",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Project Analytics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.treblle.com/api/v1/projects/:projectId/analytics",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "Analytics start date (YYYY-MM-DD)"
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "Analytics end date (YYYY-MM-DD)"
+              }
+            ]
+          },
+          "docs": "Returns aggregated analytics for a project including total requests, error rates, average response time, top endpoints, geographic distribution, and device breakdown."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Endpoints",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Endpoints",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.treblle.com/api/v1/projects/:projectId/endpoints",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns auto-discovered endpoints detected from live API traffic for the project. Includes documentation data, request/response schemas, and endpoint performance metrics."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Governance",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Run Governance Check",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.treblle.com/api/v1/projects/:projectId/governance",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Runs Treblle's 30+ automated governance tests against an OpenAPI specification. Returns scores (1-100) and grades (A-F) across design, security, and performance categories."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Members",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Project Members",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.treblle.com/api/v1/projects/:projectId/members",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns a list of team members with access to the project."
+        },
+        {
+          "info": {
+            "name": "Invite Member",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.treblle.com/api/v1/projects/:projectId/members",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Invites a team member to the project by email."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
