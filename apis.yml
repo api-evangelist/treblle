@@ -7,7 +7,7 @@ description: >-
   consumers and elevate developer experience (DX). Treblle analyzes 40+ API-specific data points for every API request
   across the entire API landscape.
 kind: contract
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 tags:
   - Analytics
   - Artificial Intelligence
