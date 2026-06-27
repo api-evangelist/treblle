@@ -41,7 +41,7 @@ apis:
       - url: https://docs.treblle.com/
         type: Portal
       - url: https://identity.treblle.com/register
-        type: SignUp
+        type: Signup
       - url: https://identity.treblle.com/login
         type: Login
       - url: https://github.com/treblle
@@ -74,9 +74,9 @@ apis:
       - url: json-structure/treblle-project-structure.json
         type: JSONStructure
       - url: examples/treblle-list-projects-example.json
-        type: Example
+        type: Examples
       - url: examples/treblle-run-governance-example.json
-        type: Example
+        type: Examples
       - url: rules/treblle-rules.yml
         type: SpectralRuleset
     description: >-
@@ -210,33 +210,30 @@ apis:
 common:
   - type: PostmanWorkspace
     url: https://www.postman.com/kinlaneapi/treblle/overview
-  - type: ArazzoWorkflows
-    url: arazzo/
-    workflows:
-      - url: arazzo/treblle-find-project-and-analytics-workflow.yml
-        name: Treblle Find a Project and Pull Its Analytics
-        summary: List workspace projects, select the first one, and retrieve its analytics over a date range.
-      - url: arazzo/treblle-governance-scorecard-workflow.yml
-        name: Treblle Governance Scorecard
-        summary: Resolve a project then run Treblle's governance check against an OpenAPI spec and capture the scorecard.
-      - url: arazzo/treblle-onboard-project-and-team-workflow.yml
-        name: Treblle Onboard a Project and Its Team
-        summary: Create a project, invite a teammate to it, and list the resulting member roster.
-      - url: arazzo/treblle-project-health-snapshot-workflow.yml
-        name: Treblle Project Health Snapshot
-        summary: Resolve a project then pull its analytics and auto-discovered endpoints for a single health view.
-      - url: arazzo/treblle-project-recent-requests-workflow.yml
-        name: Treblle Inspect a Project's Recent Requests
-        summary: Resolve a project, list its captured API requests, and pull the full detail of the most recent one.
-      - url: arazzo/treblle-provision-project-workflow.yml
-        name: Treblle Provision a Monitoring Project
-        summary: Create a Treblle project and confirm its API ID and SDK token are ready for instrumentation.
-      - url: arazzo/treblle-triage-error-requests-workflow.yml
-        name: Treblle Triage Failing API Requests
-        summary: Find requests returning a given error status code for a project and open the most recent failure's detail.
-      - url: arazzo/treblle-update-project-environment-workflow.yml
-        name: Treblle Promote a Project's Environment
-        summary: Read a project, update its environment and metadata, and confirm the change took effect.
+  - type: Arazzo
+    url: arazzo/treblle-find-project-and-analytics-workflow.yml
+    name: Treblle Find a Project and Pull Its Analytics
+  - type: Arazzo
+    url: arazzo/treblle-governance-scorecard-workflow.yml
+    name: Treblle Governance Scorecard
+  - type: Arazzo
+    url: arazzo/treblle-onboard-project-and-team-workflow.yml
+    name: Treblle Onboard a Project and Its Team
+  - type: Arazzo
+    url: arazzo/treblle-project-health-snapshot-workflow.yml
+    name: Treblle Project Health Snapshot
+  - type: Arazzo
+    url: arazzo/treblle-project-recent-requests-workflow.yml
+    name: Treblle Inspect a Project's Recent Requests
+  - type: Arazzo
+    url: arazzo/treblle-provision-project-workflow.yml
+    name: Treblle Provision a Monitoring Project
+  - type: Arazzo
+    url: arazzo/treblle-triage-error-requests-workflow.yml
+    name: Treblle Triage Failing API Requests
+  - type: Arazzo
+    url: arazzo/treblle-update-project-environment-workflow.yml
+    name: Treblle Promote a Project's Environment
   - name: Pricing - Treblle
     description: 'null'
     url: https://treblle.com/pricing
@@ -300,7 +297,7 @@ common:
   - name: Treblle Sign Up
     description: 'null'
     url: https://identity.treblle.com/register
-    type: SignUp
+    type: Signup
   - name: Treblle Login
     description: 'null'
     url: https://identity.treblle.com/login
