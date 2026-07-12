@@ -208,6 +208,12 @@ apis:
       AI, the ability to organize API requests through Collections, automatic code generation, and team sharing. It
       operates entirely locally with privacy by default and no data saved to external servers.
 common:
+  - type: TrustCenter
+    url: security/treblle-trust-center.yml
+  - type: DomainSecurity
+    url: security/treblle-domain-security.yml
+  - type: Authentication
+    url: authentication/treblle-authentication.yml
   - type: PostmanWorkspace
     url: https://www.postman.com/kinlaneapi/treblle/overview
   - type: Arazzo

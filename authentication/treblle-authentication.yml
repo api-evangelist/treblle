@@ -1,0 +1,17 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/treblle-api-openapi.yml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: apiKeyAuth
+  type: apiKey
+  in: header
+  parameter: Treblle-Api-Key
+  description: Treblle API key obtained from the Treblle workspace settings. Pass the API key
+    in the Treblle-Api-Key header.
+  sources:
+  - openapi/treblle-api-openapi.yml
