@@ -2,13 +2,14 @@
   "repo": "treblle",
   "feeds": [
     {
-      "source": "https://treblle.com/blog/",
-      "feed_url": "",
+      "source": "https://blog.treblle.com/",
+      "feed_url": "https://blog.treblle.com/",
+      "title": "",
       "saved": 0,
-      "method": "agent-scrape"
+      "method": "none"
     }
   ],
-  "fetched": "2026-06-27T13:17:05Z",
-  "post_count": 5,
-  "agent_pulled": "2026-06-27"
+  "fetched": "2026-07-11T11:50:51Z",
+  "post_count": 8,
+  "agent_pulled": "2026-07-04"
 }
