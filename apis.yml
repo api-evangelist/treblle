@@ -208,6 +208,8 @@ apis:
       AI, the ability to organize API requests through Collections, automatic code generation, and team sharing. It
       operates entirely locally with privacy by default and no data saved to external servers.
 common:
+  - type: AgenticAccess
+    url: agentic-access/treblle-agentic-access.yml
   - type: TrustCenter
     url: security/treblle-trust-center.yml
   - type: DomainSecurity
