@@ -1,0 +1,85 @@
+openapi: 3.1.0
+info:
+  title: Treblle Analytics Endpoints API
+  description: The Treblle API provides programmatic access to the Treblle API Intelligence Platform, enabling teams to manage projects, retrieve API request logs, access analytics, run governance checks, and integrate Treblle into CI/CD pipelines. Treblle analyzes 40+ API-specific data points for every request, providing real-time observability, security scanning, and auto-generated documentation. Authentication uses API Key passed as a header.
+  version: 1.0.0
+  contact:
+    name: Treblle Support
+    url: https://treblle.com
+  license:
+    name: Proprietary
+    url: https://treblle.com/terms-of-service
+servers:
+- url: https://app.treblle.com/api/v1
+  description: Treblle Platform API
+security:
+- apiKeyAuth: []
+tags:
+- name: Endpoints
+  description: View auto-discovered endpoints detected by Treblle from live traffic, including documentation and schema data.
+paths:
+  /projects/{projectId}/endpoints:
+    get:
+      operationId: listEndpoints
+      summary: List Endpoints
+      description: Returns auto-discovered endpoints detected from live API traffic for the project. Includes documentation data, request/response schemas, and endpoint performance metrics.
+      tags:
+      - Endpoints
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Endpoints returned successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Endpoint'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  responses:
+    Unauthorized:
+      description: Authentication failed. API key missing or invalid.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+              code:
+                type: string
+  schemas:
+    Endpoint:
+      type: object
+      properties:
+        id:
+          type: string
+        path:
+          type: string
+        method:
+          type: string
+        total_calls:
+          type: integer
+        avg_response_time:
+          type: number
+        last_seen:
+          type: string
+          format: date-time
+        has_documentation:
+          type: boolean
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Treblle-Api-Key
+      description: Treblle API key obtained from the Treblle workspace settings. Pass the API key in the Treblle-Api-Key header.

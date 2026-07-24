@@ -1,0 +1,108 @@
+openapi: 3.1.0
+info:
+  title: Treblle Analytics API
+  description: The Treblle API provides programmatic access to the Treblle API Intelligence Platform, enabling teams to manage projects, retrieve API request logs, access analytics, run governance checks, and integrate Treblle into CI/CD pipelines. Treblle analyzes 40+ API-specific data points for every request, providing real-time observability, security scanning, and auto-generated documentation. Authentication uses API Key passed as a header.
+  version: 1.0.0
+  contact:
+    name: Treblle Support
+    url: https://treblle.com
+  license:
+    name: Proprietary
+    url: https://treblle.com/terms-of-service
+servers:
+- url: https://app.treblle.com/api/v1
+  description: Treblle Platform API
+security:
+- apiKeyAuth: []
+tags:
+- name: Analytics
+  description: Retrieve performance metrics, usage statistics, error rates, and geographic distribution data for monitored APIs.
+paths:
+  /projects/{projectId}/analytics:
+    get:
+      operationId: getProjectAnalytics
+      summary: Get Project Analytics
+      description: Returns aggregated analytics for a project including total requests, error rates, average response time, top endpoints, geographic distribution, and device breakdown.
+      tags:
+      - Analytics
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: start_date
+        in: query
+        schema:
+          type: string
+          format: date
+        description: Analytics start date (YYYY-MM-DD)
+      - name: end_date
+        in: query
+        schema:
+          type: string
+          format: date
+        description: Analytics end date (YYYY-MM-DD)
+      responses:
+        '200':
+          description: Analytics data returned successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectAnalytics'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    ProjectAnalytics:
+      type: object
+      properties:
+        total_requests:
+          type: integer
+        error_rate:
+          type: number
+          description: Error rate as a percentage
+        avg_response_time:
+          type: number
+          description: Average response time in milliseconds
+        top_endpoints:
+          type: array
+          items:
+            type: object
+            properties:
+              path:
+                type: string
+              method:
+                type: string
+              count:
+                type: integer
+        status_code_distribution:
+          type: object
+          description: Count of requests by HTTP status code range
+        geographic_distribution:
+          type: array
+          items:
+            type: object
+            properties:
+              country:
+                type: string
+              count:
+                type: integer
+  responses:
+    Unauthorized:
+      description: Authentication failed. API key missing or invalid.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+              code:
+                type: string
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Treblle-Api-Key
+      description: Treblle API key obtained from the Treblle workspace settings. Pass the API key in the Treblle-Api-Key header.

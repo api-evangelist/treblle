@@ -1,0 +1,124 @@
+openapi: 3.1.0
+info:
+  title: Treblle Analytics Members API
+  description: The Treblle API provides programmatic access to the Treblle API Intelligence Platform, enabling teams to manage projects, retrieve API request logs, access analytics, run governance checks, and integrate Treblle into CI/CD pipelines. Treblle analyzes 40+ API-specific data points for every request, providing real-time observability, security scanning, and auto-generated documentation. Authentication uses API Key passed as a header.
+  version: 1.0.0
+  contact:
+    name: Treblle Support
+    url: https://treblle.com
+  license:
+    name: Proprietary
+    url: https://treblle.com/terms-of-service
+servers:
+- url: https://app.treblle.com/api/v1
+  description: Treblle Platform API
+security:
+- apiKeyAuth: []
+tags:
+- name: Members
+  description: Manage project team members and access permissions.
+paths:
+  /projects/{projectId}/members:
+    get:
+      operationId: listMembers
+      summary: List Project Members
+      description: Returns a list of team members with access to the project.
+      tags:
+      - Members
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Members returned successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Member'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: inviteMember
+      summary: Invite Member
+      description: Invites a team member to the project by email.
+      tags:
+      - Members
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InviteMemberRequest'
+      responses:
+        '201':
+          description: Member invited successfully
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    InviteMemberRequest:
+      type: object
+      required:
+      - email
+      properties:
+        email:
+          type: string
+          format: email
+        role:
+          type: string
+          enum:
+          - admin
+          - developer
+          - viewer
+          default: developer
+    Member:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        role:
+          type: string
+          enum:
+          - admin
+          - developer
+          - viewer
+        joined_at:
+          type: string
+          format: date-time
+  responses:
+    Unauthorized:
+      description: Authentication failed. API key missing or invalid.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+              code:
+                type: string
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Treblle-Api-Key
+      description: Treblle API key obtained from the Treblle workspace settings. Pass the API key in the Treblle-Api-Key header.

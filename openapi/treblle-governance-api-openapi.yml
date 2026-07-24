@@ -1,0 +1,120 @@
+openapi: 3.1.0
+info:
+  title: Treblle Analytics Governance API
+  description: The Treblle API provides programmatic access to the Treblle API Intelligence Platform, enabling teams to manage projects, retrieve API request logs, access analytics, run governance checks, and integrate Treblle into CI/CD pipelines. Treblle analyzes 40+ API-specific data points for every request, providing real-time observability, security scanning, and auto-generated documentation. Authentication uses API Key passed as a header.
+  version: 1.0.0
+  contact:
+    name: Treblle Support
+    url: https://treblle.com
+  license:
+    name: Proprietary
+    url: https://treblle.com/terms-of-service
+servers:
+- url: https://app.treblle.com/api/v1
+  description: Treblle Platform API
+security:
+- apiKeyAuth: []
+tags:
+- name: Governance
+  description: Run automated API governance checks against OpenAPI specifications, scoring APIs on design, security, and performance dimensions.
+paths:
+  /projects/{projectId}/governance:
+    post:
+      operationId: runGovernanceCheck
+      summary: Run Governance Check
+      description: Runs Treblle's 30+ automated governance tests against an OpenAPI specification. Returns scores (1-100) and grades (A-F) across design, security, and performance categories.
+      tags:
+      - Governance
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GovernanceCheckRequest'
+      responses:
+        '200':
+          description: Governance check results returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GovernanceResult'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    GovernanceCheckRequest:
+      type: object
+      required:
+      - openapi_spec
+      properties:
+        openapi_spec:
+          type: object
+          description: The OpenAPI specification object to evaluate
+    GovernanceResult:
+      type: object
+      properties:
+        overall_score:
+          type: integer
+          minimum: 0
+          maximum: 100
+        overall_grade:
+          type: string
+          enum:
+          - A
+          - B
+          - C
+          - D
+          - F
+        design_score:
+          type: integer
+        design_grade:
+          type: string
+        security_score:
+          type: integer
+        security_grade:
+          type: string
+        performance_score:
+          type: integer
+        performance_grade:
+          type: string
+        issues:
+          type: array
+          items:
+            type: object
+            properties:
+              rule:
+                type: string
+              severity:
+                type: string
+                enum:
+                - error
+                - warning
+                - info
+              message:
+                type: string
+              path:
+                type: string
+  responses:
+    Unauthorized:
+      description: Authentication failed. API key missing or invalid.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+              code:
+                type: string
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Treblle-Api-Key
+      description: Treblle API key obtained from the Treblle workspace settings. Pass the API key in the Treblle-Api-Key header.
