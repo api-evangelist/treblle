@@ -1,0 +1,24 @@
+{
+  "provider": "treblle",
+  "sources": [
+    "treblle-analytics-api-openapi.yml",
+    "treblle-endpoints-api-openapi.yml",
+    "treblle-governance-api-openapi.yml",
+    "treblle-members-api-openapi.yml",
+    "treblle-projects-api-openapi.yml",
+    "treblle-requests-api-openapi.yml"
+  ],
+  "outputs": [
+    "treblle-analytics-api-openapi.yml",
+    "treblle-endpoints-api-openapi.yml",
+    "treblle-governance-api-openapi.yml",
+    "treblle-members-api-openapi.yml",
+    "treblle-projects-api-openapi.yml",
+    "treblle-requests-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

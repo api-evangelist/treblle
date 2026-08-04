@@ -1,0 +1,683 @@
+openapi: 3.1.0
+info:
+  title: Treblle API
+  description: >-
+    The Treblle API provides programmatic access to the Treblle API Intelligence
+    Platform, enabling teams to manage projects, retrieve API request logs,
+    access analytics, run governance checks, and integrate Treblle into CI/CD
+    pipelines. Treblle analyzes 40+ API-specific data points for every request,
+    providing real-time observability, security scanning, and auto-generated
+    documentation. Authentication uses API Key passed as a header.
+  version: 1.0.0
+  contact:
+    name: Treblle Support
+    url: https://treblle.com
+  license:
+    name: Proprietary
+    url: https://treblle.com/terms-of-service
+servers:
+  - url: https://app.treblle.com/api/v1
+    description: Treblle Platform API
+security:
+  - apiKeyAuth: []
+tags:
+  - name: Projects
+    description: >-
+      Create and manage Treblle API projects. Each project corresponds to
+      a monitored API and generates an API ID and SDK token.
+  - name: Requests
+    description: >-
+      Access real-time API request and response logs captured by Treblle
+      SDK instrumentation across all monitored APIs.
+  - name: Analytics
+    description: >-
+      Retrieve performance metrics, usage statistics, error rates, and
+      geographic distribution data for monitored APIs.
+  - name: Governance
+    description: >-
+      Run automated API governance checks against OpenAPI specifications,
+      scoring APIs on design, security, and performance dimensions.
+  - name: Endpoints
+    description: >-
+      View auto-discovered endpoints detected by Treblle from live traffic,
+      including documentation and schema data.
+  - name: Members
+    description: >-
+      Manage project team members and access permissions.
+paths:
+  /projects:
+    get:
+      operationId: listProjects
+      summary: List Projects
+      description: >-
+        Returns a list of all API projects in the workspace. Each project
+        corresponds to a monitored API with its own API ID and SDK token.
+      tags:
+        - Projects
+      responses:
+        '200':
+          description: Projects returned successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Project'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createProject
+      summary: Create Project
+      description: >-
+        Creates a new API project in Treblle. Returns the project including
+        the API ID and SDK token needed for SDK instrumentation.
+      tags:
+        - Projects
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProjectRequest'
+      responses:
+        '201':
+          description: Project created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /projects/{projectId}:
+    get:
+      operationId: getProject
+      summary: Get Project
+      description: >-
+        Retrieves details of a specific Treblle project by its ID, including
+        configuration, API ID, and current monitoring statistics.
+      tags:
+        - Projects
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The unique identifier for the project
+      responses:
+        '200':
+          description: Project returned successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          description: Project not found
+    put:
+      operationId: updateProject
+      summary: Update Project
+      description: >-
+        Updates a Treblle project's configuration including name, description,
+        and environment settings.
+      tags:
+        - Projects
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProjectRequest'
+      responses:
+        '200':
+          description: Project updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    delete:
+      operationId: deleteProject
+      summary: Delete Project
+      description: Deletes a Treblle project and all associated data.
+      tags:
+        - Projects
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Project deleted successfully
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /projects/{projectId}/requests:
+    get:
+      operationId: listRequests
+      summary: List API Requests
+      description: >-
+        Returns a paginated list of API requests captured for the project.
+        Includes request/response data, timing, status codes, and error info.
+        Supports filtering by date range, status code, endpoint, and search terms.
+      tags:
+        - Requests
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+          description: Page number for pagination
+        - name: per_page
+          in: query
+          schema:
+            type: integer
+            default: 25
+          description: Number of requests per page
+        - name: status_code
+          in: query
+          schema:
+            type: integer
+          description: Filter by HTTP status code
+        - name: search
+          in: query
+          schema:
+            type: string
+          description: Search across URL, IP, and payload data
+        - name: start_date
+          in: query
+          schema:
+            type: string
+            format: date
+          description: Filter requests from this date (YYYY-MM-DD)
+        - name: end_date
+          in: query
+          schema:
+            type: string
+            format: date
+          description: Filter requests until this date (YYYY-MM-DD)
+      responses:
+        '200':
+          description: Requests returned successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ApiRequest'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMeta'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /projects/{projectId}/requests/{requestId}:
+    get:
+      operationId: getRequest
+      summary: Get API Request
+      description: >-
+        Retrieves the full details of a specific API request including headers,
+        body, response, timing, and Treblle's analysis data points.
+      tags:
+        - Requests
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: requestId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Request details returned successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiRequestDetail'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          description: Request not found
+  /projects/{projectId}/analytics:
+    get:
+      operationId: getProjectAnalytics
+      summary: Get Project Analytics
+      description: >-
+        Returns aggregated analytics for a project including total requests,
+        error rates, average response time, top endpoints, geographic
+        distribution, and device breakdown.
+      tags:
+        - Analytics
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: start_date
+          in: query
+          schema:
+            type: string
+            format: date
+          description: Analytics start date (YYYY-MM-DD)
+        - name: end_date
+          in: query
+          schema:
+            type: string
+            format: date
+          description: Analytics end date (YYYY-MM-DD)
+      responses:
+        '200':
+          description: Analytics data returned successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectAnalytics'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /projects/{projectId}/endpoints:
+    get:
+      operationId: listEndpoints
+      summary: List Endpoints
+      description: >-
+        Returns auto-discovered endpoints detected from live API traffic for
+        the project. Includes documentation data, request/response schemas,
+        and endpoint performance metrics.
+      tags:
+        - Endpoints
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Endpoints returned successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Endpoint'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /projects/{projectId}/governance:
+    post:
+      operationId: runGovernanceCheck
+      summary: Run Governance Check
+      description: >-
+        Runs Treblle's 30+ automated governance tests against an OpenAPI
+        specification. Returns scores (1-100) and grades (A-F) across design,
+        security, and performance categories.
+      tags:
+        - Governance
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GovernanceCheckRequest'
+      responses:
+        '200':
+          description: Governance check results returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GovernanceResult'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /projects/{projectId}/members:
+    get:
+      operationId: listMembers
+      summary: List Project Members
+      description: Returns a list of team members with access to the project.
+      tags:
+        - Members
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Members returned successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Member'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: inviteMember
+      summary: Invite Member
+      description: Invites a team member to the project by email.
+      tags:
+        - Members
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InviteMemberRequest'
+      responses:
+        '201':
+          description: Member invited successfully
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Treblle-Api-Key
+      description: >-
+        Treblle API key obtained from the Treblle workspace settings.
+        Pass the API key in the Treblle-Api-Key header.
+  schemas:
+    Project:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique project identifier
+        name:
+          type: string
+          description: Project display name
+        description:
+          type: string
+          description: Project description
+        api_id:
+          type: string
+          description: Unique API ID for SDK instrumentation
+        sdk_token:
+          type: string
+          description: SDK token for authenticating Treblle SDKs
+        environment:
+          type: string
+          enum: [development, staging, production]
+          description: The environment this project monitors
+        total_requests:
+          type: integer
+          description: Total number of requests captured
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    CreateProjectRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        environment:
+          type: string
+          enum: [development, staging, production]
+          default: production
+    UpdateProjectRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        environment:
+          type: string
+          enum: [development, staging, production]
+    ApiRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique request identifier
+        method:
+          type: string
+          enum: [GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS]
+        url:
+          type: string
+          format: uri
+        status_code:
+          type: integer
+        response_time:
+          type: number
+          description: Response time in milliseconds
+        ip_address:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        has_errors:
+          type: boolean
+    ApiRequestDetail:
+      type: object
+      properties:
+        id:
+          type: string
+        method:
+          type: string
+        url:
+          type: string
+        status_code:
+          type: integer
+        response_time:
+          type: number
+        ip_address:
+          type: string
+        request_headers:
+          type: object
+        request_body:
+          type: object
+        response_headers:
+          type: object
+        response_body:
+          type: object
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              message:
+                type: string
+              type:
+                type: string
+              source:
+                type: string
+        created_at:
+          type: string
+          format: date-time
+    ProjectAnalytics:
+      type: object
+      properties:
+        total_requests:
+          type: integer
+        error_rate:
+          type: number
+          description: Error rate as a percentage
+        avg_response_time:
+          type: number
+          description: Average response time in milliseconds
+        top_endpoints:
+          type: array
+          items:
+            type: object
+            properties:
+              path:
+                type: string
+              method:
+                type: string
+              count:
+                type: integer
+        status_code_distribution:
+          type: object
+          description: Count of requests by HTTP status code range
+        geographic_distribution:
+          type: array
+          items:
+            type: object
+            properties:
+              country:
+                type: string
+              count:
+                type: integer
+    Endpoint:
+      type: object
+      properties:
+        id:
+          type: string
+        path:
+          type: string
+        method:
+          type: string
+        total_calls:
+          type: integer
+        avg_response_time:
+          type: number
+        last_seen:
+          type: string
+          format: date-time
+        has_documentation:
+          type: boolean
+    GovernanceCheckRequest:
+      type: object
+      required:
+        - openapi_spec
+      properties:
+        openapi_spec:
+          type: object
+          description: The OpenAPI specification object to evaluate
+    GovernanceResult:
+      type: object
+      properties:
+        overall_score:
+          type: integer
+          minimum: 0
+          maximum: 100
+        overall_grade:
+          type: string
+          enum: [A, B, C, D, F]
+        design_score:
+          type: integer
+        design_grade:
+          type: string
+        security_score:
+          type: integer
+        security_grade:
+          type: string
+        performance_score:
+          type: integer
+        performance_grade:
+          type: string
+        issues:
+          type: array
+          items:
+            type: object
+            properties:
+              rule:
+                type: string
+              severity:
+                type: string
+                enum: [error, warning, info]
+              message:
+                type: string
+              path:
+                type: string
+    Member:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        role:
+          type: string
+          enum: [admin, developer, viewer]
+        joined_at:
+          type: string
+          format: date-time
+    InviteMemberRequest:
+      type: object
+      required:
+        - email
+      properties:
+        email:
+          type: string
+          format: email
+        role:
+          type: string
+          enum: [admin, developer, viewer]
+          default: developer
+    PaginationMeta:
+      type: object
+      properties:
+        total:
+          type: integer
+        per_page:
+          type: integer
+        current_page:
+          type: integer
+        last_page:
+          type: integer
+  responses:
+    Unauthorized:
+      description: Authentication failed. API key missing or invalid.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+              code:
+                type: string
