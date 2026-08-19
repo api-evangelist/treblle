@@ -38,7 +38,7 @@ modified: '2026-05-19'
 position: Consuming
 segments:
   - Documentation
-specificationVersion: '0.19'
+specificationVersion: '0.23'
 apis:
 - aid: treblle:treblle
   name: Treblle
