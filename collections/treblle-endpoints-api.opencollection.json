@@ -1,0 +1,44 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Treblle Analytics Endpoints API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Treblle-Api-Key",
+      "value": "{{Treblle-Api-Key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Endpoints",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Endpoints",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.treblle.com/api/v1/projects/:projectId/endpoints",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns auto-discovered endpoints detected from live API traffic for the project. Includes documentation data, request/response schemas, and endpoint performance metrics."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

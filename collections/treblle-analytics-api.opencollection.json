@@ -1,0 +1,56 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Treblle Analytics API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Treblle-Api-Key",
+      "value": "{{Treblle-Api-Key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Analytics",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Project Analytics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.treblle.com/api/v1/projects/:projectId/analytics",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "Analytics start date (YYYY-MM-DD)"
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "Analytics end date (YYYY-MM-DD)"
+              }
+            ]
+          },
+          "docs": "Returns aggregated analytics for a project including total requests, error rates, average response time, top endpoints, geographic distribution, and device breakdown."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

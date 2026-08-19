@@ -1,0 +1,66 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Treblle Analytics Members API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Treblle-Api-Key",
+      "value": "{{Treblle-Api-Key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Members",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Project Members",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.treblle.com/api/v1/projects/:projectId/members",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns a list of team members with access to the project."
+        },
+        {
+          "info": {
+            "name": "Invite Member",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.treblle.com/api/v1/projects/:projectId/members",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Invites a team member to the project by email."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

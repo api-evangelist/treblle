@@ -1,0 +1,103 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Treblle Analytics Requests API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Treblle-Api-Key",
+      "value": "{{Treblle-Api-Key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Requests",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List API Requests",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.treblle.com/api/v1/projects/:projectId/requests",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for pagination"
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "Number of requests per page"
+              },
+              {
+                "name": "status_code",
+                "value": "",
+                "type": "query",
+                "description": "Filter by HTTP status code"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Search across URL, IP, and payload data"
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "Filter requests from this date (YYYY-MM-DD)"
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "Filter requests until this date (YYYY-MM-DD)"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of API requests captured for the project. Includes request/response data, timing, status codes, and error info. Supports filtering by date range, status code, endpoint, and search terms."
+        },
+        {
+          "info": {
+            "name": "Get API Request",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.treblle.com/api/v1/projects/:projectId/requests/:requestId",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "requestId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieves the full details of a specific API request including headers, body, response, timing, and Treblle's analysis data points."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

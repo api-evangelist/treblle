@@ -1,0 +1,48 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Treblle Analytics Governance API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Treblle-Api-Key",
+      "value": "{{Treblle-Api-Key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Governance",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Run Governance Check",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.treblle.com/api/v1/projects/:projectId/governance",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Runs Treblle's 30+ automated governance tests against an OpenAPI specification. Returns scores (1-100) and grades (A-F) across design, security, and performance categories."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
