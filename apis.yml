@@ -228,7 +228,8 @@ apis:
     schema data.
   humanURL: https://treblle.com/
   baseURL: https://app.treblle.com/api/v1
-  tags:
+  tags: []
+  tags_raw:
   - Endpoints
   properties:
   - type: OpenAPI
@@ -317,6 +318,8 @@ apis:
   humanURL: https://treblle.com/
   baseURL: https://app.treblle.com/api/v1
   tags:
+  - Project
+  tags_raw:
   - Projects
   properties:
   - type: OpenAPI
