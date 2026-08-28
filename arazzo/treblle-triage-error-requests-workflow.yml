@@ -12,8 +12,8 @@ info:
     underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: treblleApi
-  url: ../openapi/treblle-api-openapi.yml
+- name: requestsApi
+  url: ../openapi/treblle-requests-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: triage-error-requests

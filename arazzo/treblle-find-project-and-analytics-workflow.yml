@@ -10,8 +10,11 @@ info:
     can be read and executed without opening the underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: treblleApi
-  url: ../openapi/treblle-api-openapi.yml
+- name: analyticsApi
+  url: ../openapi/treblle-analytics-api-openapi.yml
+  type: openapi
+- name: projectsApi
+  url: ../openapi/treblle-projects-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: find-project-and-analytics
