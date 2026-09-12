@@ -386,6 +386,8 @@ apis:
   - type: SpectralRuleset
     url: rules/treblle-rules.yml
 common:
+  - type: Website
+    url: https://www.treblle.com/
   - type: AgenticAccess
     url: agentic-access/treblle-agentic-access.yml
   - type: TrustCenter
