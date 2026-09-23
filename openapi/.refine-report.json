@@ -1,12 +1,7 @@
 {
   "provider": "treblle",
   "sources": [
-    "treblle-analytics-api-openapi.yml",
-    "treblle-endpoints-api-openapi.yml",
-    "treblle-governance-api-openapi.yml",
-    "treblle-members-api-openapi.yml",
-    "treblle-projects-api-openapi.yml",
-    "treblle-requests-api-openapi.yml"
+    "_original/treblle-api-openapi.yml"
   ],
   "outputs": [
     "treblle-analytics-api-openapi.yml",
@@ -19,6 +14,17 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "treblle-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "treblle-analytics-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "treblle-endpoints-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "treblle-governance-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "treblle-members-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "treblle-projects-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "treblle-requests-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
