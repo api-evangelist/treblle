@@ -60,14 +60,6 @@ components:
               code:
                 type: string
   schemas:
-    GovernanceCheckRequest:
-      type: object
-      required:
-      - openapi_spec
-      properties:
-        openapi_spec:
-          type: object
-          description: The OpenAPI specification object to evaluate
     GovernanceResult:
       type: object
       properties:
@@ -112,6 +104,14 @@ components:
                 type: string
               path:
                 type: string
+    GovernanceCheckRequest:
+      type: object
+      required:
+      - openapi_spec
+      properties:
+        openapi_spec:
+          type: object
+          description: The OpenAPI specification object to evaluate
   securitySchemes:
     apiKeyAuth:
       type: apiKey
