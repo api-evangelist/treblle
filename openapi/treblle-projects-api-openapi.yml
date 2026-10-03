@@ -130,20 +130,19 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  responses:
+    Unauthorized:
+      description: Authentication failed. API key missing or invalid.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+              code:
+                type: string
   schemas:
-    UpdateProjectRequest:
-      type: object
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-        environment:
-          type: string
-          enum:
-          - development
-          - staging
-          - production
     Project:
       type: object
       properties:
@@ -194,18 +193,19 @@ components:
           - staging
           - production
           default: production
-  responses:
-    Unauthorized:
-      description: Authentication failed. API key missing or invalid.
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              message:
-                type: string
-              code:
-                type: string
+    UpdateProjectRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        environment:
+          type: string
+          enum:
+          - development
+          - staging
+          - production
   securitySchemes:
     apiKeyAuth:
       type: apiKey

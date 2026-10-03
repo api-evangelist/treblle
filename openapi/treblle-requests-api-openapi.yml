@@ -124,6 +124,17 @@ components:
               code:
                 type: string
   schemas:
+    PaginationMeta:
+      type: object
+      properties:
+        total:
+          type: integer
+        per_page:
+          type: integer
+        current_page:
+          type: integer
+        last_page:
+          type: integer
     ApiRequestDetail:
       type: object
       properties:
@@ -192,17 +203,6 @@ components:
           format: date-time
         has_errors:
           type: boolean
-    PaginationMeta:
-      type: object
-      properties:
-        total:
-          type: integer
-        per_page:
-          type: integer
-        current_page:
-          type: integer
-        last_page:
-          type: integer
   securitySchemes:
     apiKeyAuth:
       type: apiKey

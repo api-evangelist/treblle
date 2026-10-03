@@ -53,6 +53,18 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  responses:
+    Unauthorized:
+      description: Authentication failed. API key missing or invalid.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+              code:
+                type: string
   schemas:
     ProjectAnalytics:
       type: object
@@ -88,18 +100,6 @@ components:
                 type: string
               count:
                 type: integer
-  responses:
-    Unauthorized:
-      description: Authentication failed. API key missing or invalid.
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              message:
-                type: string
-              code:
-                type: string
   securitySchemes:
     apiKeyAuth:
       type: apiKey
