@@ -386,6 +386,9 @@ apis:
   - type: SpectralRuleset
     url: rules/treblle-rules.yml
 common:
+  - type: CapabilityMap
+    url: capabilities/treblle-capability-edges.yml
+    name: Treblle Business Capability Map
   - type: Website
     url: https://www.treblle.com/
   - type: AgenticAccess
