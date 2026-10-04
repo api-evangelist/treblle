@@ -1,12 +1,17 @@
 aid: treblle
+
 url: https://raw.githubusercontent.com/api-evangelist/treblle/refs/heads/main/apis.yml
+
 name: Treblle
+
 description: >-
   Treblle helps engineering and product teams build, ship and understand their REST APIs in one single place. Empowering
   API producers by showing actionable data in real-time where it matters. Gain a deeper understanding of your API
   consumers and elevate developer experience (DX). Treblle analyzes 40+ API-specific data points for every API request
   across the entire API landscape.
+
 kind: contract
+
 deliveryModel:
   model: saas
   open_source: false
@@ -19,6 +24,7 @@ deliveryModel:
   - pricing
   generated: '2026-08-28'
   method: derived
+
 accessModel:
   pricing: paid
   onboarding: unknown
@@ -33,7 +39,9 @@ accessModel:
   - security
   generated: '2026-09-03'
   method: derived
+
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/treblle.png
+
 tags:
   - Analytics
   - Artificial Intelligence
@@ -45,13 +53,165 @@ tags:
   - Platform
   - Security
   - Testing
+
 access: 3rd-Party
+
 created: '2025-01-08'
+
 modified: '2026-05-19'
+
 position: Consuming
+
 segments:
   - Documentation
+
 specificationVersion: '0.23'
+
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
+
+common:
+  - type: FinOps
+    url: finops/treblle-finops.yml
+  - type: RateLimits
+    url: rate-limits/treblle-rate-limits.yml
+  - type: Plans
+    url: plans/treblle-plans-pricing.yml
+  - type: Spectral
+    url: rules/treblle-rules.yml
+  - type: Spectral
+    url: rules/treblle-jsonschema-spectral-rules.yml
+  - type: AgentSkill
+    url: skills/_index.yml
+  - type: DataModel
+    url: data-model/treblle-data-model.yml
+  - type: Conventions
+    url: conventions/treblle-conventions.yml
+  - type: Compliance
+    url: https://treblle.com/security-compliance
+  - type: ErrorCatalog
+    url: errors/treblle-problem-types.yml
+  - type: Conformance
+    url: conformance/treblle-conformance.yml
+  - type: Hosts
+    url: hosts/treblle-hosts.yml
+  - type: Vendors
+    url: vendors/treblle-vendors.yml
+  - type: SDKs
+    url: packages/treblle-packages.yml
+  - type: Packages
+    url: packages/treblle-packages.yml
+  - type: ChangeLog
+    url: https://treblle.com/release-notes
+  - type: Website
+    url: https://www.treblle.com/
+  - type: AgenticAccess
+    url: agentic-access/treblle-agentic-access.yml
+  - type: TrustCenter
+    url: security/treblle-trust-center.yml
+  - type: DomainSecurity
+    url: security/treblle-domain-security.yml
+  - type: Authentication
+    url: authentication/treblle-authentication.yml
+  - type: PostmanWorkspace
+    url: https://www.postman.com/kinlaneapi/treblle/overview
+  - type: Arazzo
+    url: arazzo/treblle-find-project-and-analytics-workflow.yml
+    name: Treblle Find a Project and Pull Its Analytics
+  - type: Arazzo
+    url: arazzo/treblle-governance-scorecard-workflow.yml
+    name: Treblle Governance Scorecard
+  - type: Arazzo
+    url: arazzo/treblle-onboard-project-and-team-workflow.yml
+    name: Treblle Onboard a Project and Its Team
+  - type: Arazzo
+    url: arazzo/treblle-project-health-snapshot-workflow.yml
+    name: Treblle Project Health Snapshot
+  - type: Arazzo
+    url: arazzo/treblle-project-recent-requests-workflow.yml
+    name: Treblle Inspect a Project's Recent Requests
+  - type: Arazzo
+    url: arazzo/treblle-provision-project-workflow.yml
+    name: Treblle Provision a Monitoring Project
+  - type: Arazzo
+    url: arazzo/treblle-triage-error-requests-workflow.yml
+    name: Treblle Triage Failing API Requests
+  - type: Arazzo
+    url: arazzo/treblle-update-project-environment-workflow.yml
+    name: Treblle Promote a Project's Environment
+  - name: Pricing - Treblle
+    description: 'null'
+    url: https://treblle.com/pricing
+    type: Pricing
+  - name: Getting Started with Treblle
+    description: 'null'
+    url: https://docs.treblle.com/guides/getting-started/
+    type: Documentation
+  - name: Integrations - Treblle
+    description: 'null'
+    url: https://docs.treblle.com/integrations/
+    type: Integrations
+  - name: Getting Started with Treblle
+    description: 'null'
+    url: https://docs.treblle.com/guides/getting-started/
+    type: GettingStarted
+  - name: Customers - Treblle
+    description: 'null'
+    url: https://treblle.com/customers
+    type: Customers
+  - name: Treblle Status Page
+    description: 'null'
+    url: https://status.treblle.com/
+    type: StatusPage
+  - name: Treblle Blog
+    description: 'null'
+    url: https://blog.treblle.com/
+    type: Blog
+  - name: Data Security - Treblle
+    description: 'null'
+    url: https://treblle.com/security
+    type: Security
+  - name: Terms of Service - Treblle
+    description: 'null'
+    url: https://treblle.com/terms-of-service
+    type: TermsOfService
+  - name: Privacy Policy - Treblle
+    description: 'null'
+    url: https://treblle.com/privacy-policy
+    type: PrivacyPolicy
+  - name: About Us - Treblle
+    description: 'null'
+    url: https://treblle.com/about-us
+    type: About
+  - name: Treblle Enterprise Platform
+    description: 'null'
+    url: https://treblle.com/enterprise
+    type: Enterprise
+  - name: Treblle GitHub Organization
+    description: 'null'
+    url: https://github.com/treblle
+    type: GitHubOrg
+  - name: Treblle on LinkedIn
+    description: 'null'
+    url: https://www.linkedin.com/company/treblle
+    type: LinkedIn
+  - name: Treblle on Twitter
+    description: 'null'
+    url: https://twitter.com/treblleapi
+    type: Twitter
+  - name: Treblle Sign Up
+    description: 'null'
+    url: https://identity.treblle.com/register
+    type: Signup
+  - name: Treblle Login
+    description: 'null'
+    url: https://identity.treblle.com/login
+    type: Login
+  - name: Treblle Vocabulary
+    url: vocabulary/treblle-vocabulary.yml
+    type: Vocabulary
+
 apis:
 - aid: treblle:treblle
   name: Treblle
@@ -72,6 +232,12 @@ apis:
     type: Login
   - url: https://github.com/treblle
     type: GitHubOrg
+  - url: https://treblle.com/blog
+    type: Blog
+  - url: https://treblle.com/pricing
+    type: Pricing
+  - url: https://status.treblle.com
+    type: StatusPage
   description: >-
     Treblle analyzes 40 API-specific data points for every API request. All data is consolidated and easily
     accessible in one centralized location. The only platform you need to build, ship and understand your
@@ -385,114 +551,18 @@ apis:
     url: examples/treblle-run-governance-example.json
   - type: SpectralRuleset
     url: rules/treblle-rules.yml
-common:
-  - type: Website
-    url: https://www.treblle.com/
-  - type: AgenticAccess
-    url: agentic-access/treblle-agentic-access.yml
-  - type: TrustCenter
-    url: security/treblle-trust-center.yml
-  - type: DomainSecurity
-    url: security/treblle-domain-security.yml
-  - type: Authentication
-    url: authentication/treblle-authentication.yml
-  - type: PostmanWorkspace
-    url: https://www.postman.com/kinlaneapi/treblle/overview
-  - type: Arazzo
-    url: arazzo/treblle-find-project-and-analytics-workflow.yml
-    name: Treblle Find a Project and Pull Its Analytics
-  - type: Arazzo
-    url: arazzo/treblle-governance-scorecard-workflow.yml
-    name: Treblle Governance Scorecard
-  - type: Arazzo
-    url: arazzo/treblle-onboard-project-and-team-workflow.yml
-    name: Treblle Onboard a Project and Its Team
-  - type: Arazzo
-    url: arazzo/treblle-project-health-snapshot-workflow.yml
-    name: Treblle Project Health Snapshot
-  - type: Arazzo
-    url: arazzo/treblle-project-recent-requests-workflow.yml
-    name: Treblle Inspect a Project's Recent Requests
-  - type: Arazzo
-    url: arazzo/treblle-provision-project-workflow.yml
-    name: Treblle Provision a Monitoring Project
-  - type: Arazzo
-    url: arazzo/treblle-triage-error-requests-workflow.yml
-    name: Treblle Triage Failing API Requests
-  - type: Arazzo
-    url: arazzo/treblle-update-project-environment-workflow.yml
-    name: Treblle Promote a Project's Environment
-  - name: Pricing - Treblle
-    description: 'null'
-    url: https://treblle.com/pricing
-    type: Pricing
-  - name: Getting Started with Treblle
-    description: 'null'
-    url: https://docs.treblle.com/guides/getting-started/
-    type: Documentation
-  - name: Integrations - Treblle
-    description: 'null'
-    url: https://docs.treblle.com/integrations/
-    type: Integrations
-  - name: Getting Started with Treblle
-    description: 'null'
-    url: https://docs.treblle.com/guides/getting-started/
-    type: GettingStarted
-  - name: Customers - Treblle
-    description: 'null'
-    url: https://treblle.com/customers
-    type: Customers
-  - name: Treblle Status Page
-    description: 'null'
-    url: https://status.treblle.com/
-    type: StatusPage
-  - name: Treblle Blog
-    description: 'null'
-    url: https://blog.treblle.com/
-    type: Blog
-  - name: Data Security - Treblle
-    description: 'null'
-    url: https://treblle.com/security
-    type: Security
-  - name: Terms of Service - Treblle
-    description: 'null'
-    url: https://treblle.com/terms-of-service
-    type: TermsOfService
-  - name: Privacy Policy - Treblle
-    description: 'null'
-    url: https://treblle.com/privacy-policy
-    type: PrivacyPolicy
-  - name: About Us - Treblle
-    description: 'null'
-    url: https://treblle.com/about-us
-    type: About
-  - name: Treblle Enterprise Platform
-    description: 'null'
-    url: https://treblle.com/enterprise
-    type: Enterprise
-  - name: Treblle GitHub Organization
-    description: 'null'
-    url: https://github.com/treblle
-    type: GitHubOrg
-  - name: Treblle on LinkedIn
-    description: 'null'
-    url: https://www.linkedin.com/company/treblle
-    type: LinkedIn
-  - name: Treblle on Twitter
-    description: 'null'
-    url: https://twitter.com/treblleapi
-    type: Twitter
-  - name: Treblle Sign Up
-    description: 'null'
-    url: https://identity.treblle.com/register
-    type: Signup
-  - name: Treblle Login
-    description: 'null'
-    url: https://identity.treblle.com/login
-    type: Login
-  - name: Treblle Vocabulary
-    url: vocabulary/treblle-vocabulary.yml
-    type: Vocabulary
-maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+
+x-coverage:
+  state: unreadable
+  reason: js-rendered-docs
+  detail: Documentation at docs.treblle.com is rendered via Nextra and provides no machine‑readable OpenAPI spec.
+  evidence:
+    - url: https://docs.treblle.com/
+      status: 200
+  checked: '2026-10-04'
+x-enrichment:
+  date: '2026-10-04'
+  status: enriched
+  artifacts_added: 12
+  pass: modular-v1
+  engine: identity=local,contract=local,surfaces=local,docs=local,regulatory=local

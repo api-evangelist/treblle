@@ -111,30 +111,7 @@ paths:
         '404':
           description: Request not found
 components:
-  responses:
-    Unauthorized:
-      description: Authentication failed. API key missing or invalid.
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              message:
-                type: string
-              code:
-                type: string
   schemas:
-    PaginationMeta:
-      type: object
-      properties:
-        total:
-          type: integer
-        per_page:
-          type: integer
-        current_page:
-          type: integer
-        last_page:
-          type: integer
     ApiRequestDetail:
       type: object
       properties:
@@ -203,6 +180,29 @@ components:
           format: date-time
         has_errors:
           type: boolean
+    PaginationMeta:
+      type: object
+      properties:
+        total:
+          type: integer
+        per_page:
+          type: integer
+        current_page:
+          type: integer
+        last_page:
+          type: integer
+  responses:
+    Unauthorized:
+      description: Authentication failed. API key missing or invalid.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+              code:
+                type: string
   securitySchemes:
     apiKeyAuth:
       type: apiKey

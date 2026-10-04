@@ -82,21 +82,6 @@ components:
               code:
                 type: string
   schemas:
-    InviteMemberRequest:
-      type: object
-      required:
-      - email
-      properties:
-        email:
-          type: string
-          format: email
-        role:
-          type: string
-          enum:
-          - admin
-          - developer
-          - viewer
-          default: developer
     Member:
       type: object
       properties:
@@ -116,6 +101,21 @@ components:
         joined_at:
           type: string
           format: date-time
+    InviteMemberRequest:
+      type: object
+      required:
+      - email
+      properties:
+        email:
+          type: string
+          format: email
+        role:
+          type: string
+          enum:
+          - admin
+          - developer
+          - viewer
+          default: developer
   securitySchemes:
     apiKeyAuth:
       type: apiKey
