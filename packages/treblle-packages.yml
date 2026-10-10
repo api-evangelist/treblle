@@ -1,0 +1,38 @@
+generated: '2026-10-10'
+method: probed
+generator: harvest-packages.py
+source: registry metadata endpoints (registry.npmjs.org, pypi.org, rubygems.org, api.nuget.org, packagist.org, crates.io)
+ownership_rule: 'official: true only when the registry metadata (homepage, repository, author, URLs) names the provider''s domain (agentic-access/treblle-agentic-access.yml,
+  arazzo/treblle-find-project-and-analytics-workflow.yml, arazzo/treblle-governance-scorecard-workflow.yml, arazzo/treblle-onboard-project-and-team-workflow.yml,
+  arazzo/treblle-project-health-snapshot-workflow.yml, arazzo/treblle-project-recent-requests-workflow.yml, arazzo/treblle-provision-project-workflow.yml,
+  arazzo/treblle-triage-error-requests-workflow.yml, arazzo/treblle-update-project-environment-workflow.yml, authentication/treblle-authentication.yml,
+  changelog/treblle-changelog.yml, conformance/treblle-conformance.yml, conventions/treblle-conventions.yml, data-model/treblle-data-model.yml,
+  errors/treblle-problem-types.yml, finops/treblle-finops.yml, hosts/treblle-hosts.yml, linkedin.com, packages/treblle-packages.yml, plans/treblle-plans-pricing.yml,
+  postman.com, rate-limits/treblle-rate-limits.yml, rules/treblle-jsonschema-spectral-rules.yml, rules/treblle-rules.yml, security/treblle-domain-security.yml,
+  security/treblle-trust-center.yml, skills/_index.yml, treblle.com, twitter.com, vendors/treblle-vendors.yml, vocabulary/treblle-vocabulary.yml)
+  or its accepted GitHub org.'
+packages:
+- name: treblle
+  registry: npm
+  url: https://www.npmjs.com/package/treblle
+  language: JavaScript
+  official: true
+  version: 3.0.0
+  published: '2026-07-07'
+  evidence: metadata names treblle.com
+- name: treblle
+  registry: pypi
+  url: https://pypi.org/project/treblle/
+  language: Python
+  official: true
+  version: 2.0.6
+  published: '2025-09-10'
+  evidence: metadata names treblle.com
+- name: treblle
+  registry: rubygems
+  url: https://rubygems.org/gems/treblle
+  language: Ruby
+  official: false
+  version: 2.0.2
+  published: '2024-03-25'
+  evidence: 'name match only: the metadata names neither the provider''s domain nor its GitHub org'

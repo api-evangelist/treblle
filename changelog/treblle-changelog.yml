@@ -1,0 +1,38 @@
+generated: '2026-10-10'
+method: searched
+generator: extract-docs-artifacts.py (local)
+source: https://treblle.com/news
+sources:
+- https://treblle.com/news
+- https://treblle.com/blog/ai-in-api-versioning-and-deprecation
+- https://treblle.com/blog/api-versioning-all-you-need-to-know
+- https://treblle.com/blog/api-versioning-in-laravel-the-complete-guide-to-doing-it-right
+entries:
+- breaking: false
+  highlights:
+  - 'April 2025 Treblle Platform: Improved Navigation Experience'
+  - We wanted to simplify working with multiple Treblle Workspaces and improve the overall experience of our double-sided navigation.
+- breaking: false
+  highlights:
+  - April 2025 Treblle Keynote Panel at API Days New York 2025
+  - We are happy to announce that we partnered with API Days to bring you a State of the Market Report 2025, titled From API Intelligence to API
+    Governance.
+- breaking: false
+  highlights:
+  - 'March 2025 Treblle Platform: New Home Dashboard'
+  - Discover the new Treblle Home Dashboard, designed to provide a comprehensive overview of your API ecosystem.
+- breaking: false
+  highlights:
+  - 'February 2025 Treblle Recommended in Gartner''s Report: How to Adapt Your API Strategy to Succeed in the AI Era, 2025'
+  - 'Treblle was recommended as a vendor in the Gartner: How to Adapt Your API Strategy to Succeed in the AI Era, 2025.'
+- breaking: false
+  highlights:
+  - January 2025 Anatomy of an API Report 2024
+  - 'The 2nd Annual report on the state of APIs in 2024: “The Anatomy of an API” has been published and can be freely downloaded and distributed.'
+- breaking: false
+  highlights:
+  - 'September 2024 API World Award: Treblle Best in API Observability'
+  - Treblle is proud to announce it has received a 2024 API Award from API World in the Best in API Observability category, which recognizes outstanding
+    design, engineering, and innovation in API and integration technology.
+note: The page lists release notes by month and year but does not provide explicit version numbers, dates (day), or indicate any breaking changes.
+docs: https://treblle.com/news

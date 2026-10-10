@@ -1,0 +1,31 @@
+generated: '2026-10-10'
+method: derived
+generator: derive-problem-types.py
+source:
+- openapi/treblle-analytics-api-openapi.yml
+- openapi/treblle-endpoints-api-openapi.yml
+- openapi/treblle-governance-api-openapi.yml
+- openapi/treblle-members-api-openapi.yml
+- openapi/treblle-projects-api-openapi.yml
+- openapi/treblle-requests-api-openapi.yml
+format: custom
+envelope:
+  media_type: application/json
+  schema: null
+coverage:
+  operations: 12
+  statuses_declared: 2
+problems:
+- status: 401
+  title: Unauthorized
+  description: Authentication failed. API key missing or invalid.
+  operations: 12
+  media_types:
+  - application/json
+  schema: null
+- status: 404
+  title: Not Found
+  description: Project not found
+  operations: 2
+  media_types: []
+  schema: null

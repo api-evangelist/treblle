@@ -42,6 +42,9 @@ accessModel:
 
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/treblle.png
 
+x-docs-platform: nextra
+x-docs-platform-confidence: medium
+x-docs-platform-checked: 2026-10-04
 tags:
   - Analytics
   - Artificial Intelligence
@@ -72,6 +75,8 @@ maintainers:
     email: kin@apievangelist.com
 
 common:
+  - type: ChangeLog
+    url: changelog/treblle-changelog.yml
   - type: FinOps
     url: finops/treblle-finops.yml
   - type: RateLimits
@@ -180,6 +185,10 @@ common:
     description: 'null'
     url: https://treblle.com/privacy-policy
     type: PrivacyPolicy
+  - name: Support - Treblle
+    description: 'null'
+    url: https://treblle.com/contact
+    type: Support
   - name: About Us - Treblle
     description: 'null'
     url: https://treblle.com/about-us
@@ -554,15 +563,15 @@ apis:
 
 x-coverage:
   state: unreadable
-  reason: js-rendered-docs
+  reason: no-machine-readable-spec
   detail: Documentation at docs.treblle.com is rendered via Nextra and provides no machine‑readable OpenAPI spec.
   evidence:
     - url: https://docs.treblle.com/
       status: 200
   checked: '2026-10-04'
 x-enrichment:
-  date: '2026-10-04'
+  date: '2026-10-10'
   status: enriched
-  artifacts_added: 12
+  artifacts_added: 18
   pass: modular-v1
   engine: identity=local,contract=local,surfaces=local,docs=local,regulatory=local

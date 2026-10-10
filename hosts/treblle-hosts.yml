@@ -1,0 +1,181 @@
+generated: '2026-10-10'
+method: derived
+source: the pre-flight dossier, apis.yml pointers, spec servers, well-known, vendors -- nothing fetched here
+generator: derive-hosts.py
+summary:
+  hosts: 13
+  own: 9
+  other_domain: 0
+  platform: 4
+  roles:
+  - api
+  - docs
+  - identity
+  - marketing
+  - other
+  - status
+  - support
+  - website
+hosts:
+- host: api.treblle.com
+  found_by:
+  - contract-discovery
+  types: []
+  serves: []
+  registrable_domain: treblle.com
+  role: api
+  relation: own
+- host: app.treblle.com
+  found_by:
+  - apis[]
+  - probed
+  - site-links
+  - contract-discovery
+  - well-known
+  types: []
+  serves:
+  - api
+  registrable_domain: treblle.com
+  role: other
+  relation: own
+- host: blog.treblle.com
+  found_by:
+  - pointer
+  - probed
+  - well-known
+  types:
+  - Blog
+  serves: []
+  registrable_domain: treblle.com
+  role: marketing
+  relation: own
+- host: docs.treblle.com
+  found_by:
+  - pointer
+  - probed
+  - site-links
+  - docs-index
+  - contract-discovery
+  - well-known
+  - vendor-detect
+  types:
+  - Documentation
+  - Integrations
+  - GettingStarted
+  serves:
+  - docs
+  - documentation
+  vendor: nextra
+  registrable_domain: treblle.com
+  role: docs
+  relation: own
+- host: github.com
+  found_by:
+  - pointer
+  types:
+  - GitHubOrg
+  serves: []
+  registrable_domain: github.com
+  role: other
+  relation: platform
+- host: identity.treblle.com
+  found_by:
+  - pointer
+  - probed
+  - well-known
+  types:
+  - Signup
+  - Login
+  serves: []
+  registrable_domain: treblle.com
+  role: identity
+  relation: own
+- host: status.treblle.com
+  found_by:
+  - pointer
+  - probed
+  - site-links
+  - contract-discovery
+  - well-known
+  types:
+  - StatusPage
+  serves: []
+  registrable_domain: treblle.com
+  role: status
+  relation: own
+- host: treblle.com
+  found_by:
+  - pointer
+  - apis[]
+  - probed
+  - site-links
+  - docs-index
+  - contract-discovery
+  - well-known
+  types:
+  - Compliance
+  - ChangeLog
+  - Pricing
+  - Customers
+  - Security
+  - TermsOfService
+  - PrivacyPolicy
+  - Support
+  - About
+  - Enterprise
+  serves:
+  - docs
+  registrable_domain: treblle.com
+  role: support
+  relation: own
+- host: trust.treblle.com
+  found_by:
+  - probed
+  - site-links
+  - well-known
+  types: []
+  serves: []
+  registrable_domain: treblle.com
+  role: other
+  relation: own
+- host: twitter.com
+  found_by:
+  - pointer
+  types:
+  - Twitter
+  serves: []
+  registrable_domain: twitter.com
+  role: other
+  relation: platform
+- host: www.linkedin.com
+  found_by:
+  - pointer
+  types:
+  - LinkedIn
+  serves: []
+  registrable_domain: linkedin.com
+  role: other
+  relation: platform
+- host: www.postman.com
+  found_by:
+  - pointer
+  types:
+  - PostmanWorkspace
+  serves: []
+  registrable_domain: postman.com
+  role: other
+  relation: platform
+- host: www.treblle.com
+  found_by:
+  - pointer
+  - probed
+  - well-known
+  - vendor-detect
+  types:
+  - Website
+  serves:
+  - hosting
+  vendor: vercel
+  registrable_domain: treblle.com
+  role: website
+  relation: own

@@ -1,0 +1,17 @@
+generated: '2026-10-04'
+method: generated
+generator: extract-docs-artifacts.py skills (local)
+source: openapi/treblle-projects-api-openapi.yml
+skills:
+- file: skills/treblle-create-and-get-project.md
+  name: treblle-create-and-get-project
+  api: openapi/treblle-projects-api-openapi.yml
+  operations:
+  - createProject
+  - getProject
+- file: skills/treblle-list-and-invite-members.md
+  name: treblle-list-and-invite-members
+  api: openapi/treblle-members-api-openapi.yml
+  operations:
+  - listMembers
+  - inviteMember

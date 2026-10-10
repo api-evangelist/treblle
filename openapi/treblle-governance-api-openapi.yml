@@ -47,6 +47,18 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  responses:
+    Unauthorized:
+      description: Authentication failed. API key missing or invalid.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+              code:
+                type: string
   schemas:
     GovernanceCheckRequest:
       type: object
@@ -99,18 +111,6 @@ components:
               message:
                 type: string
               path:
-                type: string
-  responses:
-    Unauthorized:
-      description: Authentication failed. API key missing or invalid.
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              message:
-                type: string
-              code:
                 type: string
   securitySchemes:
     apiKeyAuth:

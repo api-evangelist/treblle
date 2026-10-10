@@ -1,0 +1,35 @@
+generated: '2026-10-10'
+method: searched
+generator: extract-docs-artifacts.py (local)
+source: https://treblle.com/blog/add-pagination-to-rest-api
+sources:
+- https://treblle.com/blog/add-pagination-to-rest-api
+- https://treblle.com/blog/api-headers-explained
+- https://treblle.com/blog/api-pagination-guide-techniques-benefits-implementation
+- https://docs.treblle.com/
+idempotency:
+  coverage: none
+  evidence: The provided pages do not describe an idempotency key header or retention window.
+pagination:
+  style: offset/limit, page/limit, cursor, keyset, time‑based
+  params:
+  - offset
+  - limit
+  - page
+  - per_page
+  - cursor
+  - after
+  - after_id
+  - last_seen_id
+  response_fields:
+  - data
+  - pagination.page
+  - pagination.limit
+  - pagination.total
+  - pagination.pages
+  evidence: Pages describe offset‑based (offset, limit), page‑based (page, per_page), cursor‑based (cursor, after, after_id, last_seen_id) pagination
+    and include metadata fields such as page, limit, total, pages.
+authentication: Authorization header with Bearer token, ApiKey, or Basic scheme
+request_tracing: X-Request-ID header
+rate_limit_signaling: RateLimit-Limit, RateLimit-Remaining, RateLimit-Reset, Retry-After
+docs: https://treblle.com/blog/add-pagination-to-rest-api
