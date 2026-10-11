@@ -75,6 +75,9 @@ maintainers:
     email: kin@apievangelist.com
 
 common:
+  - type: CapabilityMap
+    url: capabilities/treblle-capability-edges.yml
+    name: Treblle Business Capability Map
   - type: ChangeLog
     url: changelog/treblle-changelog.yml
   - type: FinOps
