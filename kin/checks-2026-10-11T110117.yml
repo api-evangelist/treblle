@@ -2,16 +2,16 @@
 kin_checks:
   slug: treblle
   schema_version: 0.23.0
-  scored_at: '2026-10-03'
-  run_ts: 2026-10-03T024842
+  scored_at: '2026-10-11'
+  run_ts: 2026-10-11T110117
   note: Actionable checks (missed + partial) in `checks`, plus the ids that did not
     apply in `na`. Everything else in rubric/scoring-0.23.0.yml was earned; counts
     below let you verify that.
   counts:
     total: 153
-    earned: 32
+    earned: 34
     partial: 32
-    missed: 63
+    missed: 61
     na: 26
   checks:
   - id: newsroom_present
@@ -54,8 +54,6 @@ kin_checks:
     status: missed
   - id: overlay_published
     status: missed
-  - id: change_log_present
-    status: missed
   - id: deprecation_policy
     status: missed
   - id: webhooks_advertised
@@ -75,8 +73,6 @@ kin_checks:
   - id: agent_skill_present
     status: missed
   - id: support_channel
-    status: missed
-  - id: compliance_published
     status: missed
   - id: reg_oauth_scopes
     status: missed
@@ -274,8 +270,8 @@ kin_checks:
     detail: 'grade: documented'
   - id: rate_limit_signal
     status: partial
-    earned: 3.5
-    detail: 'grade: documented'
+    earned: 0.88
+    detail: 'grade: derived'
   na:
   - asyncapi_3_x
   - channels_defined
